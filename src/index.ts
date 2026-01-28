@@ -2,15 +2,9 @@ import express from "express";
 import cors from "cors";
 import crypto from "crypto";
 import { z } from "zod";
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-});
+const prisma = new PrismaClient();
 
 const app = express();
 
@@ -59,7 +53,7 @@ app.post("/v1/devices/register", async (req, res) => {
 
 const TelemetrySchema = z.object({
   type: z.string().min(1).max(32),
-  payload: z.record(z.any()),
+  payload: z.record(z.string(), z.any()),
 });
 
 app.post("/v1/telemetry", async (req, res) => {

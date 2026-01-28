@@ -1,13 +1,10 @@
 generator client {
   provider     = "prisma-client-js"
-  output       = "../generated/prisma"
-  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
 }
-
 
 model Device {
   id          String   @id @default(cuid())
