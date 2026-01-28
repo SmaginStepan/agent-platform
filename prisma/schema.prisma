@@ -1,0 +1,46 @@
+generator client {
+  provider     = "prisma-client-js"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Device {
+  id          String   @id @default(cuid())
+  deviceId    String   @unique
+  name        String?
+  tokenHash   String
+  createdAt   DateTime @default(now())
+  lastSeenAt  DateTime?
+  telemetry   Telemetry[]
+  commands    Command[]
+}
+
+model Telemetry {
+  id        String   @id @default(cuid())
+  deviceId  String
+  type      String
+  payload   Json
+  createdAt DateTime @default(now())
+
+  device    Device   @relation(fields: [deviceId], references: [deviceId])
+  @@index([deviceId, createdAt])
+}
+
+model Command {
+  id          String   @id @default(cuid())
+  deviceId    String
+  type        String
+  payload     Json
+  status      String   @default("queued")
+  createdAt   DateTime @default(now())
+  deliveredAt DateTime?
+  ackedAt     DateTime?
+
+  device      Device   @relation(fields: [deviceId], references: [deviceId])
+  @@index([deviceId, createdAt])
+}

@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    container_name: agent_db
+    environment:
+      POSTGRES_DB: agent
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: change_me
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: agent_api
+    environment:
+      DATABASE_URL: postgresql://agent:change_me@db:5432/agent
+      PORT: "8080"
+    depends_on:
+      - db
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+
+volumes:
+  db_data:
