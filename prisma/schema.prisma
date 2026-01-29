@@ -1,20 +1,125 @@
+// SCHEMA_VERSION: family-user-device-state-v1
 generator client {
-  provider     = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  PARENT
+  CHILD
+}
+
+model Family {
+  id        String   @id @default(cuid())
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     User[]
+  invites   Invite[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  familyId  String
+  role      UserRole
+  name      String?
+  avatarUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  devices   Device[]
+  invitesCreated Invite[] @relation("InvitesCreatedByUser")
+
+
+  @@index([familyId])
+  @@index([familyId, role])
+}
+
 model Device {
-  id          String   @id @default(cuid())
-  deviceId    String   @unique
-  name        String?
-  tokenHash   String
-  createdAt   DateTime @default(now())
-  lastSeenAt  DateTime?
-  telemetry   Telemetry[]
-  commands    Command[]
+  id         String    @id @default(cuid())
+
+  /// Stable identifier generated on the device (UUID recommended).
+  /// Used as external identifier in APIs and as the join key for telemetry/commands.
+  deviceId   String    @unique
+
+  userId     String
+  name       String?
+  tokenHash  String
+
+  platform   String?   // "android"
+  model      String?   // e.g. Build.MODEL
+  osVersion  String?   // e.g. "14"
+  appVersion String?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  lastSeenAt DateTime?
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  telemetry  Telemetry[]
+  commands   Command[]
+
+  state      DeviceState?
+  settings   DeviceSetting[]
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+model DeviceState {
+  /// 1:1 with Device by deviceId (external id)
+  deviceId       String   @id
+
+  batteryPercent Int?
+  isCharging     Boolean?
+
+  /// timestamp from device (optional)
+  reportedAt     DateTime?
+
+  /// server-side update time
+  updatedAt      DateTime @updatedAt
+
+  device         Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+}
+
+model DeviceSetting {
+  id        String   @id @default(cuid())
+  deviceId  String
+  key       String
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  device    Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
+  @@unique([deviceId, key])
+  @@index([deviceId])
+}
+
+model Invite {
+  id              String   @id @default(cuid())
+  familyId         String
+  createdByUserId  String
+
+  /// Short code for manual entry / QR
+  code            String   @unique
+
+  expiresAt       DateTime
+  usedAt          DateTime?
+
+  createdAt       DateTime @default(now())
+
+  family          Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  createdByUser   User     @relation("InvitesCreatedByUser", fields: [createdByUserId], references: [id], onDelete: Cascade)
+
+  @@index([familyId, expiresAt])
+  @@index([createdByUserId])
 }
 
 model Telemetry {
@@ -24,8 +129,10 @@ model Telemetry {
   payload   Json
   createdAt DateTime @default(now())
 
-  device    Device   @relation(fields: [deviceId], references: [deviceId])
+  device    Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
   @@index([deviceId, createdAt])
+  @@index([type, createdAt])
 }
 
 model Command {
@@ -38,6 +145,8 @@ model Command {
   deliveredAt DateTime?
   ackedAt     DateTime?
 
-  device      Device   @relation(fields: [deviceId], references: [deviceId])
+  device      Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
   @@index([deviceId, createdAt])
+  @@index([status, createdAt])
 }

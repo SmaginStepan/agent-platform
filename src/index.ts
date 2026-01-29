@@ -3,8 +3,18 @@ import cors from "cors";
 import crypto from "crypto";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const prisma = new PrismaClient();
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+export const prisma = new PrismaClient({
+  adapter: new PrismaPg(pool),
+  log: process.env.NODE_ENV === "development" ? ["query", "warn", "error"] : ["warn", "error"],
+});
+
 
 const app = express();
 
@@ -18,6 +28,12 @@ function sha256(s: string) {
 function newToken() {
   return crypto.randomBytes(32).toString("hex");
 }
+
+const BatterySchema = z.object({
+  batteryPercent: z.number().int().min(0).max(100),
+  isCharging: z.boolean(),
+  reportedAt: z.string().datetime().optional(),
+});
 
 async function authDevice(req: express.Request) {
   const auth = req.header("authorization") || "";
@@ -34,6 +50,22 @@ const RegisterSchema = z.object({
   name: z.string().max(128).optional(),
 });
 
+async function ensureBootstrapOwner() {
+  // 1) пытаемся найти любую семью/пользователя (самый первый запуск)
+  const existing = await prisma.user.findFirst({ where: { role: "PARENT" } });
+  if (existing) return existing;
+
+  // 2) если никого нет — создаём семью + пользователя-родителя
+  const family = await prisma.family.create({ data: { name: "Family" } });
+  return prisma.user.create({
+    data: {
+      familyId: family.id,
+      role: "PARENT",
+      name: "Owner",
+    },
+  });
+}
+
 app.post("/v1/devices/register", async (req, res) => {
   const parsed = RegisterSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
@@ -42,10 +74,13 @@ app.post("/v1/devices/register", async (req, res) => {
   const token = newToken();
   const tokenHash = sha256(token);
 
+  // ensure we have at least one owner user to attach devices to
+  const owner = await ensureBootstrapOwner();
+
   const device = await prisma.device.upsert({
     where: { deviceId },
-    update: { name, tokenHash },
-    create: { deviceId, name, tokenHash },
+    update: { name: name ?? null, tokenHash, userId: owner.id },
+    create: { deviceId, name: name ?? null, tokenHash, userId: owner.id },
   });
 
   res.json({ deviceId: device.deviceId, token });
@@ -93,6 +128,44 @@ app.get("/v1/devices/:deviceId/status", async (req, res) => {
     batteryAt: lastBattery?.createdAt ?? null,
   });
 });
+
+app.post("/v1/battery", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = BatterySchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const reportedAt = parsed.data.reportedAt ? new Date(parsed.data.reportedAt) : null;
+
+  await prisma.deviceState.upsert({
+    where: { deviceId: device.deviceId },
+    update: {
+      batteryPercent: parsed.data.batteryPercent,
+      isCharging: parsed.data.isCharging,
+      reportedAt,
+    },
+    create: {
+      deviceId: device.deviceId,
+      batteryPercent: parsed.data.batteryPercent,
+      isCharging: parsed.data.isCharging,
+      reportedAt,
+    },
+  });
+
+  await prisma.device.update({
+    where: { deviceId: device.deviceId },
+    data: { lastSeenAt: new Date() },
+  });
+
+  // опционально: история
+  await prisma.telemetry.create({
+    data: { deviceId: device.deviceId, type: "battery", payload: parsed.data },
+  });
+
+  res.json({ ok: true });
+});
+
 
 const port = Number(process.env.PORT || 8080);
 app.listen(port, () => console.log(`API on :${port}`));
