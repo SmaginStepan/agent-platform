@@ -166,6 +166,44 @@ app.post("/v1/battery", async (req, res) => {
   res.json({ ok: true });
 });
 
+app.get("/v1/commands/pending", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const items = await prisma.command.findMany({
+    where: { deviceId: device.deviceId, status: "queued" },
+    orderBy: { createdAt: "asc" },
+    take: 20,
+  });
+
+  res.json({ items });
+});
+
+app.post("/v1/commands/:id/ack", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const cmd = await prisma.command.findFirst({
+    where: { id: req.params.id, deviceId: device.deviceId },
+  });
+
+  if (!cmd) return res.status(404).json({ error: "Not found" });
+
+  await prisma.command.update({
+    where: { id: cmd.id },
+    data: {
+      status: "acked",
+      ackedAt: new Date(),
+    },
+  });
+
+  res.json({ ok: true });
+});
+
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
 const port = Number(process.env.PORT || 8080);
-app.listen(port, () => console.log(`API on :${port}`));
+app.listen(port, "0.0.0.0", () => console.log(`API on :${port}`));
