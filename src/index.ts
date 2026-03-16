@@ -5,6 +5,8 @@ import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { FamilyService } from "./family.service.js";
+import { CreateFamilySchema, JoinFamilySchema, CreateInviteSchema } from "./family.schemas.js";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -15,6 +17,7 @@ export const prisma = new PrismaClient({
   log: process.env.NODE_ENV === "development" ? ["query", "warn", "error"] : ["warn", "error"],
 });
 
+const familyService = new FamilyService(prisma);
 
 const app = express();
 
@@ -198,6 +201,65 @@ app.post("/v1/commands/:id/ack", async (req, res) => {
   });
 
   res.json({ ok: true });
+});
+
+app.post("/v1/families/create", async (req, res) => {
+  const parsed = CreateFamilySchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  try {
+    const result = await familyService.createFamily(parsed.data);
+    res.json(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Failed to create family" });
+  }
+});
+
+app.post("/v1/invites", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = CreateInviteSchema.safeParse(req.body ?? {});
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  try {
+    const result = await familyService.createInvite(
+      device.deviceId,
+      parsed.data.expiresInMinutes ?? 60
+    );
+    res.json(result);
+  } catch (e: any) {
+    console.error(e);
+    if (e?.message === "DEVICE_NOT_FOUND") {
+      return res.status(404).json({ error: "Device not found" });
+    }
+    res.status(500).json({ error: "Failed to create invite" });
+  }
+});
+
+app.post("/v1/families/join", async (req, res) => {
+  const parsed = JoinFamilySchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  try {
+    const result = await familyService.joinFamilyByCode(parsed.data);
+    res.json(result);
+  } catch (e: any) {
+    console.error(e);
+
+    if (e?.message === "INVITE_NOT_FOUND") {
+      return res.status(404).json({ error: "Invite not found" });
+    }
+    if (e?.message === "INVITE_ALREADY_USED") {
+      return res.status(409).json({ error: "Invite already used" });
+    }
+    if (e?.message === "INVITE_EXPIRED") {
+      return res.status(410).json({ error: "Invite expired" });
+    }
+
+    res.status(500).json({ error: "Failed to join family" });
+  }
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
