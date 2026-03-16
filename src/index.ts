@@ -41,9 +41,16 @@ const BatterySchema = z.object({
 async function authDevice(req: express.Request) {
   const auth = req.header("authorization") || "";
   if (!auth.startsWith("Bearer ")) return null;
+
   const token = auth.slice("Bearer ".length).trim();
   const tokenHash = sha256(token);
-  return prisma.device.findFirst({ where: { tokenHash } });
+
+  return prisma.device.findFirst({
+    where: { tokenHash },
+    include: {
+      user: true,
+    },
+  });
 }
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
@@ -260,6 +267,41 @@ app.post("/v1/families/join", async (req, res) => {
 
     res.status(500).json({ error: "Failed to join family" });
   }
+});
+
+app.get("/v1/families/me", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const family = await prisma.family.findUnique({
+    where: { id: device.user.familyId },
+    include: {
+      users: {
+        include: {
+          devices: {
+            include: {
+              state: true
+            },
+            orderBy: { createdAt: "asc" }
+          }
+        },
+        orderBy: { createdAt: "asc" }
+      }
+    }
+  });
+
+  res.json({
+    family: {
+      id: family?.id,
+      name: family?.name
+    },
+    me: {
+      userId: device.user.id,
+      deviceId: device.deviceId,
+      role: device.user.role
+    },
+    users: family?.users
+  });
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
