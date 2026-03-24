@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { FamilyService } from "./family.service.js";
-import { CreateFamilySchema, JoinFamilySchema, CreateInviteSchema } from "./family.schemas.js";
+import { CreateCommandSchema, CreateFamilySchema, JoinFamilySchema, CreateInviteSchema, HeartbeatSchema } from "./family.schemas.js";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -233,6 +233,7 @@ app.post("/v1/invites", async (req, res) => {
   try {
     const result = await familyService.createInvite(
       device.deviceId,
+      parsed.data.role,
       parsed.data.expiresInMinutes ?? 60
     );
     res.json(result);
@@ -302,6 +303,84 @@ app.get("/v1/families/me", async (req, res) => {
     },
     users: family?.users
   });
+});
+
+app.post("/v1/devices/heartbeat", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = HeartbeatSchema.safeParse(req.body ?? {});
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const data = parsed.data;
+
+  await prisma.device.update({
+    where: { deviceId: device.deviceId },
+    data: {
+      lastSeenAt: new Date(),
+      platform: data.platform ?? device.platform,
+      model: data.model ?? device.model,
+      osVersion: data.osVersion ?? device.osVersion,
+      appVersion: data.appVersion ?? device.appVersion,
+    },
+  });
+
+  if (
+    data.batteryPercent !== undefined ||
+    data.isCharging !== undefined ||
+    data.reportedAt !== undefined
+  ) {
+    await prisma.deviceState.upsert({
+      where: { deviceId: device.deviceId },
+      update: {
+        batteryPercent: data.batteryPercent ?? undefined,
+        isCharging: data.isCharging ?? undefined,
+        reportedAt: data.reportedAt ? new Date(data.reportedAt) : undefined,
+      },
+      create: {
+        deviceId: device.deviceId,
+        batteryPercent: data.batteryPercent ?? null,
+        isCharging: data.isCharging ?? null,
+        reportedAt: data.reportedAt ? new Date(data.reportedAt) : null,
+      },
+    });
+  }
+
+  res.json({ ok: true, now: new Date().toISOString() });
+});
+
+app.post("/v1/devices/:deviceId/commands", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (device.user.role !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const parsed = CreateCommandSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const target = await prisma.device.findUnique({
+    where: { deviceId: req.params.deviceId },
+    include: { user: true },
+  });
+
+  if (!target) return res.status(404).json({ error: "Device not found" });
+
+  if (target.user.familyId !== device.user.familyId) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const cmd = await prisma.command.create({
+    data: {
+      deviceId: target.deviceId,
+      type: parsed.data.type,
+      payload: parsed.data.payload,
+      status: "queued",
+    },
+  });
+
+  res.json({ ok: true, commandId: cmd.id });
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

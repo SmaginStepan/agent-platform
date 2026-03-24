@@ -107,16 +107,16 @@ model Invite {
   familyId         String
   createdByUserId  String
 
-  /// Short code for manual entry / QR
-  code            String   @unique
+  code             String   @unique
+  expiresAt        DateTime
+  usedAt           DateTime?
 
-  expiresAt       DateTime
-  usedAt          DateTime?
+  role             UserRole
 
-  createdAt       DateTime @default(now())
+  createdAt        DateTime @default(now())
 
-  family          Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  createdByUser   User     @relation("InvitesCreatedByUser", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  family           Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  createdByUser    User     @relation("InvitesCreatedByUser", fields: [createdByUserId], references: [id], onDelete: Cascade)
 
   @@index([familyId, expiresAt])
   @@index([createdByUserId])

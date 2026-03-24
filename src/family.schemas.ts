@@ -9,6 +9,7 @@ export const CreateFamilySchema = z.object({
 
 export const CreateInviteSchema = z.object({
   expiresInMinutes: z.number().int().min(1).max(60 * 24 * 30).optional(),
+  role: z.enum(["PARENT", "CHILD"]),
 });
 
 export const JoinFamilySchema = z.object({
@@ -17,3 +18,20 @@ export const JoinFamilySchema = z.object({
   deviceName: z.string().trim().min(1).max(100),
   deviceId: z.string().trim().min(2).max(64),
 });
+
+const CreateCommandSchema = z.object({
+  type: z.string().min(1).max(32),
+  payload: z.record(z.string(), z.any()),
+});
+
+export const HeartbeatSchema = z.object({
+  batteryPercent: z.number().int().min(0).max(100).optional(),
+  isCharging: z.boolean().optional(),
+  reportedAt: z.string().datetime().optional(),
+
+  platform: z.string().max(32).optional(),
+  model: z.string().max(128).optional(),
+  osVersion: z.string().max(64).optional(),
+  appVersion: z.string().max(64).optional(),
+});
+

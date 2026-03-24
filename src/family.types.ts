@@ -17,6 +17,7 @@ export interface CreateFamilyResponse {
 
 export interface CreateInviteRequest {
   expiresInMinutes?: number;
+  role: "PARENT" | "CHILD";
 }
 
 export interface CreateInviteResponse {

@@ -53,7 +53,7 @@ export class FamilyService {
     };
   }
 
-  async createInvite(createdByDeviceId: string, expiresInMinutes = 60): Promise<CreateInviteResponse> {
+  async createInvite(createdByDeviceId: string, inputRole: UserRole, expiresInMinutes = 60): Promise<CreateInviteResponse> {
     const device = await this.prisma.device.findUnique({
       where: { deviceId: createdByDeviceId },
       include: { user: true },
@@ -87,6 +87,7 @@ export class FamilyService {
         createdByUserId: device.userId,
         code,
         expiresAt,
+        role: inputRole,
       },
     });
 
@@ -128,7 +129,7 @@ export class FamilyService {
       (await this.prisma.user.create({
         data: {
           familyId: invite.familyId,
-          role: UserRole.PARENT,
+          role: invite.role,
           name: normalizedUserName,
         },
       }));
