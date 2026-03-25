@@ -36,3 +36,18 @@ export const HeartbeatSchema = z.object({
   appVersion: z.string().max(64).optional(),
 });
 
+export const ArasaacSearchQuerySchema = z.object({
+  q: z.string().trim().min(1),
+});
+
+export const SendAacMessageSchema = z.object({
+  targetUserId: z.string().min(1),
+  cards: z.array(
+    z.object({
+      id: z.string().min(1),
+      label: z.string().min(1),
+      imageUrl: z.string().url(),
+    })
+  ).min(1),
+});
+

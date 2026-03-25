@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { FamilyService } from "./family.service.js";
-import { CreateCommandSchema, CreateFamilySchema, JoinFamilySchema, CreateInviteSchema, HeartbeatSchema } from "./family.schemas.js";
+import { SendAacMessageSchema, ArasaacSearchQuerySchema, CreateCommandSchema, CreateFamilySchema, JoinFamilySchema, CreateInviteSchema, HeartbeatSchema } from "./family.schemas.js";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -382,6 +382,69 @@ app.post("/v1/devices/:deviceId/commands", async (req, res) => {
   });
 
   res.json({ ok: true, commandId: cmd.id });
+});
+
+app.get("/v1/arasaac/search", async (req, res) => {
+  const parsed = ArasaacSearchQuerySchema.safeParse(req.query);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const q = parsed.data.q.toLowerCase();
+
+  const mockCards = [
+    { id: "1", label: "I", imageUrl: "https://via.placeholder.com/150?text=I" },
+    { id: "2", label: "want", imageUrl: "https://via.placeholder.com/150?text=want" },
+    { id: "3", label: "water", imageUrl: "https://via.placeholder.com/150?text=water" },
+    { id: "4", label: "walk", imageUrl: "https://via.placeholder.com/150?text=walk" },
+    { id: "5", label: "yes", imageUrl: "https://via.placeholder.com/150?text=yes" },
+    { id: "6", label: "no", imageUrl: "https://via.placeholder.com/150?text=no" },
+  ];
+
+  const items = mockCards.filter((x) =>
+    x.label.toLowerCase().includes(q)
+  );
+
+  res.json({ items });
+});
+
+app.post("/v1/messages/aac", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = SendAacMessageSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const targetUser = await prisma.user.findFirst({
+    where: {
+      id: parsed.data.targetUserId,
+      familyId: device.user.familyId,
+    },
+    include: {
+      devices: {
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
+
+  if (!targetUser) return res.status(404).json({ error: "Target user not found" });
+
+  const targetDevice = targetUser.devices[0];
+  if (!targetDevice) {
+    return res.status(409).json({ error: "Target user has no devices" });
+  }
+
+  const cmd = await prisma.command.create({
+    data: {
+      deviceId: targetDevice.deviceId,
+      type: "aac_message",
+      payload: {
+        targetUserId: parsed.data.targetUserId,
+        cards: parsed.data.cards,
+      },
+      status: "queued",
+    },
+  });
+
+  res.json({ ok: true, messageId: cmd.id });
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
