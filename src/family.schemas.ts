@@ -19,7 +19,7 @@ export const JoinFamilySchema = z.object({
   deviceId: z.string().trim().min(2).max(64),
 });
 
-const CreateCommandSchema = z.object({
+export const CreateCommandSchema = z.object({
   type: z.string().min(1).max(32),
   payload: z.record(z.string(), z.any()),
 });
