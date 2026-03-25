@@ -24,6 +24,31 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 
+
+const ARASAAC_API_BASE = process.env.ARASAAC_API_BASE || "https://api.arasaac.org";
+const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
+
+/**
+ * ВАЖНО:
+ * Точный search endpoint у ARASAAC лучше один раз проверить по их текущей docs/network.
+ * Ниже оставлен один из ожидаемых шаблонов, чтобы менять только в одном месте.
+ */
+function buildArasaacSearchUrl(query: string, lang: string) {
+  const encoded = encodeURIComponent(query.trim());
+
+  // Подставь сюда точный endpoint, когда один раз проверишь его по реальному API.
+  // Например что-то вроде:
+  // return `${ARASAAC_API_BASE}/v1/pictograms/${lang}/search/${encoded}`;
+  // или
+  // return `${ARASAAC_API_BASE}/v1/pictograms/search/${lang}/${encoded}`;
+
+  return `${ARASAAC_API_BASE}/v1/pictograms/${lang}/search/${encoded}`;
+}
+
+function buildArasaacImageUrl(id: string | number) {
+  return `${ARASAAC_API_BASE}/v1/pictograms/${id}?download=false`;
+}
+
 function sha256(s: string) {
   return crypto.createHash("sha256").update(s).digest("hex");
 }
@@ -385,25 +410,68 @@ app.post("/v1/devices/:deviceId/commands", async (req, res) => {
 });
 
 app.get("/v1/arasaac/search", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
   const parsed = ArasaacSearchQuerySchema.safeParse(req.query);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
-  const q = parsed.data.q.toLowerCase();
+  const q = parsed.data.q.trim();
+  if (!q) return res.json({ items: [] });
 
-  const mockCards = [
-    { id: "1", label: "I", imageUrl: "https://via.placeholder.com/150?text=I" },
-    { id: "2", label: "want", imageUrl: "https://via.placeholder.com/150?text=want" },
-    { id: "3", label: "water", imageUrl: "https://via.placeholder.com/150?text=water" },
-    { id: "4", label: "walk", imageUrl: "https://via.placeholder.com/150?text=walk" },
-    { id: "5", label: "yes", imageUrl: "https://via.placeholder.com/150?text=yes" },
-    { id: "6", label: "no", imageUrl: "https://via.placeholder.com/150?text=no" },
-  ];
+  try {
+    const url = buildArasaacSearchUrl(q, ARASAAC_LANG);
+    const response = await fetch(url, {
+      headers: {
+        "accept": "application/json",
+      },
+    });
 
-  const items = mockCards.filter((x) =>
-    x.label.toLowerCase().includes(q)
-  );
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("ARASAAC search failed", response.status, text);
+      return res.status(502).json({ error: "ARASAAC search failed" });
+    }
 
-  res.json({ items });
+    const raw = await response.json();
+
+    /**
+     * Тут deliberately мягкий mapper, потому что форма ответа ARASAAC
+     * может отличаться в зависимости от endpoint/version.
+     */
+    const sourceItems = Array.isArray(raw)
+      ? raw
+      : Array.isArray(raw?.items)
+      ? raw.items
+      : Array.isArray(raw?.pictograms)
+      ? raw.pictograms
+      : [];
+
+    const items = sourceItems
+      .map((item: any) => {
+        const id = item?._id ?? item?.id ?? item?.pictogram ?? item?.pictogram_id;
+        if (id == null) return null;
+
+        const label =
+          item?.keywords?.find?.((x: any) => x?.keyword)?.keyword ??
+          item?.keyword ??
+          item?.text ??
+          item?.name ??
+          String(id);
+
+        return {
+          id: String(id),
+          label: String(label),
+          imageUrl: buildArasaacImageUrl(id),
+        };
+      })
+      .filter(Boolean);
+
+    res.json({ items });
+  } catch (e) {
+    console.error("ARASAAC proxy error", e);
+    res.status(502).json({ error: "ARASAAC proxy error" });
+  }
 });
 
 app.post("/v1/messages/aac", async (req, res) => {
