@@ -78,6 +78,7 @@ model DeviceState {
   deviceId       String   @id
 
   batteryPercent Int?
+  volumePercent Int?
   isCharging     Boolean?
 
   /// timestamp from device (optional)

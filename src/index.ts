@@ -334,6 +334,7 @@ app.post("/v1/devices/heartbeat", async (req, res) => {
       where: { deviceId: device.deviceId },
       update: {
         batteryPercent: data.batteryPercent ?? undefined,
+        volumePercent: data.volumePercent ?? undefined,
         isCharging: data.isCharging ?? undefined,
         reportedAt: data.reportedAt ? new Date(data.reportedAt) : undefined,
       },

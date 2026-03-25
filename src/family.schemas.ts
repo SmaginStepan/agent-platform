@@ -26,6 +26,7 @@ export const CreateCommandSchema = z.object({
 
 export const HeartbeatSchema = z.object({
   batteryPercent: z.number().int().min(0).max(100).optional(),
+  volumePercent: z.number().int().min(0).max(100).optional(),
   isCharging: z.boolean().optional(),
   reportedAt: z.string().datetime().optional(),
 
