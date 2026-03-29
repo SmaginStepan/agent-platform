@@ -15,7 +15,8 @@ import {
   CreateFamilySchema,
   JoinFamilySchema,
   CreateInviteSchema,
-  HeartbeatSchema
+  HeartbeatSchema,
+  GetAacMessagesQuerySchema
 } from "./family.schemas.js";
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -645,6 +646,101 @@ app.post("/v1/messages/aac/:id/reply", async (req, res) => {
   });
 
   res.json({ ok: true, replyId: reply.id });
+});
+
+app.get("/v1/messages/aac", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = GetAacMessagesQuerySchema.safeParse(req.query);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const { scope, fromUserId, toUserId } = parsed.data;
+
+  const where: any = {
+    familyId: device.user.familyId,
+  };
+
+  if (scope === "inbox") {
+    where.toUserId = device.user.id;
+  } else if (scope === "outbox") {
+    where.fromUserId = device.user.id;
+  }
+
+  if (fromUserId) {
+    where.fromUserId = fromUserId;
+  }
+
+  if (toUserId) {
+    where.toUserId = toUserId;
+  }
+
+  const items = await prisma.aacMessage.findMany({
+    where,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      fromUser: {
+        select: {
+          id: true,
+          name: true,
+          role: true,
+        },
+      },
+      toUser: {
+        select: {
+          id: true,
+          name: true,
+          role: true,
+        },
+      },
+      reply: true,
+    },
+  });
+
+  return res.json({
+    ok: true,
+    items: items.map((m) => ({
+      id: m.id,
+      familyId: m.familyId,
+
+      fromUserId: m.fromUserId,
+      toUserId: m.toUserId,
+
+      fromUser: m.fromUser
+        ? {
+            id: m.fromUser.id,
+            name: m.fromUser.name,
+            role: m.fromUser.role,
+          }
+        : null,
+
+      toUser: m.toUser
+        ? {
+            id: m.toUser.id,
+            name: m.toUser.name,
+            role: m.toUser.role,
+          }
+        : null,
+
+      message: m.message,
+      suggestedReplies: m.suggestedReplies,
+
+      reply: m.reply
+        ? {
+            id: m.reply.id,
+            messageId: m.reply.messageId,
+            fromUserId: m.reply.fromUserId,
+            reply: m.reply.reply,
+            createdAt: m.reply.createdAt,
+          }
+        : null,
+
+      createdAt: m.createdAt,
+      answeredAt: m.answeredAt,
+    })),
+  });
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

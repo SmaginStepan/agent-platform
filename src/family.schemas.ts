@@ -59,3 +59,9 @@ export const AacMessageIdParamsSchema = z.object({
 export const SendAacReplySchema = z.object({
   reply: z.any(),
 });
+
+export const GetAacMessagesQuerySchema = z.object({
+  scope: z.enum(["all", "inbox", "outbox"]).optional().default("all"),
+  fromUserId: z.string().min(1).optional(),
+  toUserId: z.string().min(1).optional(),
+});
