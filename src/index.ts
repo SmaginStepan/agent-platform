@@ -28,19 +28,9 @@ app.use(express.json({ limit: "1mb" }));
 const ARASAAC_API_BASE = process.env.ARASAAC_API_BASE || "https://api.arasaac.org";
 const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
 
-/**
- * ВАЖНО:
- * Точный search endpoint у ARASAAC лучше один раз проверить по их текущей docs/network.
- * Ниже оставлен один из ожидаемых шаблонов, чтобы менять только в одном месте.
- */
+
 function buildArasaacSearchUrl(query: string, lang: string) {
   const encoded = encodeURIComponent(query.trim());
-
-  // Подставь сюда точный endpoint, когда один раз проверишь его по реальному API.
-  // Например что-то вроде:
-  // return `${ARASAAC_API_BASE}/v1/pictograms/${lang}/search/${encoded}`;
-  // или
-  // return `${ARASAAC_API_BASE}/v1/pictograms/search/${lang}/${encoded}`;
 
   return `${ARASAAC_API_BASE}/v1/pictograms/${lang}/search/${encoded}`;
 }
@@ -507,6 +497,7 @@ app.post("/v1/messages/aac", async (req, res) => {
       payload: {
         targetUserId: parsed.data.targetUserId,
         cards: parsed.data.cards,
+        suggestedReplies: parsed.data.suggestedReplies ?? [],
       },
       status: "queued",
     },
