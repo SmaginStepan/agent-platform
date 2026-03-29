@@ -20,6 +20,7 @@ model Family {
 
   users     User[]
   invites   Invite[]
+  aacMessages AacMessage[]
 }
 
 model User {
@@ -36,6 +37,11 @@ model User {
   devices   Device[]
   invitesCreated Invite[] @relation("InvitesCreatedByUser")
 
+  sentMessages     AacMessage[] @relation("AacMessageFromUser")
+  receivedMessages AacMessage[] @relation("AacMessageToUser")
+
+  sentReplies      AacReply[]   @relation("AacReplyFromUser")
+  receivedReplies  AacReply[]   @relation("AacReplyToUser")
 
   @@index([familyId])
   @@index([familyId, role])
@@ -150,4 +156,52 @@ model Command {
 
   @@index([deviceId, createdAt])
   @@index([status, createdAt])
+}
+
+model AacMessage {
+  id           String   @id @default(cuid())
+
+  familyId     String
+  fromUserId   String
+  toUserId     String
+
+  // Основное сообщение (карточки / фото / что угодно)
+  message      Json
+
+  // Возможные ответы
+  suggestedReplies Json
+
+  createdAt    DateTime @default(now())
+  answeredAt   DateTime?
+
+  // связи
+  family       Family @relation(fields: [familyId], references: [id])
+  fromUser     User   @relation("AacMessageFromUser", fields: [fromUserId], references: [id])
+  toUser       User   @relation("AacMessageToUser", fields: [toUserId], references: [id])
+
+  replies      AacReply[]
+
+  @@index([familyId])
+  @@index([toUserId])
+  @@index([fromUserId])
+}
+
+model AacReply {
+  id          String   @id @default(cuid())
+
+  messageId   String
+  fromUserId  String
+  toUserId    String
+
+  // выбранный ответ (Json!)
+  reply       Json
+
+  createdAt   DateTime @default(now())
+
+  // связи
+  message     AacMessage @relation(fields: [messageId], references: [id])
+  fromUser    User       @relation("AacReplyFromUser", fields: [fromUserId], references: [id])
+  toUser      User       @relation("AacReplyToUser", fields: [toUserId], references: [id])
+
+  @@index([messageId])
 }

@@ -52,3 +52,10 @@ export const SendAacMessageSchema = z.object({
   suggestedReplies: z.array(AacCardSchema).optional().default([]),
 });
 
+export const AacMessageIdParamsSchema = z.object({
+  id: z.string().min(1),
+});
+
+export const SendAacReplySchema = z.object({
+  reply: z.any(),
+});

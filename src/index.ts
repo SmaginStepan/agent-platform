@@ -6,8 +6,17 @@ import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { FamilyService } from "./family.service.js";
-import { SendAacMessageSchema, ArasaacSearchQuerySchema, CreateCommandSchema, CreateFamilySchema, JoinFamilySchema, CreateInviteSchema, HeartbeatSchema } from "./family.schemas.js";
-
+import {
+  SendAacMessageSchema,
+  SendAacReplySchema,
+  AacMessageIdParamsSchema,
+  ArasaacSearchQuerySchema,
+  CreateCommandSchema,
+  CreateFamilySchema,
+  JoinFamilySchema,
+  CreateInviteSchema,
+  HeartbeatSchema
+} from "./family.schemas.js";
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
@@ -356,6 +365,7 @@ app.post("/v1/devices/heartbeat", async (req, res) => {
       create: {
         deviceId: device.deviceId,
         batteryPercent: data.batteryPercent ?? null,
+        
         isCharging: data.isCharging ?? null,
         reportedAt: data.reportedAt ? new Date(data.reportedAt) : null,
       },
@@ -490,20 +500,151 @@ app.post("/v1/messages/aac", async (req, res) => {
     return res.status(409).json({ error: "Target user has no devices" });
   }
 
-  const cmd = await prisma.command.create({
+  const message = await prisma.aacMessage.create({
+    data: {
+      familyId: device.user.familyId,
+      fromUserId: device.user.id,
+      toUserId: targetUser.id,
+      message: parsed.data.cards,
+      suggestedReplies: parsed.data.suggestedReplies ?? [],
+    },
+  });
+
+  await prisma.command.create({
     data: {
       deviceId: targetDevice.deviceId,
-      type: "aac_message",
+      type: "aac_message_available",
       payload: {
-        targetUserId: parsed.data.targetUserId,
-        cards: parsed.data.cards,
-        suggestedReplies: parsed.data.suggestedReplies ?? [],
+        messageId: message.id,
       },
       status: "queued",
     },
   });
 
-  res.json({ ok: true, messageId: cmd.id });
+  res.json({ ok: true, messageId: message.id });
+});
+
+app.get("/v1/messages/aac/:id", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = AacMessageIdParamsSchema.safeParse(req.params);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  const message = await prisma.aacMessage.findFirst({
+    where: {
+      id: parsed.data.id,
+      familyId: device.user.familyId,
+    },
+    include: {
+      fromUser: true,
+      toUser: true,
+      replies: {
+        orderBy: { createdAt: "asc" },
+        take: 1,
+      },
+    },
+  });
+
+  if (!message) return res.status(404).json({ error: "Message not found" });
+
+  const reply = message.replies[0] ?? null;
+
+  res.json({
+    id: message.id,
+    fromUser: {
+      id: message.fromUser.id,
+      name: message.fromUser.name ?? "",
+    },
+    toUser: {
+      id: message.toUser.id,
+      name: message.toUser.name ?? "",
+    },
+    message: message.message,
+    suggestedReplies: message.suggestedReplies,
+    reply: reply
+      ? {
+          id: reply.id,
+          reply: reply.reply,
+          createdAt: reply.createdAt.toISOString(),
+        }
+      : null,
+    createdAt: message.createdAt.toISOString(),
+    answeredAt: message.answeredAt?.toISOString() ?? null,
+  });
+});
+
+app.post("/v1/messages/aac/:id/reply", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const paramsParsed = AacMessageIdParamsSchema.safeParse(req.params);
+  if (!paramsParsed.success) return res.status(400).json(paramsParsed.error);
+
+  const bodyParsed = SendAacReplySchema.safeParse(req.body);
+  if (!bodyParsed.success) return res.status(400).json(bodyParsed.error);
+
+  const message = await prisma.aacMessage.findFirst({
+    where: {
+      id: paramsParsed.data.id,
+      familyId: device.user.familyId,
+    },
+    include: {
+      fromUser: {
+        include: {
+          devices: {
+            orderBy: { createdAt: "asc" },
+          },
+        },
+      },
+      toUser: true,
+      replies: true,
+    },
+  });
+
+  if (!message) return res.status(404).json({ error: "Message not found" });
+
+  if (message.toUserId !== device.user.id) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  if (message.replies.length > 0) {
+    return res.status(409).json({ error: "Message already answered" });
+  }
+
+  const senderDevice = message.fromUser.devices[0];
+  if (!senderDevice) {
+    return res.status(409).json({ error: "Sender has no devices" });
+  }
+
+  const reply = await prisma.aacReply.create({
+    data: {
+      messageId: message.id,
+      fromUserId: device.user.id,
+      toUserId: message.fromUserId,
+      reply: bodyParsed.data.reply,
+    },
+  });
+
+  await prisma.aacMessage.update({
+    where: { id: message.id },
+    data: {
+      answeredAt: new Date(),
+    },
+  });
+
+  await prisma.command.create({
+    data: {
+      deviceId: senderDevice.deviceId,
+      type: "aac_reply_available",
+      payload: {
+        messageId: message.id,
+      },
+      status: "queued",
+    },
+  });
+
+  res.json({ ok: true, replyId: reply.id });
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
