@@ -179,7 +179,7 @@ model AacMessage {
   fromUser     User   @relation("AacMessageFromUser", fields: [fromUserId], references: [id])
   toUser       User   @relation("AacMessageToUser", fields: [toUserId], references: [id])
 
-  replies      AacReply[]
+  reply AacReply?
 
   @@index([familyId])
   @@index([toUserId])
@@ -187,21 +187,18 @@ model AacMessage {
 }
 
 model AacReply {
-  id          String   @id @default(cuid())
-
-  messageId   String
-  fromUserId  String
-  toUserId    String
-
-  // выбранный ответ (Json!)
-  reply       Json
-
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  messageId  String   @unique
+  fromUserId String
+  toUserId   String
+  reply      Json
+  createdAt  DateTime @default(now())
 
   // связи
-  message     AacMessage @relation(fields: [messageId], references: [id])
-  fromUser    User       @relation("AacReplyFromUser", fields: [fromUserId], references: [id])
-  toUser      User       @relation("AacReplyToUser", fields: [toUserId], references: [id])
+  message  AacMessage @relation(fields: [messageId], references: [id])
+  fromUser User       @relation("AacReplyFromUser", fields: [fromUserId], references: [id])
+  toUser   User       @relation("AacReplyToUser", fields: [toUserId], references: [id])
 
-  @@index([messageId])
+  @@index([fromUserId])
+  @@index([toUserId])
 }

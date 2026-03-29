@@ -540,16 +540,11 @@ app.get("/v1/messages/aac/:id", async (req, res) => {
     include: {
       fromUser: true,
       toUser: true,
-      replies: {
-        orderBy: { createdAt: "asc" },
-        take: 1,
-      },
+      reply: true,
     },
   });
 
   if (!message) return res.status(404).json({ error: "Message not found" });
-
-  const reply = message.replies[0] ?? null;
 
   res.json({
     id: message.id,
@@ -563,11 +558,11 @@ app.get("/v1/messages/aac/:id", async (req, res) => {
     },
     message: message.message,
     suggestedReplies: message.suggestedReplies,
-    reply: reply
+    reply: message.reply
       ? {
-          id: reply.id,
-          reply: reply.reply,
-          createdAt: reply.createdAt.toISOString(),
+          id: message.reply.id,
+          reply: message.reply.reply,
+          createdAt: message.reply.createdAt.toISOString(),
         }
       : null,
     createdAt: message.createdAt.toISOString(),
@@ -599,7 +594,7 @@ app.post("/v1/messages/aac/:id/reply", async (req, res) => {
         },
       },
       toUser: true,
-      replies: true,
+      reply: true,
     },
   });
 
@@ -609,7 +604,7 @@ app.post("/v1/messages/aac/:id/reply", async (req, res) => {
     return res.status(403).json({ error: "Forbidden" });
   }
 
-  if (message.replies.length > 0) {
+  if (message.reply) {
     return res.status(409).json({ error: "Message already answered" });
   }
 
