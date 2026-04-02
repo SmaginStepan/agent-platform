@@ -58,7 +58,7 @@ export const AacMessageIdParamsSchema = z.object({
 });
 
 export const SendAacReplySchema = z.object({
-  reply: z.any(),
+  reply: AacCardSchema,
 });
 
 export const GetAacMessagesQuerySchema = z.object({

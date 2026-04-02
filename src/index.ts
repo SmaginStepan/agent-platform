@@ -18,6 +18,12 @@ import {
   HeartbeatSchema,
   GetAacMessagesQuerySchema
 } from "./family.schemas.js";
+import path from "path";
+import fs from "fs";
+import multer from "multer";
+import sharp from "sharp";
+import { LocalStorageService } from "./storage.service.js";
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
@@ -34,6 +40,145 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 
+const UPLOADS_DIR = process.env.UPLOADS_DIR || path.resolve(process.cwd(), "uploads");
+const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 8080}`;
+
+const storageService = new LocalStorageService(UPLOADS_DIR);
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10 MB
+  },
+});
+
+app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (!req.file) {
+    return res.status(400).json({ error: "File is required" });
+  }
+
+  const label = typeof req.body.label === "string" ? req.body.label.trim() : "";
+  if (!label) {
+    return res.status(400).json({ error: "Label is required" });
+  }
+
+  const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+  if (!allowedMimeTypes.includes(req.file.mimetype)) {
+    return res.status(400).json({ error: "Unsupported file type" });
+  }
+
+  try {
+    const processed = await sharp(req.file.buffer)
+      .rotate()
+      .resize(512, 512, { fit: "cover" })
+      .webp({ quality: 80 })
+      .toBuffer();
+
+    const meta = await sharp(processed).metadata();
+
+    const cardId = crypto.randomUUID();
+    const storageKey = `family-photo/${device.user.familyId}/${cardId}.webp`;
+
+    const stored = await storageService.put({
+      key: storageKey,
+      body: processed,
+      contentType: "image/webp",
+    });
+
+    const imageUrl = `${PUBLIC_BASE_URL}/v1/cards/family-photo/${cardId}/file`;
+
+    const card = await prisma.familyPhotoCard.create({
+      data: {
+        id: cardId,
+        familyId: device.user.familyId,
+        uploadedByUserId: device.user.id,
+        label,
+        source: "family_photo",
+        storageKey: stored.storageKey,
+        imageUrl,
+        mimeType: stored.contentType,
+        width: meta.width ?? null,
+        height: meta.height ?? null,
+        fileSizeBytes: stored.sizeBytes,
+      },
+    });
+
+    return res.json({
+      ok: true,
+      item: {
+        id: card.id,
+        label: card.label ?? "",
+        imageUrl: card.imageUrl,
+        source: "family_photo",
+      },
+    });
+  } catch (e) {
+    console.error("family-photo upload failed", e);
+    return res.status(500).json({ error: "Failed to upload family photo" });
+  }
+});
+
+app.get("/v1/cards/family-photo", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const cards = await prisma.familyPhotoCard.findMany({
+      where: {
+        familyId: device.user.familyId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return res.json({
+      ok: true,
+      items: cards.map((c) => ({
+        id: c.id,
+        label: c.label ?? "",
+        imageUrl: c.imageUrl,
+        source: "family_photo",
+      })),
+    });
+  } catch (e) {
+    console.error("family-photo list failed", e);
+    return res.status(500).json({ error: "Failed to load family photos" });
+  }
+});
+
+app.get("/v1/cards/family-photo/:id/file", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const card = await prisma.familyPhotoCard.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+    });
+
+    if (!card) {
+      return res.status(404).json({ error: "Card not found" });
+    }
+
+    const absolutePath = storageService.getAbsolutePath(card.storageKey);
+
+    if (!fs.existsSync(absolutePath)) {
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    res.setHeader("Content-Type", card.mimeType);
+    return res.sendFile(absolutePath);
+  } catch (e) {
+    console.error("family-photo file failed", e);
+    return res.status(500).json({ error: "Failed to read family photo" });
+  }
+});
 
 const ARASAAC_API_BASE = process.env.ARASAAC_API_BASE || "https://api.arasaac.org";
 const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
