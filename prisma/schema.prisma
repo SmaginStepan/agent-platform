@@ -21,6 +21,7 @@ model Family {
   users     User[]
   invites   Invite[]
   aacMessages AacMessage[]
+  photoCards FamilyPhotoCard[]
 }
 
 model User {
@@ -42,6 +43,7 @@ model User {
 
   sentReplies      AacReply[]   @relation("AacReplyFromUser")
   receivedReplies  AacReply[]   @relation("AacReplyToUser")
+  uploadedPhotoCards   FamilyPhotoCard[]
 
   @@index([familyId])
   @@index([familyId, role])
@@ -201,4 +203,30 @@ model AacReply {
 
   @@index([fromUserId])
   @@index([toUserId])
+}
+
+model FamilyPhotoCard {
+  id               String   @id @default(cuid())
+  familyId         String
+  uploadedByUserId String
+
+  label            String?
+  source           String   @default("family_photo")
+
+  storageKey       String   @unique
+  imageUrl         String
+
+  mimeType         String
+  width            Int?
+  height           Int?
+  fileSizeBytes    Int?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  family           Family   @relation(fields: [familyId], references: [id])
+  uploadedByUser   User     @relation(fields: [uploadedByUserId], references: [id])
+
+  @@index([familyId, createdAt])
+  @@index([uploadedByUserId, createdAt])
 }

@@ -40,10 +40,11 @@ export const ArasaacSearchQuerySchema = z.object({
   q: z.string().trim().min(1),
 });
 
-const AacCardSchema = z.object({
+export const AacCardSchema = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   imageUrl: z.string().url(),
+  source: z.enum(["arasaac", "family_photo"]).optional().default("arasaac"),
 });
 
 export const SendAacMessageSchema = z.object({
