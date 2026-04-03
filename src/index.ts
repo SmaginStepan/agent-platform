@@ -132,9 +132,9 @@ app.get("/v1/library/items", async (req, res) => {
       familyId: device.user.familyId,
     };
 
-    if (source === "family_photo") {
+    if (source === "FAMILY_PHOTO") {
       where.source = "FAMILY_PHOTO";
-    } else if (source === "arasaac") {
+    } else if (source === "ARASAAC") {
       where.source = "ARASAAC";
     }
 
@@ -151,7 +151,7 @@ app.get("/v1/library/items", async (req, res) => {
         id: item.id,
         label: item.label,
         imageUrl: item.imageUrl,
-        source: item.source === "FAMILY_PHOTO" ? "family_photo" : "arasaac",
+        source: item.source,
       })),
     });
   } catch (e) {

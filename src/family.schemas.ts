@@ -44,7 +44,7 @@ export const AacCardSchema = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   imageUrl: z.string().url(),
-  source: z.enum(["arasaac", "family_photo"]).optional().default("arasaac"),
+  source: z.enum(["ARASAAC", "FAMILY_PHOTO"]).optional().default("ARASAAC"),
 });
 
 export const SendAacMessageSchema = z.object({
