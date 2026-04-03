@@ -1,6 +1,0 @@
-export async function buildFamilyPhotoCardImage(input: Buffer): Promise<{
-  buffer: Buffer;
-  width: number | null;
-  height: number | null;
-  mimeType: string;
-}>
