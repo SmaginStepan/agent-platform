@@ -52,6 +52,11 @@ const upload = multer({
   },
 });
 
+function getImagePath(cardId: string): string {
+  const imageUrl = `${PUBLIC_BASE_URL}/v1/library/items/${cardId}/file`;
+  return imageUrl;      
+}
+
 app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
@@ -88,7 +93,7 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
       contentType: "image/webp",
     });
 
-    const imageUrl = `${PUBLIC_BASE_URL}/v1/cards/family-photo/${cardId}/file`;
+    const imageUrl = getImagePath(cardId);
 
     const card = await prisma.familyLibraryItem.create({
       data: {
@@ -98,7 +103,6 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
         label,
         source: "FAMILY_PHOTO",
         storageKey: stored.storageKey,
-        imageUrl,
         mimeType: stored.contentType,
         width: meta.width ?? null,
         height: meta.height ?? null,
@@ -111,7 +115,7 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
       item: {
         id: card.id,
         label: card.label ?? "",
-        imageUrl: card.imageUrl,
+        imageUrl: imageUrl,
         source: "FAMILY_PHOTO",
       },
     });
@@ -150,7 +154,7 @@ app.get("/v1/library/items", async (req, res) => {
       items: items.map((item) => ({
         id: item.id,
         label: item.label,
-        imageUrl: item.imageUrl,
+        imageUrl: getImagePath(item.id),
         source: item.source,
       })),
     });

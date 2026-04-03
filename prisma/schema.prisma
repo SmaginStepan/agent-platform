@@ -217,7 +217,6 @@ model FamilyLibraryItem {
   sourceRef        String?   // например ARASAAC pictogram id, если source = ARASAAC
 
   storageKey       String?   @unique
-  imageUrl         String
 
   mimeType         String?
   width            Int?
