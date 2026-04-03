@@ -52,9 +52,25 @@ const upload = multer({
   },
 });
 
-function getImagePath(cardId: string): string {
-  const imageUrl = `${PUBLIC_BASE_URL}/v1/library/items/${cardId}/file`;
-  return imageUrl;      
+function buildLibraryItemFileUrl(itemId: string): string {
+  return `${PUBLIC_BASE_URL}/v1/library/items/${itemId}/file`;
+}
+
+function buildLibraryItemImageUrl(item: {
+  id: string;
+  source: "FAMILY_PHOTO" | "ARASAAC";
+  sourceRef: string | null;
+}): string | null {
+  if (item.source === "FAMILY_PHOTO") {
+    return buildLibraryItemFileUrl(item.id);
+  }
+
+  if (item.source === "ARASAAC") {
+    if (!item.sourceRef) return null;
+    return buildArasaacImageUrl(item.sourceRef);
+  }
+
+  return null;
 }
 
 app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res) => {
@@ -93,7 +109,7 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
       contentType: "image/webp",
     });
 
-    const imageUrl = getImagePath(cardId);
+
 
     const card = await prisma.familyLibraryItem.create({
       data: {
@@ -109,6 +125,8 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
         fileSizeBytes: stored.sizeBytes,
       },
     });
+
+    const imageUrl = buildLibraryItemImageUrl(card);
 
     return res.json({
       ok: true,
@@ -154,7 +172,7 @@ app.get("/v1/library/items", async (req, res) => {
       items: items.map((item) => ({
         id: item.id,
         label: item.label,
-        imageUrl: getImagePath(item.id),
+        imageUrl: buildLibraryItemImageUrl(item),
         source: item.source,
       })),
     });
