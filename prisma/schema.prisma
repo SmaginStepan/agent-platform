@@ -21,7 +21,8 @@ model Family {
   users     User[]
   invites   Invite[]
   aacMessages AacMessage[]
-  photoCards FamilyPhotoCard[]
+  libraryItems FamilyLibraryItem[]
+  librarySets  FamilyLibrarySet[]
 }
 
 model User {
@@ -43,7 +44,8 @@ model User {
 
   sentReplies      AacReply[]   @relation("AacReplyFromUser")
   receivedReplies  AacReply[]   @relation("AacReplyToUser")
-  uploadedPhotoCards   FamilyPhotoCard[]
+  createdLibraryItems FamilyLibraryItem[]
+  createdLibrarySets  FamilyLibrarySet[]
 
   @@index([familyId])
   @@index([familyId, role])
@@ -205,18 +207,19 @@ model AacReply {
   @@index([toUserId])
 }
 
-model FamilyPhotoCard {
+model FamilyLibraryItem {
   id               String   @id @default(cuid())
   familyId         String
-  uploadedByUserId String
+  createdByUserId  String
 
-  label            String?
-  source           String   @default("family_photo")
+  label            String
+  source           LibraryItemSource
+  sourceRef        String?   // например ARASAAC pictogram id, если source = ARASAAC
 
-  storageKey       String   @unique
+  storageKey       String?   @unique
   imageUrl         String
 
-  mimeType         String
+  mimeType         String?
   width            Int?
   height           Int?
   fileSizeBytes    Int?
@@ -225,8 +228,48 @@ model FamilyPhotoCard {
   updatedAt        DateTime @updatedAt
 
   family           Family   @relation(fields: [familyId], references: [id])
-  uploadedByUser   User     @relation(fields: [uploadedByUserId], references: [id])
+  createdByUser    User     @relation(fields: [createdByUserId], references: [id])
+
+  setItems         FamilyLibrarySetItem[]
 
   @@index([familyId, createdAt])
-  @@index([uploadedByUserId, createdAt])
+  @@index([familyId, source, createdAt])
+  @@index([createdByUserId, createdAt])
+}
+
+model FamilyLibrarySet {
+  id               String   @id @default(cuid())
+  familyId         String
+  createdByUserId  String
+
+  name             String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  family           Family   @relation(fields: [familyId], references: [id])
+  createdByUser    User     @relation(fields: [createdByUserId], references: [id])
+
+  items            FamilyLibrarySetItem[]
+
+  @@index([familyId, createdAt])
+  @@index([createdByUserId, createdAt])
+}
+
+model FamilyLibrarySetItem {
+  id         String   @id @default(cuid())
+  setId       String
+  itemId      String
+  sortOrder   Int      @default(0)
+
+  set         FamilyLibrarySet  @relation(fields: [setId], references: [id], onDelete: Cascade)
+  item        FamilyLibraryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([setId, itemId])
+  @@index([setId, sortOrder])
+  @@index([itemId])
+}
+
+enum LibraryItemSource {
+  FAMILY_PHOTO
+  ARASAAC
 }

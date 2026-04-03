@@ -90,13 +90,13 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
 
     const imageUrl = `${PUBLIC_BASE_URL}/v1/cards/family-photo/${cardId}/file`;
 
-    const card = await prisma.familyPhotoCard.create({
+    const card = await prisma.familyLibraryItem.create({
       data: {
         id: cardId,
         familyId: device.user.familyId,
         uploadedByUserId: device.user.id,
         label,
-        source: "family_photo",
+        source: "FAMILY_PHOTO",
         storageKey: stored.storageKey,
         imageUrl,
         mimeType: stored.contentType,
@@ -112,7 +112,7 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
         id: card.id,
         label: card.label ?? "",
         imageUrl: card.imageUrl,
-        source: "family_photo",
+        source: "FAMILY_PHOTO",
       },
     });
   } catch (e) {
@@ -121,15 +121,25 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
   }
 });
 
-app.get("/v1/cards/family-photo", async (req, res) => {
+app.get("/v1/library/items", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
+  const source = typeof req.query.source === "string" ? req.query.source : undefined;
+
   try {
-    const cards = await prisma.familyPhotoCard.findMany({
-      where: {
-        familyId: device.user.familyId,
-      },
+    const where: any = {
+      familyId: device.user.familyId,
+    };
+
+    if (source === "family_photo") {
+      where.source = "FAMILY_PHOTO";
+    } else if (source === "arasaac") {
+      where.source = "ARASAAC";
+    }
+
+    const items = await prisma.familyLibraryItem.findMany({
+      where,
       orderBy: {
         createdAt: "desc",
       },
@@ -137,46 +147,88 @@ app.get("/v1/cards/family-photo", async (req, res) => {
 
     return res.json({
       ok: true,
-      items: cards.map((c) => ({
-        id: c.id,
-        label: c.label ?? "",
-        imageUrl: c.imageUrl,
-        source: "family_photo",
+      items: items.map((item) => ({
+        id: item.id,
+        label: item.label,
+        imageUrl: item.imageUrl,
+        source: item.source === "FAMILY_PHOTO" ? "family_photo" : "arasaac",
       })),
     });
   } catch (e) {
-    console.error("family-photo list failed", e);
-    return res.status(500).json({ error: "Failed to load family photos" });
+    console.error("library items list failed", e);
+    return res.status(500).json({ error: "Failed to load library items" });
   }
 });
 
-app.get("/v1/cards/family-photo/:id/file", async (req, res) => {
+app.get("/v1/library/items/:id/file", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
   try {
-    const card = await prisma.familyPhotoCard.findFirst({
+    const item = await prisma.familyLibraryItem.findFirst({
       where: {
         id: req.params.id,
         familyId: device.user.familyId,
       },
     });
 
-    if (!card) {
-      return res.status(404).json({ error: "Card not found" });
+    if (!item) {
+      return res.status(404).json({ error: "Library item not found" });
     }
 
-    const absolutePath = storageService.getAbsolutePath(card.storageKey);
+    if (!item.storageKey) {
+      return res.status(400).json({ error: "This library item has no local file" });
+    }
+
+    const absolutePath = storageService.getAbsolutePath(item.storageKey);
 
     if (!fs.existsSync(absolutePath)) {
       return res.status(404).json({ error: "File not found" });
     }
 
-    res.setHeader("Content-Type", card.mimeType);
+    res.setHeader("Content-Type", item.mimeType || "application/octet-stream");
     return res.sendFile(absolutePath);
   } catch (e) {
-    console.error("family-photo file failed", e);
-    return res.status(500).json({ error: "Failed to read family photo" });
+    console.error("library item file failed", e);
+    return res.status(500).json({ error: "Failed to read library item file" });
+  }
+});
+
+app.delete("/v1/library/items/:id", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const item = await prisma.familyLibraryItem.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+    });
+
+    if (!item) {
+      return res.status(404).json({ error: "Library item not found" });
+    }
+
+    if (item.source !== "FAMILY_PHOTO") {
+      return res.status(400).json({ error: "Only uploaded family photos can be deleted for now" });
+    }
+
+    if (item.storageKey) {
+      const absolutePath = storageService.getAbsolutePath(item.storageKey);
+      if (fs.existsSync(absolutePath)) {
+        fs.unlinkSync(absolutePath);
+      }
+    }
+
+    await prisma.familyLibraryItem.delete({
+      where: { id: item.id },
+    });
+
+    return res.json({ ok: true });
+  } catch (e) {
+    console.error("library item delete failed", e);
+    return res.status(500).json({ error: "Failed to delete library item" });
   }
 });
 
