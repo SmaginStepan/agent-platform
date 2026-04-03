@@ -94,7 +94,7 @@ app.post("/v1/cards/family-photo/upload", upload.single("file"), async (req, res
       data: {
         id: cardId,
         familyId: device.user.familyId,
-        uploadedByUserId: device.user.id,
+        createdByUserId: device.user.id,
         label,
         source: "FAMILY_PHOTO",
         storageKey: stored.storageKey,
