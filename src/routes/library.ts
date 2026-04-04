@@ -235,53 +235,6 @@ router.get("/v1/library/items/:id/file", async (req, res) => {
   }
 });
 
-router.delete("/v1/library/items/:id", async (req, res) => {
-  const device = await authDevice(req);
-  if (!device) return res.status(401).json({ error: "Unauthorized" });
-
-  try {
-    const item = await prisma.familyLibraryItem.findFirst({
-      where: {
-        id: req.params.id,
-        familyId: device.user.familyId,
-      },
-    });
-
-    if (!item) {
-      return res.status(404).json({ error: "Library item not found" });
-    }
-
-    if (item.source !== "FAMILY_PHOTO") {
-      return res.status(400).json({ error: "Only uploaded family photos can be deleted for now" });
-    }
-
-    if (item.storageKey) {
-      const absolutePath = storageService.getAbsolutePath(item.storageKey);
-      if (fs.existsSync(absolutePath)) {
-        fs.unlinkSync(absolutePath);
-      }
-    }
-
-    await prisma.familyLibrarySet.updateMany({
-      where: {
-        familyId: device.user.familyId,
-        coverItemId: item.id,
-      },
-      data: {
-        coverItemId: null,
-      },
-    });
-
-    await prisma.familyLibraryItem.delete({
-      where: { id: item.id },
-    });
-
-    return res.json({ ok: true });
-  } catch (e) {
-    console.error("library item delete failed", e);
-    return res.status(500).json({ error: "Failed to delete library item" });
-  }
-});
 
 router.delete("/v1/library/items/:id", async (req, res) => {
   const device = await authDevice(req);
