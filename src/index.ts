@@ -244,6 +244,16 @@ app.delete("/v1/library/items/:id", async (req, res) => {
       }
     }
 
+    await prisma.familyLibrarySet.updateMany({
+      where: {
+        familyId: device.user.familyId,
+        coverItemId: item.id,
+      },
+      data: {
+        coverItemId: null,
+      },
+    });
+
     await prisma.familyLibraryItem.delete({
       where: { id: item.id },
     });
