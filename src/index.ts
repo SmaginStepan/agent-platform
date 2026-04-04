@@ -23,6 +23,7 @@ import fs from "fs";
 import multer from "multer";
 import sharp from "sharp";
 import { LocalStorageService } from "./storage.service.js";
+import { authDevice, newToken, sha256 } from "./lib/auth.js";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -268,7 +269,6 @@ app.delete("/v1/library/items/:id", async (req, res) => {
 const ARASAAC_API_BASE = process.env.ARASAAC_API_BASE || "https://api.arasaac.org";
 const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
 
-
 function buildArasaacSearchUrl(query: string, lang: string) {
   const encoded = encodeURIComponent(query.trim());
 
@@ -279,34 +279,11 @@ function buildArasaacImageUrl(id: string | number) {
   return `${ARASAAC_API_BASE}/v1/pictograms/${id}?download=false`;
 }
 
-function sha256(s: string) {
-  return crypto.createHash("sha256").update(s).digest("hex");
-}
-
-function newToken() {
-  return crypto.randomBytes(32).toString("hex");
-}
-
 const BatterySchema = z.object({
   batteryPercent: z.number().int().min(0).max(100),
   isCharging: z.boolean(),
   reportedAt: z.string().datetime().optional(),
 });
-
-async function authDevice(req: express.Request) {
-  const auth = req.header("authorization") || "";
-  if (!auth.startsWith("Bearer ")) return null;
-
-  const token = auth.slice("Bearer ".length).trim();
-  const tokenHash = sha256(token);
-
-  return prisma.device.findFirst({
-    where: { tokenHash },
-    include: {
-      user: true,
-    },
-  });
-}
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
