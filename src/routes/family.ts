@@ -1,14 +1,12 @@
-import { prisma } from "../lib/prisma.js";
 import { authDevice } from "../lib/auth.utils.js";
+import { prisma } from "../lib/prisma.js";
+import { router } from "../router.js";
 import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema } from "../service/family.schemas.js";
 import { FamilyService } from "../service/family.service.js";
-import { Router } from "express";
-
-const app = Router();
 
 export const familyService = new FamilyService(prisma);
 
-app.post("/v1/families/create", async (req, res) => {
+router.post("/v1/families/create", async (req, res) => {
   const parsed = CreateFamilySchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
@@ -21,7 +19,7 @@ app.post("/v1/families/create", async (req, res) => {
   }
 });
 
-app.post("/v1/invites", async (req, res) => {
+router.post("/v1/invites", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -44,7 +42,7 @@ app.post("/v1/invites", async (req, res) => {
   }
 });
 
-app.post("/v1/families/join", async (req, res) => {
+router.post("/v1/families/join", async (req, res) => {
   const parsed = JoinFamilySchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
@@ -68,7 +66,7 @@ app.post("/v1/families/join", async (req, res) => {
   }
 });
 
-app.get("/v1/families/me", async (req, res) => {
+router.get("/v1/families/me", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 

@@ -1,12 +1,10 @@
 import { prisma } from "../lib/prisma.js";
 import { authDevice } from "../lib/auth.utils.js";
 import { AacMessageIdParamsSchema, GetAacMessagesQuerySchema, SendAacMessageSchema, SendAacReplySchema } from "../service/family.schemas.js";
-import { Router } from "express";
-
-const app = Router();
+import { router } from "../router.js";
 
 
-app.get("/v1/commands/pending", async (req, res) => {
+router.get("/v1/commands/pending", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -17,7 +15,7 @@ app.get("/v1/commands/pending", async (req, res) => {
   });
 
   res.json({ items });
-});app.post("/v1/commands/:id/ack", async (req, res) => {
+});router.post("/v1/commands/:id/ack", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -37,7 +35,7 @@ app.get("/v1/commands/pending", async (req, res) => {
 
   res.json({ ok: true });
 });
-app.post("/v1/messages/aac", async (req, res) => {
+router.post("/v1/messages/aac", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -87,7 +85,7 @@ app.post("/v1/messages/aac", async (req, res) => {
   res.json({ ok: true, messageId: message.id });
 });
 
-app.get("/v1/messages/aac/:id", async (req, res) => {
+router.get("/v1/messages/aac/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -132,7 +130,7 @@ app.get("/v1/messages/aac/:id", async (req, res) => {
   });
 });
 
-app.post("/v1/messages/aac/:id/reply", async (req, res) => {
+router.post("/v1/messages/aac/:id/reply", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -205,7 +203,7 @@ app.post("/v1/messages/aac/:id/reply", async (req, res) => {
   res.json({ ok: true, replyId: reply.id });
 });
 
-app.get("/v1/messages/aac", async (req, res) => {
+router.get("/v1/messages/aac", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 

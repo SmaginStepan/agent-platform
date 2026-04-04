@@ -1,12 +1,11 @@
-import { prisma } from "../lib/prisma.js";
 import { TelemetrySchema } from "../service/devices.schemas.js";
 import { RegisterSchema } from "../service/devices.schemas.js";
 import { BatterySchema } from "../service/devices.schemas.js";
 import { authDevice, newToken, sha256 } from "../lib/auth.utils.js";
 import { CreateCommandSchema, HeartbeatSchema } from "../service/family.schemas.js";
-import { Router } from "express";
+import { prisma } from "../lib/prisma.js";
+import { router } from "../router.js";
 
-const app = Router();
 
 export async function ensureBootstrapOwner() {
   // 1) пытаемся найти любую семью/пользователя (самый первый запуск)
@@ -25,7 +24,7 @@ export async function ensureBootstrapOwner() {
 }
 
 
-app.post("/v1/devices/register", async (req, res) => {
+router.post("/v1/devices/register", async (req, res) => {
   const parsed = RegisterSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
@@ -43,7 +42,7 @@ app.post("/v1/devices/register", async (req, res) => {
   });
 
   res.json({ deviceId: device.deviceId, token });
-});app.get("/v1/devices/:deviceId/status", async (req, res) => {
+});router.get("/v1/devices/:deviceId/status", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
   if (device.deviceId !== req.params.deviceId) return res.status(403).json({ error: "Forbidden" });
@@ -62,7 +61,7 @@ app.post("/v1/devices/register", async (req, res) => {
   });
 });
 
-app.post("/v1/telemetry", async (req, res) => {
+router.post("/v1/telemetry", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -81,7 +80,7 @@ app.post("/v1/telemetry", async (req, res) => {
   res.json({ ok: true });
 });
 
-app.post("/v1/battery", async (req, res) => {
+router.post("/v1/battery", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -118,7 +117,7 @@ app.post("/v1/battery", async (req, res) => {
   res.json({ ok: true });
 });
 
-app.post("/v1/devices/heartbeat", async (req, res) => {
+router.post("/v1/devices/heartbeat", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -162,7 +161,7 @@ app.post("/v1/devices/heartbeat", async (req, res) => {
   res.json({ ok: true, now: new Date().toISOString() });
 });
 
-app.post("/v1/devices/:deviceId/commands", async (req, res) => {
+router.post("/v1/devices/:deviceId/commands", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 

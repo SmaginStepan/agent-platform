@@ -6,9 +6,7 @@ import multer from "multer";
 import { LocalStorageService } from "../service/storage.service.js";
 import fs from "fs";
 import { buildLibraryItemImageUrl, UPLOADS_DIR } from "../lib/url.helpers.js";
-import { Router } from "express";
-
-const app = Router();
+import { router } from "../router.js";
 
 export const storageService = new LocalStorageService(UPLOADS_DIR);
 
@@ -95,7 +93,7 @@ export function toLibraryItemDto(item: {
   };
 }
 
-app.post("/v1/library/items/upload", upload.single("file"), async (req, res) => {
+router.post("/v1/library/items/upload", upload.single("file"), async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -163,7 +161,7 @@ app.post("/v1/library/items/upload", upload.single("file"), async (req, res) => 
   }
 });
 
-app.get("/v1/library/items", async (req, res) => {
+router.get("/v1/library/items", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -203,7 +201,7 @@ app.get("/v1/library/items", async (req, res) => {
   }
 });
 
-app.get("/v1/library/items/:id/file", async (req, res) => {
+router.get("/v1/library/items/:id/file", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -237,7 +235,7 @@ app.get("/v1/library/items/:id/file", async (req, res) => {
   }
 });
 
-app.delete("/v1/library/items/:id", async (req, res) => {
+router.delete("/v1/library/items/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -285,7 +283,7 @@ app.delete("/v1/library/items/:id", async (req, res) => {
   }
 });
 
-app.delete("/v1/library/items/:id", async (req, res) => {
+router.delete("/v1/library/items/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -332,7 +330,7 @@ app.delete("/v1/library/items/:id", async (req, res) => {
     return res.status(500).json({ error: "Failed to delete library item" });
   }
 });
-app.get("/v1/library/sets", async (req, res) => {
+router.get("/v1/library/sets", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -377,7 +375,7 @@ app.get("/v1/library/sets", async (req, res) => {
     return res.status(500).json({ error: "Failed to load library sets" });
   }
 });
-app.get("/v1/library/sets/:id", async (req, res) => {
+router.get("/v1/library/sets/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -419,7 +417,7 @@ app.get("/v1/library/sets/:id", async (req, res) => {
   }
 });
 
-app.post("/v1/library/sets", async (req, res) => {
+router.post("/v1/library/sets", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -483,7 +481,7 @@ app.post("/v1/library/sets", async (req, res) => {
   }
 });
 
-app.patch("/v1/library/sets/:id", async (req, res) => {
+router.patch("/v1/library/sets/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -553,7 +551,7 @@ app.patch("/v1/library/sets/:id", async (req, res) => {
   }
 });
 
-app.put("/v1/library/sets/:id/items", async (req, res) => {
+router.put("/v1/library/sets/:id/items", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -635,7 +633,7 @@ app.put("/v1/library/sets/:id/items", async (req, res) => {
   }
 });
 
-app.delete("/v1/library/sets/:id", async (req, res) => {
+router.delete("/v1/library/sets/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 

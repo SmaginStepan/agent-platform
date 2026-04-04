@@ -5,12 +5,14 @@ import "./routes/devices.js";
 import "./routes/family.js";
 import "./routes/library.js";
 import "./routes/messaging.js";
+import { router } from "./router.js";
 
-export const app = express();
+const app = express();
 
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 
+app.use('/', router);
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 

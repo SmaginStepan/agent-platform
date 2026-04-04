@@ -1,13 +1,11 @@
 import { authDevice } from "../lib/auth.utils.js";
 import { buildArasaacImageUrl, buildArasaacSearchUrl } from "../lib/url.helpers.js";
+import { router } from "../router.js";
 import { ArasaacSearchQuerySchema } from "../service/family.schemas.js";
-import { Router } from "express";
-
-const app = Router();
 
 const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
 
-app.get("/v1/arasaac/search", async (req, res) => {
+router.get("/v1/arasaac/search", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
