@@ -18,9 +18,9 @@ model Family {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users     User[]
-  invites   Invite[]
-  aacMessages AacMessage[]
+  users        User[]
+  invites      Invite[]
+  aacMessages  AacMessage[]
   libraryItems FamilyLibraryItem[]
   librarySets  FamilyLibrarySet[]
 }
@@ -35,15 +35,15 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  family    Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  devices   Device[]
+  family         Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  devices        Device[]
   invitesCreated Invite[] @relation("InvitesCreatedByUser")
 
   sentMessages     AacMessage[] @relation("AacMessageFromUser")
   receivedMessages AacMessage[] @relation("AacMessageToUser")
 
-  sentReplies      AacReply[]   @relation("AacReplyFromUser")
-  receivedReplies  AacReply[]   @relation("AacReplyToUser")
+  sentReplies         AacReply[]          @relation("AacReplyFromUser")
+  receivedReplies     AacReply[]          @relation("AacReplyToUser")
   createdLibraryItems FamilyLibraryItem[]
   createdLibrarySets  FamilyLibrarySet[]
 
@@ -52,32 +52,32 @@ model User {
 }
 
 model Device {
-  id         String    @id @default(cuid())
+  id String @id @default(cuid())
 
   /// Stable identifier generated on the device (UUID recommended).
   /// Used as external identifier in APIs and as the join key for telemetry/commands.
-  deviceId   String    @unique
+  deviceId String @unique
 
-  userId     String
-  name       String?
-  tokenHash  String
+  userId    String
+  name      String?
+  tokenHash String
 
-  platform   String?   // "android"
-  model      String?   // e.g. Build.MODEL
-  osVersion  String?   // e.g. "14"
+  platform   String? // "android"
+  model      String? // e.g. Build.MODEL
+  osVersion  String? // e.g. "14"
   appVersion String?
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   lastSeenAt DateTime?
 
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  telemetry  Telemetry[]
-  commands   Command[]
+  telemetry Telemetry[]
+  commands  Command[]
 
-  state      DeviceState?
-  settings   DeviceSetting[]
+  state    DeviceState?
+  settings DeviceSetting[]
 
   @@index([userId])
   @@index([userId, createdAt])
@@ -85,19 +85,19 @@ model Device {
 
 model DeviceState {
   /// 1:1 with Device by deviceId (external id)
-  deviceId       String   @id
+  deviceId String @id
 
   batteryPercent Int?
-  volumePercent Int?
+  volumePercent  Int?
   isCharging     Boolean?
 
   /// timestamp from device (optional)
-  reportedAt     DateTime?
+  reportedAt DateTime?
 
   /// server-side update time
-  updatedAt      DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
-  device         Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
 }
 
 model DeviceSetting {
@@ -107,27 +107,27 @@ model DeviceSetting {
   value     Json
   updatedAt DateTime @updatedAt
 
-  device    Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
 
   @@unique([deviceId, key])
   @@index([deviceId])
 }
 
 model Invite {
-  id              String   @id @default(cuid())
-  familyId         String
-  createdByUserId  String
+  id              String @id @default(cuid())
+  familyId        String
+  createdByUserId String
 
-  code             String   @unique
-  expiresAt        DateTime
-  usedAt           DateTime?
+  code      String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
 
-  role             UserRole
+  role UserRole
 
-  createdAt        DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  family           Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  createdByUser    User     @relation("InvitesCreatedByUser", fields: [createdByUserId], references: [id], onDelete: Cascade)
+  family        Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  createdByUser User   @relation("InvitesCreatedByUser", fields: [createdByUserId], references: [id], onDelete: Cascade)
 
   @@index([familyId, expiresAt])
   @@index([createdByUserId])
@@ -140,48 +140,48 @@ model Telemetry {
   payload   Json
   createdAt DateTime @default(now())
 
-  device    Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
 
   @@index([deviceId, createdAt])
   @@index([type, createdAt])
 }
 
 model Command {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   deviceId    String
   type        String
   payload     Json
-  status      String   @default("queued")
-  createdAt   DateTime @default(now())
+  status      String    @default("queued")
+  createdAt   DateTime  @default(now())
   deliveredAt DateTime?
   ackedAt     DateTime?
 
-  device      Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
 
   @@index([deviceId, createdAt])
   @@index([status, createdAt])
 }
 
 model AacMessage {
-  id           String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  familyId     String
-  fromUserId   String
-  toUserId     String
+  familyId   String
+  fromUserId String
+  toUserId   String
 
   // Основное сообщение (карточки / фото / что угодно)
-  message      Json
+  message Json
 
   // Возможные ответы
   suggestedReplies Json
 
-  createdAt    DateTime @default(now())
-  answeredAt   DateTime?
+  createdAt  DateTime  @default(now())
+  answeredAt DateTime?
 
   // связи
-  family       Family @relation(fields: [familyId], references: [id])
-  fromUser     User   @relation("AacMessageFromUser", fields: [fromUserId], references: [id])
-  toUser       User   @relation("AacMessageToUser", fields: [toUserId], references: [id])
+  family   Family @relation(fields: [familyId], references: [id])
+  fromUser User   @relation("AacMessageFromUser", fields: [fromUserId], references: [id])
+  toUser   User   @relation("AacMessageToUser", fields: [toUserId], references: [id])
 
   reply AacReply?
 
@@ -208,28 +208,29 @@ model AacReply {
 }
 
 model FamilyLibraryItem {
-  id               String   @id @default(cuid())
-  familyId         String
-  createdByUserId  String
+  id              String @id @default(cuid())
+  familyId        String
+  createdByUserId String
 
-  label            String
-  source           LibraryItemSource
-  sourceRef        String?   // например ARASAAC pictogram id, если source = ARASAAC
+  label     String
+  source    LibraryItemSource
+  sourceRef String?
 
-  storageKey       String?   @unique
+  storageKey String? @unique
 
-  mimeType         String?
-  width            Int?
-  height           Int?
-  fileSizeBytes    Int?
+  mimeType      String?
+  width         Int?
+  height        Int?
+  fileSizeBytes Int?
 
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  family           Family   @relation(fields: [familyId], references: [id])
-  createdByUser    User     @relation(fields: [createdByUserId], references: [id])
+  family        Family @relation(fields: [familyId], references: [id])
+  createdByUser User   @relation(fields: [createdByUserId], references: [id])
 
-  setItems         FamilyLibrarySetItem[]
+  setItems     FamilyLibrarySetItem[]
+  coverForSets FamilyLibrarySet[]     @relation("LibrarySetCoverItem")
 
   @@index([familyId, createdAt])
   @@index([familyId, source, createdAt])
@@ -237,31 +238,35 @@ model FamilyLibraryItem {
 }
 
 model FamilyLibrarySet {
-  id               String   @id @default(cuid())
-  familyId         String
-  createdByUserId  String
+  id              String @id @default(cuid())
+  familyId        String
+  createdByUserId String
 
-  name             String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  name        String
+  coverItemId String?
 
-  family           Family   @relation(fields: [familyId], references: [id])
-  createdByUser    User     @relation(fields: [createdByUserId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  items            FamilyLibrarySetItem[]
+  family        Family             @relation(fields: [familyId], references: [id])
+  createdByUser User               @relation(fields: [createdByUserId], references: [id])
+  coverItem     FamilyLibraryItem? @relation("LibrarySetCoverItem", fields: [coverItemId], references: [id])
+
+  items FamilyLibrarySetItem[]
 
   @@index([familyId, createdAt])
   @@index([createdByUserId, createdAt])
+  @@index([coverItemId])
 }
 
 model FamilyLibrarySetItem {
-  id         String   @id @default(cuid())
-  setId       String
-  itemId      String
-  sortOrder   Int      @default(0)
+  id        String @id @default(cuid())
+  setId     String
+  itemId    String
+  sortOrder Int    @default(0)
 
-  set         FamilyLibrarySet  @relation(fields: [setId], references: [id], onDelete: Cascade)
-  item        FamilyLibraryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  set  FamilyLibrarySet  @relation(fields: [setId], references: [id], onDelete: Cascade)
+  item FamilyLibraryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
   @@unique([setId, itemId])
   @@index([setId, sortOrder])
