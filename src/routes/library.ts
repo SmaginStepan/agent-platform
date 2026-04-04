@@ -8,9 +8,9 @@ import fs from "fs";
 import { buildLibraryItemImageUrl, UPLOADS_DIR } from "../lib/url.helpers.js";
 import { router } from "../router.js";
 
-export const storageService = new LocalStorageService(UPLOADS_DIR);
+const storageService = new LocalStorageService(UPLOADS_DIR);
 
-export const upload = multer({
+const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
     fileSize: 10 * 1024 * 1024, // 10 MB
@@ -18,7 +18,7 @@ export const upload = multer({
 });
 
 
-export async function ensureCoverBelongsToFamily(familyId: string, coverItemId: string | null) {
+async function ensureCoverBelongsToFamily(familyId: string, coverItemId: string | null) {
   if (!coverItemId) return true;
 
   const row = await prisma.familyLibraryItem.findFirst({
@@ -31,7 +31,7 @@ export async function ensureCoverBelongsToFamily(familyId: string, coverItemId: 
 
   return !!row;
 }
-export async function ensureItemIdsBelongToFamily(familyId: string, itemIds: string[]) {
+async function ensureItemIdsBelongToFamily(familyId: string, itemIds: string[]) {
   if (itemIds.length === 0) return true;
 
   const rows = await prisma.familyLibraryItem.findMany({
@@ -45,12 +45,12 @@ export async function ensureItemIdsBelongToFamily(familyId: string, itemIds: str
   return rows.length === itemIds.length;
 }
 
-export function normalizeStringArray(value: unknown): string[] {
+function normalizeStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return value.filter((x): x is string => typeof x === "string" && x.trim().length > 0);
 }
 
-export function uniquePreserveOrder(ids: string[]): string[] {
+function uniquePreserveOrder(ids: string[]): string[] {
   const seen = new Set<string>();
   const result: string[] = [];
   for (const id of ids) {
@@ -61,7 +61,7 @@ export function uniquePreserveOrder(ids: string[]): string[] {
   return result;
 }
 
-export type LibraryItemDto = {
+type LibraryItemDto = {
   id: string;
   label: string;
   imageUrl: string | null;
@@ -78,7 +78,7 @@ type LibrarySetDto = {
   updatedAt: Date;
 };
 
-export function toLibraryItemDto(item: {
+function toLibraryItemDto(item: {
   id: string;
   label: string;
   source: "FAMILY_PHOTO" | "ARASAAC";
@@ -92,6 +92,28 @@ export function toLibraryItemDto(item: {
     sourceRef: item.sourceRef,
   };
 }
+
+
+function pickSetCover(set: {
+  coverItem: {
+    id: string;
+    label: string;
+    source: "FAMILY_PHOTO" | "ARASAAC";
+    sourceRef: string | null;
+  } | null;
+  items: Array<{
+    item: {
+      id: string;
+      label: string;
+      source: "FAMILY_PHOTO" | "ARASAAC";
+      sourceRef: string | null;
+    };
+  }>;
+}): LibraryItemDto | null {
+  const item = set.coverItem ?? set.items[0]?.item ?? null;
+  return item ? toLibraryItemDto(item) : null;
+}
+
 
 router.post("/v1/library/items/upload", upload.single("file"), async (req, res) => {
   const device = await authDevice(req);
@@ -283,6 +305,7 @@ router.delete("/v1/library/items/:id", async (req, res) => {
     return res.status(500).json({ error: "Failed to delete library item" });
   }
 });
+
 router.get("/v1/library/sets", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
@@ -328,6 +351,7 @@ router.get("/v1/library/sets", async (req, res) => {
     return res.status(500).json({ error: "Failed to load library sets" });
   }
 });
+
 router.get("/v1/library/sets/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
@@ -613,22 +637,3 @@ router.delete("/v1/library/sets/:id", async (req, res) => {
     return res.status(500).json({ error: "Failed to delete library set" });
   }
 });
-export function pickSetCover(set: {
-  coverItem: {
-    id: string;
-    label: string;
-    source: "FAMILY_PHOTO" | "ARASAAC";
-    sourceRef: string | null;
-  } | null;
-  items: Array<{
-    item: {
-      id: string;
-      label: string;
-      source: "FAMILY_PHOTO" | "ARASAAC";
-      sourceRef: string | null;
-    };
-  }>;
-}): LibraryItemDto | null {
-  const item = set.coverItem ?? set.items[0]?.item ?? null;
-  return item ? toLibraryItemDto(item) : null;
-}
