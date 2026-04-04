@@ -174,6 +174,7 @@ app.get("/v1/library/items", async (req, res) => {
         label: item.label,
         imageUrl: buildLibraryItemImageUrl(item),
         source: item.source,
+        sourceRef: item.sourceRef,
       })),
     });
   } catch (e) {
@@ -955,6 +956,438 @@ app.get("/v1/messages/aac", async (req, res) => {
       answeredAt: m.answeredAt,
     })),
   });
+});
+
+type LibraryItemDto = {
+  id: string;
+  label: string;
+  imageUrl: string | null;
+  source: "FAMILY_PHOTO" | "ARASAAC";
+  sourceRef: string | null;
+};
+
+type LibrarySetDto = {
+  id: string;
+  name: string;
+  cover: LibraryItemDto | null;
+  itemsCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+function toLibraryItemDto(item: {
+  id: string;
+  label: string;
+  source: "FAMILY_PHOTO" | "ARASAAC";
+  sourceRef: string | null;
+}): LibraryItemDto {
+  return {
+    id: item.id,
+    label: item.label,
+    imageUrl: buildLibraryItemImageUrl(item),
+    source: item.source,
+    sourceRef: item.sourceRef,
+  };
+}
+
+function normalizeStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((x): x is string => typeof x === "string" && x.trim().length > 0);
+}
+
+function uniquePreserveOrder(ids: string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const id of ids) {
+    if (seen.has(id)) continue;
+    seen.add(id);
+    result.push(id);
+  }
+  return result;
+}
+
+async function ensureItemIdsBelongToFamily(familyId: string, itemIds: string[]) {
+  if (itemIds.length === 0) return true;
+
+  const rows = await prisma.familyLibraryItem.findMany({
+    where: {
+      familyId,
+      id: { in: itemIds },
+    },
+    select: { id: true },
+  });
+
+  return rows.length === itemIds.length;
+}
+
+async function ensureCoverBelongsToFamily(familyId: string, coverItemId: string | null) {
+  if (!coverItemId) return true;
+
+  const row = await prisma.familyLibraryItem.findFirst({
+    where: {
+      id: coverItemId,
+      familyId,
+    },
+    select: { id: true },
+  });
+
+  return !!row;
+}
+
+function pickSetCover(set: {
+  coverItem: {
+    id: string;
+    label: string;
+    source: "FAMILY_PHOTO" | "ARASAAC";
+    sourceRef: string | null;
+  } | null;
+  items: Array<{
+    item: {
+      id: string;
+      label: string;
+      source: "FAMILY_PHOTO" | "ARASAAC";
+      sourceRef: string | null;
+    };
+  }>;
+}): LibraryItemDto | null {
+  const item = set.coverItem ?? set.items[0]?.item ?? null;
+  return item ? toLibraryItemDto(item) : null;
+}
+
+app.get("/v1/library/sets", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const sets = await prisma.familyLibrarySet.findMany({
+      where: {
+        familyId: device.user.familyId,
+      },
+      include: {
+        coverItem: true,
+        items: {
+          orderBy: { sortOrder: "asc" },
+          take: 1,
+          include: {
+            item: true,
+          },
+        },
+        _count: {
+          select: {
+            items: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return res.json({
+      ok: true,
+      sets: sets.map((set) => ({
+        id: set.id,
+        name: set.name,
+        cover: pickSetCover(set),
+        itemsCount: set._count.items,
+        createdAt: set.createdAt,
+        updatedAt: set.updatedAt,
+      })),
+    });
+  } catch (e) {
+    console.error("library sets list failed", e);
+    return res.status(500).json({ error: "Failed to load library sets" });
+  }
+});
+
+app.get("/v1/library/sets/:id", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const set = await prisma.familyLibrarySet.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+      include: {
+        coverItem: true,
+        items: {
+          orderBy: { sortOrder: "asc" },
+          include: {
+            item: true,
+          },
+        },
+      },
+    });
+
+    if (!set) {
+      return res.status(404).json({ error: "Library set not found" });
+    }
+
+    return res.json({
+      ok: true,
+      set: {
+        id: set.id,
+        name: set.name,
+        cover: pickSetCover(set),
+        items: set.items.map((row) => toLibraryItemDto(row.item)),
+        createdAt: set.createdAt,
+        updatedAt: set.updatedAt,
+      },
+    });
+  } catch (e) {
+    console.error("library set details failed", e);
+    return res.status(500).json({ error: "Failed to load library set" });
+  }
+});
+
+app.post("/v1/library/sets", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const name = typeof req.body?.name === "string" ? req.body.name.trim() : "";
+  const itemIds = uniquePreserveOrder(normalizeStringArray(req.body?.itemIds));
+  const coverItemId =
+    typeof req.body?.coverItemId === "string" && req.body.coverItemId.trim().length > 0
+      ? req.body.coverItemId.trim()
+      : null;
+
+  if (!name) {
+    return res.status(400).json({ error: "name is required" });
+  }
+
+  try {
+    const itemsOk = await ensureItemIdsBelongToFamily(device.user.familyId, itemIds);
+    if (!itemsOk) {
+      return res.status(400).json({ error: "Some itemIds do not belong to this family" });
+    }
+
+    const coverOk = await ensureCoverBelongsToFamily(device.user.familyId, coverItemId);
+    if (!coverOk) {
+      return res.status(400).json({ error: "coverItemId does not belong to this family" });
+    }
+
+    const created = await prisma.familyLibrarySet.create({
+      data: {
+        familyId: device.user.familyId,
+        createdByUserId: device.user.id,
+        name,
+        coverItemId,
+        items: {
+          create: itemIds.map((itemId, index) => ({
+            itemId,
+            sortOrder: index,
+          })),
+        },
+      },
+      include: {
+        coverItem: true,
+        items: {
+          orderBy: { sortOrder: "asc" },
+          include: { item: true },
+        },
+      },
+    });
+
+    return res.json({
+      ok: true,
+      set: {
+        id: created.id,
+        name: created.name,
+        cover: pickSetCover(created),
+        items: created.items.map((row) => toLibraryItemDto(row.item)),
+        createdAt: created.createdAt,
+        updatedAt: created.updatedAt,
+      },
+    });
+  } catch (e) {
+    console.error("library set create failed", e);
+    return res.status(500).json({ error: "Failed to create library set" });
+  }
+});
+
+app.patch("/v1/library/sets/:id", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const name =
+    typeof req.body?.name === "string"
+      ? req.body.name.trim()
+      : undefined;
+
+  const coverItemId =
+    req.body?.coverItemId === null
+      ? null
+      : typeof req.body?.coverItemId === "string" && req.body.coverItemId.trim().length > 0
+        ? req.body.coverItemId.trim()
+        : undefined;
+
+  if (name !== undefined && !name) {
+    return res.status(400).json({ error: "name must not be empty" });
+  }
+
+  try {
+    const existing = await prisma.familyLibrarySet.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+      select: { id: true },
+    });
+
+    if (!existing) {
+      return res.status(404).json({ error: "Library set not found" });
+    }
+
+    if (coverItemId !== undefined) {
+      const coverOk = await ensureCoverBelongsToFamily(device.user.familyId, coverItemId);
+      if (!coverOk) {
+        return res.status(400).json({ error: "coverItemId does not belong to this family" });
+      }
+    }
+
+    const updated = await prisma.familyLibrarySet.update({
+      where: { id: existing.id },
+      data: {
+        ...(name !== undefined ? { name } : {}),
+        ...(coverItemId !== undefined ? { coverItemId } : {}),
+      },
+      include: {
+        coverItem: true,
+        items: {
+          orderBy: { sortOrder: "asc" },
+          include: { item: true },
+        },
+      },
+    });
+
+    return res.json({
+      ok: true,
+      set: {
+        id: updated.id,
+        name: updated.name,
+        cover: pickSetCover(updated),
+        items: updated.items.map((row) => toLibraryItemDto(row.item)),
+        createdAt: updated.createdAt,
+        updatedAt: updated.updatedAt,
+      },
+    });
+  } catch (e) {
+    console.error("library set patch failed", e);
+    return res.status(500).json({ error: "Failed to update library set" });
+  }
+});
+
+app.put("/v1/library/sets/:id/items", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const itemIds = uniquePreserveOrder(normalizeStringArray(req.body?.itemIds));
+
+  try {
+    const existing = await prisma.familyLibrarySet.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+      select: {
+        id: true,
+        coverItemId: true,
+      },
+    });
+
+    if (!existing) {
+      return res.status(404).json({ error: "Library set not found" });
+    }
+
+    const itemsOk = await ensureItemIdsBelongToFamily(device.user.familyId, itemIds);
+    if (!itemsOk) {
+      return res.status(400).json({ error: "Some itemIds do not belong to this family" });
+    }
+
+    const nextCoverItemId =
+      existing.coverItemId && itemIds.includes(existing.coverItemId)
+        ? existing.coverItemId
+        : null;
+
+    const updated = await prisma.$transaction(async (tx) => {
+      await tx.familyLibrarySetItem.deleteMany({
+        where: { setId: existing.id },
+      });
+
+      await tx.familyLibrarySet.update({
+        where: { id: existing.id },
+        data: {
+          coverItemId: nextCoverItemId,
+        },
+      });
+
+      if (itemIds.length > 0) {
+        await tx.familyLibrarySetItem.createMany({
+          data: itemIds.map((itemId, index) => ({
+            setId: existing.id,
+            itemId,
+            sortOrder: index,
+          })),
+        });
+      }
+
+      return tx.familyLibrarySet.findUniqueOrThrow({
+        where: { id: existing.id },
+        include: {
+          coverItem: true,
+          items: {
+            orderBy: { sortOrder: "asc" },
+            include: { item: true },
+          },
+        },
+      });
+    });
+
+    return res.json({
+      ok: true,
+      set: {
+        id: updated.id,
+        name: updated.name,
+        cover: pickSetCover(updated),
+        items: updated.items.map((row) => toLibraryItemDto(row.item)),
+        createdAt: updated.createdAt,
+        updatedAt: updated.updatedAt,
+      },
+    });
+  } catch (e) {
+    console.error("library set items replace failed", e);
+    return res.status(500).json({ error: "Failed to replace library set items" });
+  }
+});
+
+app.delete("/v1/library/sets/:id", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const existing = await prisma.familyLibrarySet.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+      select: { id: true },
+    });
+
+    if (!existing) {
+      return res.status(404).json({ error: "Library set not found" });
+    }
+
+    await prisma.familyLibrarySet.delete({
+      where: { id: existing.id },
+    });
+
+    return res.json({ ok: true });
+  } catch (e) {
+    console.error("library set delete failed", e);
+    return res.status(500).json({ error: "Failed to delete library set" });
+  }
 });
 
 app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
