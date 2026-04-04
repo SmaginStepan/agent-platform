@@ -1,10 +1,12 @@
-import { app, prisma } from "../index.js";
+import { prisma } from "../lib/prisma.js";
 import { TelemetrySchema } from "../service/devices.schemas.js";
 import { RegisterSchema } from "../service/devices.schemas.js";
 import { BatterySchema } from "../service/devices.schemas.js";
 import { authDevice, newToken, sha256 } from "../lib/auth.utils.js";
 import { CreateCommandSchema, HeartbeatSchema } from "../service/family.schemas.js";
+import { Router } from "express";
 
+const app = Router();
 
 export async function ensureBootstrapOwner() {
   // 1) пытаемся найти любую семью/пользователя (самый первый запуск)

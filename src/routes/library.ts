@@ -1,11 +1,14 @@
 import crypto from "crypto";
 import sharp from "sharp";
-import { app, prisma } from "../index.js";
+import { prisma } from "../lib/prisma.js";
 import { authDevice } from "../lib/auth.utils.js";
 import multer from "multer";
 import { LocalStorageService } from "../service/storage.service.js";
 import fs from "fs";
 import { buildLibraryItemImageUrl, UPLOADS_DIR } from "../lib/url.helpers.js";
+import { Router } from "express";
+
+const app = Router();
 
 export const storageService = new LocalStorageService(UPLOADS_DIR);
 

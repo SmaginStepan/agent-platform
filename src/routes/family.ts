@@ -1,7 +1,10 @@
-import { app, prisma } from "../index.js";
+import { prisma } from "../lib/prisma.js";
 import { authDevice } from "../lib/auth.utils.js";
 import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema } from "../service/family.schemas.js";
 import { FamilyService } from "../service/family.service.js";
+import { Router } from "express";
+
+const app = Router();
 
 export const familyService = new FamilyService(prisma);
 

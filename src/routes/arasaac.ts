@@ -1,7 +1,9 @@
-import { app } from "../index.js";
 import { authDevice } from "../lib/auth.utils.js";
 import { buildArasaacImageUrl, buildArasaacSearchUrl } from "../lib/url.helpers.js";
 import { ArasaacSearchQuerySchema } from "../service/family.schemas.js";
+import { Router } from "express";
+
+const app = Router();
 
 const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
 

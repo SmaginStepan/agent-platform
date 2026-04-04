@@ -1,6 +1,9 @@
-import { app, prisma } from "../index.js";
+import { prisma } from "../lib/prisma.js";
 import { authDevice } from "../lib/auth.utils.js";
 import { AacMessageIdParamsSchema, GetAacMessagesQuerySchema, SendAacMessageSchema, SendAacReplySchema } from "../service/family.schemas.js";
+import { Router } from "express";
+
+const app = Router();
 
 
 app.get("/v1/commands/pending", async (req, res) => {

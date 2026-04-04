@@ -1,6 +1,6 @@
 
 import express from "express";
-import { prisma } from "../index.js";
+import { prisma } from "./prisma.js";
 import crypto from "crypto";
 
 export function sha256(s: string) {
