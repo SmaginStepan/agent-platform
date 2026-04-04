@@ -3,7 +3,12 @@ import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { buildLibraryItemImageUrl } from "./lib/url.helpers.js";
+
+import "./routes/arasaac.js";
+import "./routes/devices.js";
+import "./routes/family.js";
+import "./routes/library.js";
+import "./routes/messaging.js";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
