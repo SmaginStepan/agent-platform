@@ -1,3 +1,6 @@
+
+import express from "express";
+import { prisma } from "../index.js";
 import crypto from "crypto";
 
 export function sha256(s: string) {
@@ -15,4 +18,19 @@ export function newInviteCode(length = 6) {
     out += alphabet[Math.floor(Math.random() * alphabet.length)];
   }
   return out;
+}
+
+export async function authDevice(req: express.Request) {
+  const auth = req.header("authorization") || "";
+  if (!auth.startsWith("Bearer ")) return null;
+
+  const token = auth.slice("Bearer ".length).trim();
+  const tokenHash = sha256(token);
+
+  return prisma.device.findFirst({
+    where: { tokenHash },
+    include: {
+      user: true,
+    },
+  });
 }

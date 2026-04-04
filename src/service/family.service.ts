@@ -6,7 +6,7 @@ import {
   JoinFamilyRequest,
   JoinFamilyResponse,
 } from "./family.types.js";
-import { newInviteCode, newToken, sha256 } from "./lib/auth.utils.js";
+import { newInviteCode, newToken, sha256 } from "../lib/auth.utils.js";
 
 export class FamilyService {
   constructor(private prisma: PrismaClient) {}
