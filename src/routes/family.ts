@@ -1,7 +1,7 @@
 import { authDevice } from "../lib/auth.utils.js";
 import { prisma } from "../lib/prisma.js";
 import { router } from "../router.js";
-import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema } from "../service/family.schemas.js";
+import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema, UpdateNameSchema } from "../service/family.schemas.js";
 import { FamilyService } from "../service/family.service.js";
 
 export const familyService = new FamilyService(prisma);
@@ -101,3 +101,61 @@ router.get("/v1/families/me", async (req, res) => {
   });
 });
 
+
+router.patch("/v1/families/me", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = UpdateNameSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  try {
+    const family = await prisma.family.update({
+      where: { id: device.user.familyId },
+      data: { name: parsed.data.name },
+      select: { id: true, name: true },
+    });
+
+    return res.json({ ok: true, family });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Failed to update family" });
+  }
+});
+
+router.patch("/v1/users/:userId", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (device.user.role !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const parsed = UpdateNameSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: req.params.userId,
+        familyId: device.user.familyId,
+      },
+      select: { id: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: user.id },
+      data: { name: parsed.data.name },
+      select: { id: true, name: true, role: true },
+    });
+
+    return res.json({ ok: true, user: updated });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Failed to update user" });
+  }
+});

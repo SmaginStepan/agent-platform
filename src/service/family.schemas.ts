@@ -66,3 +66,7 @@ export const GetAacMessagesQuerySchema = z.object({
   fromUserId: z.string().min(1).optional(),
   toUserId: z.string().min(1).optional(),
 });
+
+export const UpdateNameSchema = z.object({
+  name: z.string().trim().min(1).max(100),
+});
