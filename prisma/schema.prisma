@@ -26,11 +26,12 @@ model Family {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  familyId  String
-  role      UserRole
-  name      String?
-  avatarUrl String?
+  id           String             @id @default(cuid())
+  familyId     String
+  role         UserRole
+  name         String?
+  avatarItemId String?
+  avatarItem   FamilyLibraryItem? @relation("UserAvatarItem", fields: [avatarItemId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -226,8 +227,9 @@ model FamilyLibraryItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  family        Family @relation(fields: [familyId], references: [id])
-  createdByUser User   @relation(fields: [createdByUserId], references: [id])
+  family         Family @relation(fields: [familyId], references: [id])
+  createdByUser  User   @relation(fields: [createdByUserId], references: [id])
+  avatarForUsers User[] @relation("UserAvatarItem")
 
   setItems     FamilyLibrarySetItem[]
   coverForSets FamilyLibrarySet[]     @relation("LibrarySetCoverItem")

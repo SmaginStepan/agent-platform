@@ -5,6 +5,7 @@ import "./routes/devices.js";
 import "./routes/family.js";
 import "./routes/library.js";
 import "./routes/messaging.js";
+import "./routes/users.js";
 import { router } from "./router.js";
 
 const app = express();

@@ -70,3 +70,8 @@ export const GetAacMessagesQuerySchema = z.object({
 export const UpdateNameSchema = z.object({
   name: z.string().trim().min(1).max(100),
 });
+
+
+export const updateMyAvatarSchema = z.object({
+  avatarItemId: z.string().min(1).nullable(),
+});
