@@ -41,6 +41,115 @@ async function requireUser(
   }
 }
 
+async function updateUserAvatar(params: {
+  actorUserId: string;
+  targetUserId: string;
+  avatarItemId: string | null;
+  requireParentForOtherUser: boolean;
+}) {
+  const { actorUserId, targetUserId, avatarItemId, requireParentForOtherUser } = params;
+
+  const actor = await prisma.user.findUnique({
+    where: { id: actorUserId },
+    select: {
+      id: true,
+      familyId: true,
+      role: true,
+    },
+  });
+
+  if (!actor) {
+    return {
+      status: 404 as const,
+      body: { error: "Actor user not found" },
+    };
+  }
+
+  if (!actor.familyId) {
+    return {
+      status: 400 as const,
+      body: { error: "Actor user is not in a family" },
+    };
+  }
+
+  const targetUser = await prisma.user.findUnique({
+    where: { id: targetUserId },
+    select: {
+      id: true,
+      familyId: true,
+    },
+  });
+
+  if (!targetUser) {
+    return {
+      status: 404 as const,
+      body: { error: "Target user not found" },
+    };
+  }
+
+  if (targetUser.familyId !== actor.familyId) {
+    return {
+      status: 403 as const,
+      body: { error: "Target user is not in actor's family" },
+    };
+  }
+
+  if (
+    requireParentForOtherUser &&
+    actor.id !== targetUser.id &&
+    actor.role !== "PARENT"
+  ) {
+    return {
+      status: 403 as const,
+      body: { error: "Only parent can update another user's avatar" },
+    };
+  }
+
+  if (avatarItemId !== null) {
+    const item = await prisma.familyLibraryItem.findUnique({
+      where: { id: avatarItemId },
+      select: {
+        id: true,
+        familyId: true,
+      },
+    });
+
+    if (!item || item.familyId !== actor.familyId) {
+      return {
+        status: 400 as const,
+        body: { error: "Library item not found in actor's family" },
+      };
+    }
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: targetUser.id },
+    data: {
+      avatarItemId,
+    },
+    select: {
+      id: true,
+      familyId: true,
+      role: true,
+      name: true,
+      avatarItemId: true,
+      avatarItem: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  return {
+    status: 200 as const,
+    body: {
+      ok: true,
+      user: mapUserDto(updated),
+    },
+  };
+}
+
 function buildLibraryItemFileUrl(itemId: string): string {
   const baseUrl = process.env.PUBLIC_BASE_URL?.replace(/\/+$/, "") ?? "";
   return `${baseUrl}/v1/library/items/${itemId}/file`;
@@ -69,82 +178,64 @@ function mapUserDto(user: {
       : null,
   };
 }
-
 router.patch("/me/avatar", requireUser, async (req, res) => {
-    const device = await authDevice(req);
-    if (!device) return res.status(401).json({ error: "Unauthorized" });
-    if (!device.user) {
+  const device = await authDevice(req);
+
+  if (!device || !device.user) {
     return res.status(401).json({ error: "Unauthorized" });
-    }
+  }
 
-    const userId = device.user.id;
+  const parsed = updateMyAvatarSchema.safeParse(req.body);
 
-    const parsed = updateMyAvatarSchema.safeParse(req.body);
-
-    if (!parsed.success) {
+  if (!parsed.success) {
     return res.status(400).json({
-        error: "Invalid body",
-        details: parsed.error.flatten(),
+      error: "Invalid body",
+      details: parsed.error.flatten(),
     });
-    }
+  }
 
-    const { avatarItemId } = parsed.data;
+  const result = await updateUserAvatar({
+    actorUserId: device.user.id,
+    targetUserId: device.user.id,
+    avatarItemId: parsed.data.avatarItemId,
+    requireParentForOtherUser: false,
+  });
 
-    const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-        id: true,
-        familyId: true,
-    },
+  return res.status(result.status).json(result.body);
+});
+
+router.patch("/:userId/avatar", requireUser, async (req, res) => {
+  const device = await authDevice(req);
+
+  if (!device || !device.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const parsed = updateMyAvatarSchema.safeParse(req.body);
+
+  if (!parsed.success) {
+    return res.status(400).json({
+      error: "Invalid body",
+      details: parsed.error.flatten(),
     });
+  }
 
-    if (!user) {
-    return res.status(404).json({ error: "User not found" });
-    }
+  const rawUserId = req.params.userId;
 
-    if (!user.familyId) {
-    return res.status(400).json({ error: "User is not in a family" });
-    }
-
-    if (avatarItemId !== null) {
-    const item = await prisma.familyLibraryItem.findUnique({
-        where: { id: avatarItemId },
-        select: {
-        id: true,
-        familyId: true,
-        },
+  if (typeof rawUserId !== "string") {
+    return res.status(400).json({
+      error: "Invalid userId",
     });
+  }
 
-    if (!item || item.familyId !== user.familyId) {
-        return res.status(400).json({
-        error: "Library item not found in user's family",
-        });
-    }
-    }
+  const result = await updateUserAvatar({
+    actorUserId: device.user.id,
+    targetUserId: rawUserId,
+    avatarItemId: parsed.data.avatarItemId,
+    requireParentForOtherUser: true,
+  });
 
-    const updated = await prisma.user.update({
-    where: { id: userId },
-    data: {
-        avatarItemId,
-    },
-    select: {
-        id: true,
-        familyId: true,
-        role: true,
-        name: true,
-        avatarItemId: true,
-        avatarItem: {
-        select: {
-            id: true,
-        },
-        },
-    },
-    });
-
-    return res.json({
-        ok: true,
-        user: mapUserDto(updated),
-    });
+  return res.status(result.status).json(result.body);
 });
 
 export default router;
