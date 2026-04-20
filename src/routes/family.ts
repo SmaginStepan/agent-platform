@@ -6,6 +6,11 @@ import { FamilyService } from "../service/family.service.js";
 
 export const familyService = new FamilyService(prisma);
 
+function buildLibraryItemFileUrl(itemId: string): string {
+  const baseUrl = process.env.PUBLIC_BASE_URL?.replace(/\/+$/, "") ?? "";
+  return `${baseUrl}/v1/library/items/${itemId}/file`;
+}
+
 router.post("/v1/families/create", async (req, res) => {
   const parsed = CreateFamilySchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
@@ -75,6 +80,11 @@ router.get("/v1/families/me", async (req, res) => {
     include: {
       users: {
         include: {
+          avatarItem: {
+            select: {
+              id: true,
+            },
+          },
           devices: {
             include: {
               state: true
@@ -97,7 +107,19 @@ router.get("/v1/families/me", async (req, res) => {
       deviceId: device.deviceId,
       role: device.user.role
     },
-    users: family?.users
+    users: family?.users.map((user) => ({
+      id: user.id,
+      familyId: user.familyId,
+      role: user.role,
+      name: user.name,
+      avatarItemId: user.avatarItemId,
+      avatarImageUrl: user.avatarItem
+        ? buildLibraryItemFileUrl(user.avatarItem.id)
+        : null,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      devices: user.devices,
+    }))
   });
 });
 
