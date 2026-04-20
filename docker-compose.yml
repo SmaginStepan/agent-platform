@@ -23,6 +23,8 @@ services:
       - db
     ports:
       - "127.0.0.1:8080:8080"
+    volumes:
+      - ./uploads:/app/uploads      
     restart: unless-stopped
 
 volumes:
