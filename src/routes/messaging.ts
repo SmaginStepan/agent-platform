@@ -2,6 +2,7 @@ import { prisma } from "../lib/prisma.js";
 import { authDevice } from "../lib/auth.utils.js";
 import { AacMessageIdParamsSchema, GetAacMessagesQuerySchema, SendAacMessageSchema, SendAacReplySchema } from "../service/family.schemas.js";
 import { router } from "../router.js";
+import { buildLibraryItemImageUrl } from "../lib/url.helpers.js";
 
 
 router.get("/v1/commands/pending", async (req, res) => {
@@ -15,7 +16,9 @@ router.get("/v1/commands/pending", async (req, res) => {
   });
 
   res.json({ items });
-});router.post("/v1/commands/:id/ack", async (req, res) => {
+});
+
+router.post("/v1/commands/:id/ack", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
@@ -35,6 +38,7 @@ router.get("/v1/commands/pending", async (req, res) => {
 
   res.json({ ok: true });
 });
+
 router.post("/v1/messages/aac", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
@@ -98,8 +102,30 @@ router.get("/v1/messages/aac/:id", async (req, res) => {
       familyId: device.user.familyId,
     },
     include: {
-      fromUser: true,
-      toUser: true,
+      fromUser: {
+        include: {
+          avatarItem: {
+            select: {
+              id: true,
+              source: true,
+              sourceRef: true,
+              storageKey: true,
+            },
+          },
+        },
+      },
+      toUser: {
+        include: {
+          avatarItem: {
+            select: {
+              id: true,
+              source: true,
+              sourceRef: true,
+              storageKey: true,
+            },
+          },
+        },
+      },
       reply: true,
     },
   });
@@ -111,19 +137,29 @@ router.get("/v1/messages/aac/:id", async (req, res) => {
     fromUser: {
       id: message.fromUser.id,
       name: message.fromUser.name ?? "",
+      role: message.fromUser.role,
+      avatarItemId: message.fromUser.avatarItemId,
+      avatarImageUrl: message.fromUser.avatarItem
+        ? buildLibraryItemImageUrl(message.fromUser.avatarItem)
+        : null,
     },
     toUser: {
       id: message.toUser.id,
       name: message.toUser.name ?? "",
+      role: message.toUser.role,
+      avatarItemId: message.toUser.avatarItemId,
+      avatarImageUrl: message.toUser.avatarItem
+        ? buildLibraryItemImageUrl(message.toUser.avatarItem)
+        : null,
     },
     message: message.message,
     suggestedReplies: message.suggestedReplies,
     reply: message.reply
       ? {
-        id: message.reply.id,
-        reply: message.reply.reply,
-        createdAt: message.reply.createdAt.toISOString(),
-      }
+          id: message.reply.id,
+          reply: message.reply.reply,
+          createdAt: message.reply.createdAt.toISOString(),
+        }
       : null,
     createdAt: message.createdAt.toISOString(),
     answeredAt: message.answeredAt?.toISOString() ?? null,
@@ -241,6 +277,15 @@ router.get("/v1/messages/aac", async (req, res) => {
           id: true,
           name: true,
           role: true,
+          avatarItemId: true,
+          avatarItem: {
+            select: {
+              id: true,
+              source: true,
+              sourceRef: true,
+              storageKey: true,
+            },
+          },
         },
       },
       toUser: {
@@ -248,6 +293,15 @@ router.get("/v1/messages/aac", async (req, res) => {
           id: true,
           name: true,
           role: true,
+          avatarItemId: true,
+          avatarItem: {
+            select: {
+              id: true,
+              source: true,
+              sourceRef: true,
+              storageKey: true,
+            },
+          },
         },
       },
       reply: true,
@@ -265,18 +319,26 @@ router.get("/v1/messages/aac", async (req, res) => {
 
       fromUser: m.fromUser
         ? {
-          id: m.fromUser.id,
-          name: m.fromUser.name,
-          role: m.fromUser.role,
-        }
+            id: m.fromUser.id,
+            name: m.fromUser.name,
+            role: m.fromUser.role,
+            avatarItemId: m.fromUser.avatarItemId,
+            avatarImageUrl: m.fromUser.avatarItem
+              ? buildLibraryItemImageUrl(m.fromUser.avatarItem)
+              : null,
+          }
         : null,
 
       toUser: m.toUser
         ? {
-          id: m.toUser.id,
-          name: m.toUser.name,
-          role: m.toUser.role,
-        }
+            id: m.toUser.id,
+            name: m.toUser.name,
+            role: m.toUser.role,
+            avatarItemId: m.toUser.avatarItemId,
+            avatarImageUrl: m.toUser.avatarItem
+              ? buildLibraryItemImageUrl(m.toUser.avatarItem)
+              : null,
+          }
         : null,
 
       message: m.message,
