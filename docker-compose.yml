@@ -19,6 +19,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL}      
       PORT: "8080"
+      UPLOADS_DIR: /app/uploads
     depends_on:
       - db
     ports:
