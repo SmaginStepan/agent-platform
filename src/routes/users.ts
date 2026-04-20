@@ -178,7 +178,7 @@ function mapUserDto(user: {
       : null,
   };
 }
-router.patch("/me/avatar", requireUser, async (req, res) => {
+router.patch("/v1/users/me/avatar", requireUser, async (req, res) => {
   const device = await authDevice(req);
 
   if (!device || !device.user) {
@@ -204,7 +204,7 @@ router.patch("/me/avatar", requireUser, async (req, res) => {
   return res.status(result.status).json(result.body);
 });
 
-router.patch("/:userId/avatar", requireUser, async (req, res) => {
+router.patch("/v1/users/:userId/avatar", requireUser, async (req, res) => {
   const device = await authDevice(req);
 
   if (!device || !device.user) {
