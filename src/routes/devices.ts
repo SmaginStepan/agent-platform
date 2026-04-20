@@ -2,7 +2,7 @@ import { TelemetrySchema } from "../service/devices.schemas.js";
 import { RegisterSchema } from "../service/devices.schemas.js";
 import { BatterySchema } from "../service/devices.schemas.js";
 import { authDevice, newToken, sha256 } from "../lib/auth.utils.js";
-import { CreateCommandSchema, HeartbeatSchema } from "../service/family.schemas.js";
+import { CreateCommandSchema, HeartbeatSchema, UpdateNameSchema } from "../service/family.schemas.js";
 import { prisma } from "../lib/prisma.js";
 import { router } from "../router.js";
 
@@ -193,4 +193,57 @@ router.post("/v1/devices/:deviceId/commands", async (req, res) => {
   });
 
   res.json({ ok: true, commandId: cmd.id });
+});
+
+router.patch("/v1/devices/:deviceId/name", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (device.user.role !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const parsed = UpdateNameSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  try {
+    const target = await prisma.device.findFirst({
+      where: {
+        deviceId: req.params.deviceId,
+        user: {
+          familyId: device.user.familyId,
+        },
+      },
+      include: {
+        state: true,
+        user: true,
+      },
+    });
+
+    if (!target) {
+      return res.status(404).json({ error: "Device not found" });
+    }
+
+    const updated = await prisma.device.update({
+      where: { deviceId: target.deviceId },
+      data: { name: parsed.data.name },
+      include: {
+        state: true,
+        user: true,
+      },
+    });
+
+    return res.json({
+      ok: true,
+      device: {
+        deviceId: updated.deviceId,
+        name: updated.name,
+        lastSeenAt: updated.lastSeenAt,
+        state: updated.state,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Failed to update device" });
+  }
 });
