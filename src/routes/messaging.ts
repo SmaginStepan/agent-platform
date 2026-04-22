@@ -3,6 +3,7 @@ import { authDevice } from "../lib/auth.utils.js";
 import { AacMessageIdParamsSchema, GetAacMessagesQuerySchema, SendAacMessageSchema, SendAacReplySchema } from "../service/family.schemas.js";
 import { router } from "../router.js";
 import { buildLibraryItemImageUrl } from "../lib/url.helpers.js";
+import { pushSyncCommandsToDevice } from "../lib/firebase.js";
 
 
 router.get("/v1/commands/pending", async (req, res) => {
@@ -75,16 +76,20 @@ router.post("/v1/messages/aac", async (req, res) => {
     },
   });
 
+  const cType = "aac_message_available";
+
   await prisma.command.create({
     data: {
       deviceId: targetDevice.deviceId,
-      type: "aac_message_available",
+      type: cType,
       payload: {
         messageId: message.id,
       },
       status: "queued",
     },
   });
+
+  await pushSyncCommandsToDevice(targetDevice.deviceId, cType);
 
   res.json({ ok: true, messageId: message.id });
 });
@@ -225,16 +230,20 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
     },
   });
 
+  const cType = "aac_reply_available";
+
   await prisma.command.create({
     data: {
       deviceId: senderDevice.deviceId,
-      type: "aac_reply_available",
+      type: cType,
       payload: {
         messageId: message.id,
       },
       status: "queued",
     },
   });
+
+  await pushSyncCommandsToDevice(senderDevice.deviceId, cType);
 
   res.json({ ok: true, replyId: reply.id });
 });

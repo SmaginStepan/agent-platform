@@ -3,6 +3,7 @@ import { RegisterSchema } from "../service/devices.schemas.js";
 import { BatterySchema } from "../service/devices.schemas.js";
 import { authDevice, newToken, sha256 } from "../lib/auth.utils.js";
 import { CreateCommandSchema, HeartbeatSchema, UpdateNameSchema } from "../service/family.schemas.js";
+import { UpdateFcmTokenSchema } from "../service/devices.schemas.js";
 import { prisma } from "../lib/prisma.js";
 import { router } from "../router.js";
 
@@ -22,7 +23,6 @@ export async function ensureBootstrapOwner() {
     },
   });
 }
-
 
 router.post("/v1/devices/register", async (req, res) => {
   const parsed = RegisterSchema.safeParse(req.body);
@@ -246,4 +246,22 @@ router.patch("/v1/devices/:deviceId/name", async (req, res) => {
     console.error(e);
     return res.status(500).json({ error: "Failed to update device" });
   }
+});
+
+router.post("/v1/devices/fcm-token", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const parsed = UpdateFcmTokenSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(parsed.error);
+
+  await prisma.device.update({
+    where: { deviceId: device.deviceId },
+    data: {
+      fcmToken: parsed.data.fcmToken,
+      fcmTokenUpdatedAt: new Date(),
+    },
+  });
+
+  res.json({ ok: true });
 });

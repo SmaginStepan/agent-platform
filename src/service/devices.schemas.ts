@@ -16,3 +16,6 @@ export const TelemetrySchema = z.object({
   payload: z.record(z.string(), z.any()),
 });
 
+export const UpdateFcmTokenSchema = z.object({
+  fcmToken: z.string().min(1).max(4096),
+});
