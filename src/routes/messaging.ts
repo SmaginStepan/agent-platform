@@ -89,7 +89,11 @@ router.post("/v1/messages/aac", async (req, res) => {
     },
   });
 
+try {
   await pushSyncCommandsToDevice(targetDevice.deviceId, cType);
+} catch (e) {
+  console.error("Failed to send FCM push for AAC message", e);
+}
 
   res.json({ ok: true, messageId: message.id });
 });
@@ -243,7 +247,11 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
     },
   });
 
+try {
   await pushSyncCommandsToDevice(senderDevice.deviceId, cType);
+} catch (e) {
+  console.error("Failed to send FCM push for AAC message", e);
+}
 
   res.json({ ok: true, replyId: reply.id });
 });

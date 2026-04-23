@@ -6,6 +6,7 @@ import { CreateCommandSchema, HeartbeatSchema, UpdateNameSchema } from "../servi
 import { UpdateFcmTokenSchema } from "../service/devices.schemas.js";
 import { prisma } from "../lib/prisma.js";
 import { router } from "../router.js";
+import { pushSyncCommandsToDevice } from "../lib/firebase.js";
 
 
 export async function ensureBootstrapOwner() {
@@ -191,6 +192,12 @@ router.post("/v1/devices/:deviceId/commands", async (req, res) => {
       status: "queued",
     },
   });
+
+  try {
+    await pushSyncCommandsToDevice(target.deviceId, parsed.data.type);
+  } catch (e) {
+    console.error("Failed to send FCM push for command", e);
+  }
 
   res.json({ ok: true, commandId: cmd.id });
 });

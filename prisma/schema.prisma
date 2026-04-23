@@ -63,9 +63,9 @@ model Device {
   name      String?
   tokenHash String
 
-  fcmToken         String?
+  fcmToken          String?
   fcmTokenUpdatedAt DateTime?
-  lastPushAt       DateTime?
+  lastPushAt        DateTime?
 
   platform   String? // "android"
   model      String? // e.g. Build.MODEL
