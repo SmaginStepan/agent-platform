@@ -4,12 +4,6 @@ import { prisma } from "./prisma.js";
 let initialized = false;
 
 export function getFirebaseApp() {
-  
-  console.log("Firebase env check", {
-    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
-    FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
-    hasPrivateKey: !!process.env.FIREBASE_PRIVATE_KEY,
-  });
 
   if (!initialized) {
 
