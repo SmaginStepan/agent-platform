@@ -28,6 +28,8 @@ export async function pushSyncCommandsToDevice(deviceId: string, reason: string)
   });
 
   if (!device?.fcmToken) return;
+  
+  console.log("Sending FCM push", { deviceId, reason, hasToken: !!device?.fcmToken });
 
   const admin = getFirebaseApp();
 
