@@ -4,7 +4,15 @@ import { prisma } from "./prisma.js";
 let initialized = false;
 
 export function getFirebaseApp() {
+  
+  console.log("Firebase env check", {
+    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+    FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
+    hasPrivateKey: !!process.env.FIREBASE_PRIVATE_KEY,
+  });
+
   if (!initialized) {
+
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
@@ -12,6 +20,7 @@ export function getFirebaseApp() {
         privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
       }),
     });
+
     initialized = true;
   }
 
@@ -28,7 +37,8 @@ export async function pushSyncCommandsToDevice(deviceId: string, reason: string)
   });
 
   if (!device?.fcmToken) return;
-  
+
+
   console.log("Sending FCM push", { deviceId, reason, hasToken: !!device?.fcmToken });
 
   const admin = getFirebaseApp();

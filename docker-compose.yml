@@ -20,6 +20,9 @@ services:
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL}      
       PORT: "8080"
       UPLOADS_DIR: /app/uploads
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+      FIREBASE_CLIENT_EMAIL: ${FIREBASE_CLIENT_EMAIL}
+      FIREBASE_PRIVATE_KEY: ${FIREBASE_PRIVATE_KEY}
     depends_on:
       - db
     ports:
