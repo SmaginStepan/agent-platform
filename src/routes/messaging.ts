@@ -61,8 +61,9 @@ router.post("/v1/messages/aac", async (req, res) => {
 
   if (!targetUser) return res.status(404).json({ error: "Target user not found" });
 
-  const targetDevice = targetUser.devices[0];
-  if (!targetDevice) {
+  const targetDevices = targetUser.devices;
+
+  if (targetDevices.length === 0) {
     return res.status(409).json({ error: "Target user has no devices" });
   }
 
@@ -78,22 +79,24 @@ router.post("/v1/messages/aac", async (req, res) => {
 
   const cType = "aac_message_available";
 
-  await prisma.command.create({
-    data: {
-      deviceId: targetDevice.deviceId,
-      type: cType,
-      payload: {
-        messageId: message.id,
+  for (const targetDevice of targetDevices) {
+    await prisma.command.create({
+      data: {
+        deviceId: targetDevice.deviceId,
+        type: cType,
+        payload: {
+          messageId: message.id,
+        },
+        status: "queued",
       },
-      status: "queued",
-    },
-  });
+    });
 
-try {
-  await pushSyncCommandsToDevice(targetDevice.deviceId, cType);
-} catch (e) {
-  console.error("Failed to send FCM push for AAC message", e);
-}
+    try {
+      await pushSyncCommandsToDevice(targetDevice.deviceId, cType);
+    } catch (e) {
+      console.error("Failed to send FCM push for AAC message", e);
+    }
+  }
 
   res.json({ ok: true, messageId: message.id });
 });
@@ -213,11 +216,11 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
     return res.status(409).json({ error: "Message already answered" });
   }
 
-  const senderDevice = message.fromUser.devices[0];
-  if (!senderDevice) {
+  const senderDevices = message.fromUser.devices;
+
+  if (senderDevices.length === 0) {
     return res.status(409).json({ error: "Sender has no devices" });
   }
-
   const reply = await prisma.aacReply.create({
     data: {
       messageId: message.id,
@@ -236,22 +239,24 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
 
   const cType = "aac_reply_available";
 
-  await prisma.command.create({
-    data: {
-      deviceId: senderDevice.deviceId,
-      type: cType,
-      payload: {
-        messageId: message.id,
+  for (const senderDevice of senderDevices) {
+    await prisma.command.create({
+      data: {
+        deviceId: senderDevice.deviceId,
+        type: cType,
+        payload: {
+          messageId: message.id,
+        },
+        status: "queued",
       },
-      status: "queued",
-    },
-  });
+    });
 
-try {
-  await pushSyncCommandsToDevice(senderDevice.deviceId, cType);
-} catch (e) {
-  console.error("Failed to send FCM push for AAC message", e);
-}
+    try {
+      await pushSyncCommandsToDevice(senderDevice.deviceId, cType);
+    } catch (e) {
+      console.error("Failed to send FCM push for AAC reply", e);
+    }
+  }
 
   res.json({ ok: true, replyId: reply.id });
 });
