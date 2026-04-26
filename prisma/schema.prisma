@@ -237,6 +237,7 @@ model FamilyLibraryItem {
 
   setItems     FamilyLibrarySetItem[]
   coverForSets FamilyLibrarySet[]     @relation("LibrarySetCoverItem")
+  childHomeNodes ChildHomeNode[]
 
   @@index([familyId, createdAt])
   @@index([familyId, source, createdAt])
@@ -297,12 +298,17 @@ model ChildHomeNode {
   blinkEnabled Boolean  @default(true)
   blinkSeconds Int      @default(60)
 
+  item    FamilyLibraryItem @relation(fields: [itemId], references: [id])
+  targets ChildHomeNodeTarget[]
+
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
 
 model ChildHomeNodeTarget {
   id     String @id @default(cuid())
   nodeId String
   userId String
+  node   ChildHomeNode @relation(fields: [nodeId], references: [id], onDelete: Cascade)
 }
