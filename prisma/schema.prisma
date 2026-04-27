@@ -18,11 +18,12 @@ model Family {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users        User[]
-  invites      Invite[]
-  aacMessages  AacMessage[]
-  libraryItems FamilyLibraryItem[]
-  librarySets  FamilyLibrarySet[]
+  users          User[]
+  invites        Invite[]
+  aacMessages    AacMessage[]
+  libraryItems   FamilyLibraryItem[]
+  librarySets    FamilyLibrarySet[]
+  childHomeNodes ChildHomeNode[]
 }
 
 model User {
@@ -43,10 +44,11 @@ model User {
   sentMessages     AacMessage[] @relation("AacMessageFromUser")
   receivedMessages AacMessage[] @relation("AacMessageToUser")
 
-  sentReplies         AacReply[]          @relation("AacReplyFromUser")
-  receivedReplies     AacReply[]          @relation("AacReplyToUser")
+  sentReplies         AacReply[]            @relation("AacReplyFromUser")
+  receivedReplies     AacReply[]            @relation("AacReplyToUser")
   createdLibraryItems FamilyLibraryItem[]
   createdLibrarySets  FamilyLibrarySet[]
+  childHomeTargets    ChildHomeNodeTarget[]
 
   @@index([familyId])
   @@index([familyId, role])
@@ -235,8 +237,8 @@ model FamilyLibraryItem {
   createdByUser  User   @relation(fields: [createdByUserId], references: [id])
   avatarForUsers User[] @relation("UserAvatarItem")
 
-  setItems     FamilyLibrarySetItem[]
-  coverForSets FamilyLibrarySet[]     @relation("LibrarySetCoverItem")
+  setItems       FamilyLibrarySetItem[]
+  coverForSets   FamilyLibrarySet[]     @relation("LibrarySetCoverItem")
   childHomeNodes ChildHomeNode[]
 
   @@index([familyId, createdAt])
@@ -286,29 +288,33 @@ enum LibraryItemSource {
 }
 
 model ChildHomeNode {
-  id           String   @id @default(cuid())
-  familyId     String
-  itemId       String
-  parentId     String?
-  type         String   // MENU | ACTION
-  sortOrder    Int      @default(0)
+  id        String  @id @default(cuid())
+  familyId  String
+  itemId    String
+  parentId  String?
+  type      String // MENU | ACTION
+  sortOrder Int     @default(0)
 
-  targetMode   String   @default("ALL_PARENTS") // ALL_PARENTS | SELECTED_USERS | NONE
+  targetMode String @default("ALL_PARENTS") // ALL_PARENTS | SELECTED_USERS | NONE
 
-  blinkEnabled Boolean  @default(true)
-  blinkSeconds Int      @default(60)
+  blinkEnabled Boolean @default(true)
+  blinkSeconds Int     @default(60)
 
-  item    FamilyLibraryItem @relation(fields: [itemId], references: [id])
-  targets ChildHomeNodeTarget[]
+  family   Family                @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  item     FamilyLibraryItem     @relation(fields: [itemId], references: [id])
+  parent   ChildHomeNode?        @relation("ChildHomeTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children ChildHomeNode[]       @relation("ChildHomeTree")
+  targets  ChildHomeNodeTarget[]
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
 
 model ChildHomeNodeTarget {
   id     String @id @default(cuid())
   nodeId String
   userId String
-  node   ChildHomeNode @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+
+  node ChildHomeNode @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

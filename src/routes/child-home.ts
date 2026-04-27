@@ -36,6 +36,20 @@ function mapNode(node: any) {
   };
 }
 
+async function validateTargetUsers(familyId: string, userIds?: string[]) {
+  if (!userIds || userIds.length === 0) return true;
+
+  const count = await prisma.user.count({
+    where: {
+      id: { in: userIds },
+      familyId,
+      role: "PARENT",
+    },
+  });
+
+  return count === userIds.length;
+}
+
 router.get("/v1/child-home/nodes", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
@@ -94,6 +108,16 @@ router.post("/v1/child-home/nodes", async (req, res) => {
 
     if (!parent) return res.status(404).json({ error: "Parent menu not found" });
   }
+
+  if (parsed.data.targetMode === "SELECTED_USERS") {
+    const ok = await validateTargetUsers(
+      device.user.familyId,
+      parsed.data.targetUserIds
+    );
+
+    if (!ok) return res.status(400).json({ error: "Invalid target users" });
+  }
+
 
   const node = await prisma.childHomeNode.create({
     data: {
@@ -167,6 +191,18 @@ router.patch("/v1/child-home/nodes/:id", async (req, res) => {
     if (!parent) return res.status(404).json({ error: "Parent menu not found" });
   }
 
+  if (
+    bodyParsed.data.targetUserIds !== undefined ||
+    bodyParsed.data.targetMode === "SELECTED_USERS"
+  ) {
+    const ok = await validateTargetUsers(
+      device.user.familyId,
+      bodyParsed.data.targetUserIds
+    );
+
+    if (!ok) return res.status(400).json({ error: "Invalid target users" });
+  }
+
   const node = await prisma.$transaction(async (tx) => {
     if (bodyParsed.data.targetUserIds) {
       await tx.childHomeNodeTarget.deleteMany({
@@ -225,17 +261,22 @@ router.delete("/v1/child-home/nodes/:id", async (req, res) => {
 
   if (!node) return res.status(404).json({ error: "Node not found" });
 
+    const childrenCount = await prisma.childHomeNode.count({
+    where: {
+      familyId: device.user.familyId,
+      parentId: node.id,
+    },
+  });
+
+  if (childrenCount > 0) {
+    return res.status(409).json({ error: "Delete child nodes first" });
+  }
+
   await prisma.$transaction(async (tx) => {
     await tx.childHomeNodeTarget.deleteMany({
       where: { nodeId: node.id },
     });
 
-    await tx.childHomeNode.deleteMany({
-      where: {
-        familyId: device.user.familyId,
-        parentId: node.id,
-      },
-    });
 
     await tx.childHomeNode.delete({
       where: { id: node.id },
@@ -298,6 +339,7 @@ router.post("/v1/child-home/actions/:id/request", async (req, res) => {
     id: node.item.id,
     label: node.item.label,
     source: node.item.source,
+    sourceRef: node.item.sourceRef,
     imageUrl: buildLibraryItemImageUrl(node.item),
   };
 
