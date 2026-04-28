@@ -3,7 +3,15 @@ import { buildArasaacImageUrl, buildArasaacSearchUrl } from "../lib/url.helpers.
 import { router } from "../router.js";
 import { ArasaacSearchQuerySchema } from "../service/family.schemas.js";
 
-const ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
+const DEFAULT_ARASAAC_LANG = process.env.ARASAAC_LANG || "en";
+
+function normalizeArasaacLang(value: unknown): string {
+  const lang = String(value || "").trim().toLowerCase();
+
+  if (["en", "es", "ru"].includes(lang)) return lang;
+
+  return DEFAULT_ARASAAC_LANG;
+}
 
 router.get("/v1/arasaac/search", async (req, res) => {
   const device = await authDevice(req);
@@ -16,7 +24,8 @@ router.get("/v1/arasaac/search", async (req, res) => {
   if (!q) return res.json({ items: [] });
 
   try {
-    const url = buildArasaacSearchUrl(q, ARASAAC_LANG);
+    const lang = normalizeArasaacLang(req.query.lang);
+    const url = buildArasaacSearchUrl(q, lang);
     const response = await fetch(url, {
       headers: {
         "accept": "application/json",
