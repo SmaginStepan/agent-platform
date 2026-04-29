@@ -295,7 +295,8 @@ model ChildHomeNode {
   type      String // MENU | ACTION
   sortOrder Int     @default(0)
 
-  targetMode String @default("ALL_PARENTS") // ALL_PARENTS | SELECTED_USERS | NONE
+  targetMode    String  @default("ALL_PARENTS") // ALL_PARENTS | SELECTED_USERS | NONE
+  labelOverride String?
 
   blinkEnabled Boolean @default(true)
   blinkSeconds Int     @default(60)

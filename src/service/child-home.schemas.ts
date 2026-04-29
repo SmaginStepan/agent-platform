@@ -29,6 +29,7 @@ export const UpdateChildHomeNodeSchema = z.object({
   parentId: z.string().nullable().optional(),
   type: ChildHomeNodeTypeSchema.optional(),
   sortOrder: z.number().int().optional(),
+  labelOverride: z.string().trim().min(1).max(100).nullable().optional(),
 
   targetMode: ChildHomeTargetModeSchema.optional(),
   targetUserIds: z.array(z.string()).optional(),

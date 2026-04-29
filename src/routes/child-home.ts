@@ -226,6 +226,7 @@ router.patch("/v1/child-home/nodes/:id", async (req, res) => {
             ? undefined
             : bodyParsed.data.parentId,
         type: bodyParsed.data.type,
+        labelOverride: bodyParsed.data.labelOverride,
         sortOrder: bodyParsed.data.sortOrder,
         targetMode: bodyParsed.data.targetMode,
         blinkEnabled: bodyParsed.data.blinkEnabled,
