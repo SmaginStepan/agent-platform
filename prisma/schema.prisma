@@ -299,7 +299,7 @@ model ChildHomeNode {
   labelOverride String?
 
   blinkEnabled Boolean @default(true)
-  blinkSeconds Int     @default(60)
+  blinkSeconds Int     @default(10)
 
   family   Family                @relation(fields: [familyId], references: [id], onDelete: Cascade)
   item     FamilyLibraryItem     @relation(fields: [itemId], references: [id])
