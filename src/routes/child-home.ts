@@ -18,6 +18,7 @@ function mapNode(node: any) {
     parentId: node.parentId,
     type: node.type,
     sortOrder: node.sortOrder,
+    labelOverride: node.labelOverride,
     targetMode: node.targetMode,
     blinkEnabled: node.blinkEnabled,
     blinkSeconds: node.blinkSeconds,
@@ -26,7 +27,7 @@ function mapNode(node: any) {
     item: node.item
       ? {
           id: node.item.id,
-          label: node.item.label,
+          label: node.labelOverride ? node.labelOverride : node.item.label,
           source: node.item.source,
           sourceRef: node.item.sourceRef,
           imageUrl: buildLibraryItemImageUrl(node.item),
