@@ -19,6 +19,7 @@ function mapNode(node: any) {
     type: node.type,
     sortOrder: node.sortOrder,
     labelOverride: node.labelOverride,
+    isVisible: node.isVisible,
     targetMode: node.targetMode,
     blinkEnabled: node.blinkEnabled,
     blinkSeconds: node.blinkSeconds,
