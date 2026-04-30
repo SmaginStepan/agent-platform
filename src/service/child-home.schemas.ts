@@ -16,6 +16,8 @@ export const CreateChildHomeNodeSchema = z.object({
   parentId: z.string().nullable().optional(),
   type: ChildHomeNodeTypeSchema,
   sortOrder: z.number().int().optional(),
+  labelOverride: z.string().trim().min(1).max(100).nullable().optional(),
+  isVisible: z.boolean().optional(),
 
   targetMode: ChildHomeTargetModeSchema.optional(),
   targetUserIds: z.array(z.string()).optional(),
@@ -30,6 +32,7 @@ export const UpdateChildHomeNodeSchema = z.object({
   type: ChildHomeNodeTypeSchema.optional(),
   sortOrder: z.number().int().optional(),
   labelOverride: z.string().trim().min(1).max(100).nullable().optional(),
+  isVisible: z.boolean().optional(),
 
   targetMode: ChildHomeTargetModeSchema.optional(),
   targetUserIds: z.array(z.string()).optional(),

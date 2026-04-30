@@ -127,6 +127,8 @@ router.post("/v1/child-home/nodes", async (req, res) => {
       parentId: parsed.data.parentId ?? null,
       type: parsed.data.type,
       sortOrder: parsed.data.sortOrder ?? 0,
+      isVisible: parsed.data.isVisible ?? true  ,
+      labelOverride: parsed.data.labelOverride ?? null,
       targetMode: parsed.data.targetMode ?? "ALL_PARENTS",
       blinkEnabled: parsed.data.blinkEnabled ?? true,
       blinkSeconds: parsed.data.blinkSeconds ?? 60,
@@ -227,6 +229,7 @@ router.patch("/v1/child-home/nodes/:id", async (req, res) => {
             ? undefined
             : bodyParsed.data.parentId,
         type: bodyParsed.data.type,
+        isVisible: bodyParsed.data.isVisible,
         labelOverride: bodyParsed.data.labelOverride,
         sortOrder: bodyParsed.data.sortOrder,
         targetMode: bodyParsed.data.targetMode,

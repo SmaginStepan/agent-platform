@@ -297,6 +297,7 @@ model ChildHomeNode {
 
   targetMode    String  @default("ALL_PARENTS") // ALL_PARENTS | SELECTED_USERS | NONE
   labelOverride String?
+  isVisible     Boolean @default(true)
 
   blinkEnabled Boolean @default(true)
   blinkSeconds Int     @default(10)
