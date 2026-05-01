@@ -1,4 +1,5 @@
 import { PrismaClient, UserRole } from "@prisma/client";
+import { pushSyncCommandsToDevice } from "../lib/firebase.js";
 import {
   CreateFamilyRequest,
   CreateFamilyResponse,
@@ -181,6 +182,14 @@ export class FamilyService {
         status: "queued",
       })),
     });
+
+    for (const parentDevice of parentDevices) {
+      try {
+        await pushSyncCommandsToDevice(parentDevice.deviceId, "invite_used");
+      } catch (e) {
+        console.error("Failed to send FCM push for invite_used", e);
+      }
+    }
 
     return {
       familyId: invite.familyId,
