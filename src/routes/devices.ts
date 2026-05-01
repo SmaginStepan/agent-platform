@@ -255,6 +255,46 @@ router.patch("/v1/devices/:deviceId/name", async (req, res) => {
   }
 });
 
+router.delete("/v1/devices/:deviceId", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (device.user.role !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  try {
+    const target = await prisma.device.findFirst({
+      where: {
+        deviceId: req.params.deviceId,
+        user: {
+          familyId: device.user.familyId,
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!target) {
+      return res.status(404).json({ error: "Device not found" });
+    }
+
+    if (target.deviceId === device.deviceId) {
+      return res.status(400).json({ error: "Cannot delete current device" });
+    }
+
+    await prisma.device.delete({
+      where: { deviceId: target.deviceId },
+    });
+
+    return res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Failed to delete device" });
+  }
+});
+
 router.post("/v1/devices/fcm-token", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
