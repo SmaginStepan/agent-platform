@@ -21,6 +21,7 @@ export interface CreateInviteRequest {
 }
 
 export interface CreateInviteResponse {
+  inviteId: string;
   code: string;
   expiresAt: string;
 }

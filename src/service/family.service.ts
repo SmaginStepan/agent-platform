@@ -92,6 +92,7 @@ export class FamilyService {
     });
 
     return {
+      inviteId: invite.id,
       code: invite.code,
       expiresAt: invite.expiresAt.toISOString(),
     };
@@ -155,6 +156,30 @@ export class FamilyService {
     await this.prisma.invite.update({
       where: { id: invite.id },
       data: { usedAt: new Date() },
+    });
+
+    const parentDevices = await this.prisma.device.findMany({
+      where: {
+        user: {
+          familyId: invite.familyId,
+          role: UserRole.PARENT,
+        },
+      },
+      select: {
+        deviceId: true,
+      },
+    });
+
+    await this.prisma.command.createMany({
+      data: parentDevices.map((parentDevice) => ({
+        deviceId: parentDevice.deviceId,
+        type: "invite_used",
+        payload: {
+          inviteId: invite.id,
+          code: invite.code,
+        },
+        status: "queued",
+      })),
     });
 
     return {
