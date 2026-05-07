@@ -169,6 +169,11 @@ model Command {
   @@index([status, createdAt])
 }
 
+enum AacMessageMode {
+  NORMAL
+  SEQUENCE
+}
+
 model AacMessage {
   id String @id @default(cuid())
 
@@ -176,6 +181,8 @@ model AacMessage {
   fromUserId String
   toUserId   String
 
+  mode        AacMessageMode @default(NORMAL)
+  
   // Основное сообщение (карточки / фото / что угодно)
   message Json
 

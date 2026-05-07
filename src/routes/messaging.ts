@@ -67,15 +67,18 @@ router.post("/v1/messages/aac", async (req, res) => {
     return res.status(409).json({ error: "Target user has no devices" });
   }
 
-  const message = await prisma.aacMessage.create({
-    data: {
-      familyId: device.user.familyId,
-      fromUserId: device.user.id,
-      toUserId: targetUser.id,
-      message: parsed.data.cards,
-      suggestedReplies: parsed.data.suggestedReplies ?? [],
-    },
-  });
+const messageMode = parsed.data.mode ?? "NORMAL";
+
+const message = await prisma.aacMessage.create({
+  data: {
+    familyId: device.user.familyId,
+    fromUserId: device.user.id,
+    toUserId: targetUser.id,
+    mode: messageMode,
+    message: parsed.data.cards,
+    suggestedReplies: parsed.data.suggestedReplies ?? [],
+  },
+});
 
   const cType = "aac_message_available";
 
@@ -146,6 +149,7 @@ router.get("/v1/messages/aac/:id", async (req, res) => {
 
   res.json({
     id: message.id,
+    mode: message.mode,
     fromUser: {
       id: message.fromUser.id,
       name: message.fromUser.name ?? "",

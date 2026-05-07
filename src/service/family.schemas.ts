@@ -48,9 +48,18 @@ export const AacCardSchema = z.object({
 });
 
 export const SendAacMessageSchema = z.object({
-  targetUserId: z.string().min(1),
-  cards: z.array(AacCardSchema).min(1),
-  suggestedReplies: z.array(AacCardSchema).optional().default([]),
+  targetUserId: z.string(),
+  mode: z.enum(["NORMAL", "SEQUENCE"]).default("NORMAL"),
+  cards: z.any(),
+  suggestedReplies: z.array(z.any()).default([]),
+}).superRefine((data, ctx) => {
+  if (data.mode === "SEQUENCE" && data.suggestedReplies.length < 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["suggestedReplies"],
+      message: "SEQUENCE mode requires at least 2 suggested replies",
+    });
+  }
 });
 
 export const AacMessageIdParamsSchema = z.object({
