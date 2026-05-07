@@ -216,7 +216,7 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
     return res.status(403).json({ error: "Forbidden" });
   }
 
-  if (message.reply) {
+  if (message.reply && message.mode !== "SEQUENCE") {
     return res.status(409).json({ error: "Message already answered" });
   }
 
@@ -225,14 +225,22 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
   if (senderDevices.length === 0) {
     return res.status(409).json({ error: "Sender has no devices" });
   }
-  const reply = await prisma.aacReply.create({
-    data: {
-      messageId: message.id,
-      fromUserId: device.user.id,
-      toUserId: message.fromUserId,
-      reply: bodyParsed.data.reply,
-    },
-  });
+const reply = message.reply
+  ? await prisma.aacReply.update({
+      where: { id: message.reply.id },
+      data: {
+        reply: bodyParsed.data.reply,
+        createdAt: new Date(),
+      },
+    })
+  : await prisma.aacReply.create({
+      data: {
+        messageId: message.id,
+        fromUserId: device.user.id,
+        toUserId: message.fromUserId,
+        reply: bodyParsed.data.reply,
+      },
+    });
 
   await prisma.aacMessage.update({
     where: { id: message.id },
@@ -339,6 +347,7 @@ router.get("/v1/messages/aac", async (req, res) => {
     items: items.map((m) => ({
       id: m.id,
       familyId: m.familyId,
+      mode: m.mode,
 
       fromUserId: m.fromUserId,
       toUserId: m.toUserId,
