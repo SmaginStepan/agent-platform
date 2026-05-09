@@ -40,24 +40,51 @@ export const ArasaacSearchQuerySchema = z.object({
   q: z.string().trim().min(1),
 });
 
-export const AacCardSchema = z.object({
-  id: z.string().min(1),
-  label: z.string().min(1),
-  imageUrl: z.string().url(),
-  source: z.enum(["ARASAAC", "FAMILY_PHOTO"]).optional().default("ARASAAC"),
+const AacCardSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  imageUrl: z.string().nullable().optional(),
+  source: z.string(),
+  sourceRef: z.string().nullable().optional(),
+  storageKey: z.string().nullable().optional(),
+}).catchall(z.unknown());
+
+const AacWaitStepSchema = z.object({
+  type: z.literal("WAIT"),
+  seconds: z.number().int().min(1).max(24 * 60 * 60),
 });
+
+const AacSuggestedReplySchema = z.union([
+  AacCardSchema,
+  AacWaitStepSchema,
+]);
 
 export const SendAacMessageSchema = z.object({
   targetUserId: z.string(),
+
   mode: z.enum(["NORMAL", "SEQUENCE"]).default("NORMAL"),
-  cards: z.any(),
-  suggestedReplies: z.array(z.any()).default([]),
+
+  cards: z.array(AacCardSchema),
+
+  suggestedReplies: z.array(AacSuggestedReplySchema).default([]),
 }).superRefine((data, ctx) => {
   if (data.mode === "SEQUENCE" && data.suggestedReplies.length < 2) {
     ctx.addIssue({
-      code: z.ZodIssueCode.custom,
+      code: "custom",
       path: ["suggestedReplies"],
-      message: "SEQUENCE mode requires at least 2 suggested replies",
+      message: "SEQUENCE mode requires at least 2 steps",
+    });
+  }
+
+  if (data.mode !== "SEQUENCE") {
+    data.suggestedReplies.forEach((reply, index) => {
+      if ("type" in reply && reply.type === "WAIT") {
+        ctx.addIssue({
+          code: "custom",
+          path: ["suggestedReplies", index],
+          message: "WAIT steps are allowed only in SEQUENCE mode",
+        });
+      }
     });
   }
 });

@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma.js";
+import type { Prisma } from "@prisma/client";
 import { authDevice } from "../lib/auth.utils.js";
 import { AacMessageIdParamsSchema, GetAacMessagesQuerySchema, SendAacMessageSchema, SendAacReplySchema } from "../service/family.schemas.js";
 import { router } from "../router.js";
@@ -69,14 +70,23 @@ router.post("/v1/messages/aac", async (req, res) => {
 
 const messageMode = parsed.data.mode ?? "NORMAL";
 
+if (
+  messageMode !== "SEQUENCE" &&
+  parsed.data.suggestedReplies.some((x: any) => x?.type === "WAIT")
+) {
+  return res.status(400).json({
+    error: "WAIT steps are allowed only in SEQUENCE mode",
+  });
+}
+
 const message = await prisma.aacMessage.create({
   data: {
     familyId: device.user.familyId,
     fromUserId: device.user.id,
     toUserId: targetUser.id,
     mode: messageMode,
-    message: parsed.data.cards,
-    suggestedReplies: parsed.data.suggestedReplies ?? [],
+    message: parsed.data.cards as Prisma.InputJsonValue,
+    suggestedReplies: parsed.data.suggestedReplies as Prisma.InputJsonValue,
   },
 });
 
@@ -225,22 +235,23 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
   if (senderDevices.length === 0) {
     return res.status(409).json({ error: "Sender has no devices" });
   }
-const reply = message.reply
-  ? await prisma.aacReply.update({
-      where: { id: message.reply.id },
-      data: {
-        reply: bodyParsed.data.reply,
-        createdAt: new Date(),
-      },
-    })
-  : await prisma.aacReply.create({
-      data: {
-        messageId: message.id,
-        fromUserId: device.user.id,
-        toUserId: message.fromUserId,
-        reply: bodyParsed.data.reply,
-      },
-    });
+
+  const reply = message.reply
+    ? await prisma.aacReply.update({
+        where: { id: message.reply.id },
+        data: {
+          reply: bodyParsed.data.reply as Prisma.InputJsonValue,
+          createdAt: new Date(),
+        },
+      })
+    : await prisma.aacReply.create({
+        data: {
+          messageId: message.id,
+          fromUserId: device.user.id,
+          toUserId: message.fromUserId,
+          reply: bodyParsed.data.reply as Prisma.InputJsonValue,
+        },
+      });
 
   await prisma.aacMessage.update({
     where: { id: message.id },
