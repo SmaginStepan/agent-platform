@@ -330,9 +330,10 @@ router.get("/v1/library/sets", async (req, res) => {
           },
         },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: [
+        { sortOrder: "asc" },
+        { createdAt: "desc" },
+      ],
     });
 
     return res.json({
@@ -349,6 +350,49 @@ router.get("/v1/library/sets", async (req, res) => {
   } catch (e) {
     console.error("library sets list failed", e);
     return res.status(500).json({ error: "Failed to load library sets" });
+  }
+});
+
+router.post("/v1/library/sets/move", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const setIds = uniquePreserveOrder(normalizeStringArray(req.body?.setIds));
+
+  if (setIds.length === 0) {
+    return res.status(400).json({ error: "setIds is required" });
+  }
+
+  try {
+    const existingSets = await prisma.familyLibrarySet.findMany({
+      where: {
+        familyId: device.user.familyId,
+        id: { in: setIds },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (existingSets.length !== setIds.length) {
+      return res.status(400).json({
+        error: "Some setIds do not belong to this family",
+      });
+    }
+
+    await prisma.$transaction(
+      setIds.map((setId, index) =>
+        prisma.familyLibrarySet.update({
+          where: { id: setId },
+          data: { sortOrder: index },
+        })
+      )
+    );
+
+    return res.json({ ok: true });
+  } catch (e) {
+    console.error("library sets move failed", e);
+    return res.status(500).json({ error: "Failed to reorder library sets" });
   }
 });
 
@@ -419,9 +463,24 @@ router.post("/v1/library/sets", async (req, res) => {
       return res.status(400).json({ error: "coverItemId does not belong to this family" });
     }
 
+    const lastSet = await prisma.familyLibrarySet.findFirst({
+      where: {
+        familyId: device.user.familyId,
+      },
+      orderBy: {
+        sortOrder: "desc",
+      },
+      select: {
+        sortOrder: true,
+      },
+    });
+
+    const nextSortOrder = (lastSet?.sortOrder ?? -1) + 1;
+
     const created = await prisma.familyLibrarySet.create({
       data: {
         familyId: device.user.familyId,
+        sortOrder: nextSortOrder,
         createdByUserId: device.user.id,
         name,
         coverItemId,
