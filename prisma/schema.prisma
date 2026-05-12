@@ -181,8 +181,8 @@ model AacMessage {
   fromUserId String
   toUserId   String
 
-  mode        AacMessageMode @default(NORMAL)
-  
+  mode AacMessageMode @default(NORMAL)
+
   // Основное сообщение (карточки / фото / что угодно)
   message Json
 
@@ -193,9 +193,10 @@ model AacMessage {
   answeredAt DateTime?
 
   // связи
-  family   Family @relation(fields: [familyId], references: [id])
-  fromUser User   @relation("AacMessageFromUser", fields: [fromUserId], references: [id])
-  toUser   User   @relation("AacMessageToUser", fields: [toUserId], references: [id])
+
+  family   Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  fromUser User   @relation("AacMessageFromUser", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser   User   @relation("AacMessageToUser", fields: [toUserId], references: [id], onDelete: Cascade)
 
   reply AacReply?
 
@@ -213,9 +214,9 @@ model AacReply {
   createdAt  DateTime @default(now())
 
   // связи
-  message  AacMessage @relation(fields: [messageId], references: [id])
-  fromUser User       @relation("AacReplyFromUser", fields: [fromUserId], references: [id])
-  toUser   User       @relation("AacReplyToUser", fields: [toUserId], references: [id])
+  message  AacMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  fromUser User       @relation("AacReplyFromUser", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser   User       @relation("AacReplyToUser", fields: [toUserId], references: [id], onDelete: Cascade)
 
   @@index([fromUserId])
   @@index([toUserId])
@@ -240,8 +241,8 @@ model FamilyLibraryItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  family         Family @relation(fields: [familyId], references: [id])
-  createdByUser  User   @relation(fields: [createdByUserId], references: [id])
+  family         Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  createdByUser  User   @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
   avatarForUsers User[] @relation("UserAvatarItem")
 
   setItems       FamilyLibrarySetItem[]
@@ -266,9 +267,9 @@ model FamilyLibrarySet {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  family        Family             @relation(fields: [familyId], references: [id])
-  createdByUser User               @relation(fields: [createdByUserId], references: [id])
-  coverItem     FamilyLibraryItem? @relation("LibrarySetCoverItem", fields: [coverItemId], references: [id])
+  family        Family             @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  createdByUser User               @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
+  coverItem     FamilyLibraryItem? @relation("LibrarySetCoverItem", fields: [coverItemId], references: [id], onDelete: SetNull)
 
   items FamilyLibrarySetItem[]
 
@@ -312,7 +313,7 @@ model ChildHomeNode {
   blinkSeconds Int     @default(10)
 
   family   Family                @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  item     FamilyLibraryItem     @relation(fields: [itemId], references: [id])
+  item     FamilyLibraryItem     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   parent   ChildHomeNode?        @relation("ChildHomeTree", fields: [parentId], references: [id], onDelete: Cascade)
   children ChildHomeNode[]       @relation("ChildHomeTree")
   targets  ChildHomeNodeTarget[]

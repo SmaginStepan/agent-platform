@@ -181,3 +181,72 @@ router.patch("/v1/users/:userId", async (req, res) => {
     return res.status(500).json({ error: "Failed to update user" });
   }
 });
+
+router.delete("/v1/users/:userId", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (device.user.role !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  const userId = req.params.userId;
+
+  if (userId === device.user.id) {
+    return res.status(400).json({ error: "Cannot delete current user" });
+  }
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+        familyId: device.user.familyId,
+      },
+      select: {
+        id: true,
+        role: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.device.deleteMany({
+        where: { userId: user.id },
+      });
+
+      await tx.user.delete({
+        where: { id: user.id },
+      });
+    });
+
+    return res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
+router.delete("/v1/families/me", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  if (device.user.role !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
+  try {
+    await prisma.family.delete({
+      where: {
+        id: device.user.familyId,
+      },
+    });
+
+    return res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Failed to delete family" });
+  }
+});
