@@ -5,6 +5,7 @@ import "./routes/devices.js";
 import "./routes/family.js";
 import "./routes/library-items.js";
 import "./routes/library-sets.js";
+import "./routes/library-set-items.js";
 import "./routes/messaging.js";
 import "./routes/users.js";
 import "./routes/child-home.js";
