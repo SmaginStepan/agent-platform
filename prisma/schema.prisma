@@ -182,6 +182,7 @@ model AacMessage {
   toUserId   String
 
   mode AacMessageMode @default(NORMAL)
+  requiredReplyCount Int @default(1)
 
   // Основное сообщение (карточки / фото / что угодно)
   message Json

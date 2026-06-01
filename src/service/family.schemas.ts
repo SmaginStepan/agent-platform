@@ -67,6 +67,8 @@ export const SendAacMessageSchema = z.object({
   cards: z.array(AacCardSchema),
 
   suggestedReplies: z.array(AacSuggestedReplySchema).default([]),
+
+  requiredReplyCount: z.number().int().min(1).max(4).default(1),
 }).superRefine((data, ctx) => {
   if (data.mode === "SEQUENCE" && data.suggestedReplies.length < 2) {
     ctx.addIssue({
@@ -86,6 +88,22 @@ export const SendAacMessageSchema = z.object({
         });
       }
     });
+
+    if (data.requiredReplyCount > data.suggestedReplies.length) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["requiredReplyCount"],
+        message: "requiredReplyCount cannot be greater than suggestedReplies count",
+      });
+    }
+  }
+
+  if (data.mode === "SEQUENCE" && data.requiredReplyCount !== 1) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["requiredReplyCount"],
+      message: "requiredReplyCount is supported only in NORMAL mode",
+    });
   }
 });
 
@@ -94,7 +112,10 @@ export const AacMessageIdParamsSchema = z.object({
 });
 
 export const SendAacReplySchema = z.object({
-  reply: AacCardSchema,
+  reply: z.union([
+    AacCardSchema,
+    z.array(AacCardSchema).min(1).max(4),
+  ]),
 });
 
 export const GetAacMessagesQuerySchema = z.object({

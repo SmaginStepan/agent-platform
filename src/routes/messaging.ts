@@ -85,6 +85,7 @@ const message = await prisma.aacMessage.create({
     fromUserId: device.user.id,
     toUserId: targetUser.id,
     mode: messageMode,
+    requiredReplyCount: parsed.data.requiredReplyCount,
     message: parsed.data.cards as Prisma.InputJsonValue,
     suggestedReplies: parsed.data.suggestedReplies as Prisma.InputJsonValue,
   },
@@ -160,6 +161,7 @@ router.get("/v1/messages/aac/:id", async (req, res) => {
   res.json({
     id: message.id,
     mode: message.mode,
+    requiredReplyCount: message.requiredReplyCount,
     fromUser: {
       id: message.fromUser.id,
       name: message.fromUser.name ?? "",
@@ -229,6 +231,34 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
   if (message.reply && message.mode !== "SEQUENCE") {
     return res.status(409).json({ error: "Message already answered" });
   }
+  
+  if (message.mode === "NORMAL") {
+  const replyCards = Array.isArray(bodyParsed.data.reply)
+    ? bodyParsed.data.reply
+    : [bodyParsed.data.reply];
+
+  if (replyCards.length !== message.requiredReplyCount) {
+    return res.status(400).json({
+      error: `Exactly ${message.requiredReplyCount} replies required`,
+    });
+  }
+
+  const suggestedReplies = Array.isArray(message.suggestedReplies)
+    ? message.suggestedReplies
+    : [];
+
+  const allowedIds = new Set(
+    suggestedReplies
+      .map((x: any) => x?.id)
+      .filter(Boolean)
+  );
+
+  if (replyCards.some((card: any) => !allowedIds.has(card.id))) {
+    return res.status(400).json({
+      error: "Reply contains unknown suggested reply card",
+    });
+  }
+}
 
   const senderDevices = message.fromUser.devices;
 
@@ -359,6 +389,7 @@ router.get("/v1/messages/aac", async (req, res) => {
       id: m.id,
       familyId: m.familyId,
       mode: m.mode,
+      requiredReplyCount: m.requiredReplyCount,
 
       fromUserId: m.fromUserId,
       toUserId: m.toUserId,
