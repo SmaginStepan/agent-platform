@@ -40,7 +40,7 @@ router.post("/v1/schedule/items", async (req, res) => {
       familyId: device.user.familyId,
       mode: parsed.data.mode,
       weekday: parsed.data.mode === "WEEKDAY" ? parsed.data.weekday : null,
-      date: parsed.data.mode === "DATE" ? new Date(parsed.data.date) : null,
+      date: parsed.data.mode === "DATE" ? new Date(parsed.data.date!) : null,
       time: parsed.data.time,
       cards: parsed.data.cards as Prisma.InputJsonValue,
       sortOrder: parsed.data.sortOrder ?? 0,
