@@ -24,6 +24,7 @@ model Family {
   libraryItems   FamilyLibraryItem[]
   librarySets    FamilyLibrarySet[]
   childHomeNodes ChildHomeNode[]
+  scheduleItems  ScheduleItem[]
 }
 
 model User {
@@ -181,8 +182,8 @@ model AacMessage {
   fromUserId String
   toUserId   String
 
-  mode AacMessageMode @default(NORMAL)
-  requiredReplyCount Int @default(1)
+  mode               AacMessageMode @default(NORMAL)
+  requiredReplyCount Int            @default(1)
 
   // Основное сообщение (карточки / фото / что угодно)
   message Json
@@ -330,4 +331,41 @@ model ChildHomeNodeTarget {
 
   node ChildHomeNode @relation(fields: [nodeId], references: [id], onDelete: Cascade)
   user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum ScheduleItemMode {
+  WEEKDAY
+  DATE
+}
+
+model ScheduleItem {
+  id       String @id @default(cuid())
+  familyId String
+
+  mode ScheduleItemMode
+
+  // WEEKDAY: 1..7, например 1 = Monday
+  weekday Int?
+
+  // DATE: конкретный день YYYY-MM-DD
+  date DateTime?
+
+  // Время начала события
+  time String // "21:00"
+
+  // Список карточек: сон, еда, школа...
+  cards Json
+
+  sortOrder Int     @default(0)
+  isEnabled Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@index([familyId])
+  @@index([familyId, mode])
+  @@index([familyId, weekday])
+  @@index([familyId, date])
 }

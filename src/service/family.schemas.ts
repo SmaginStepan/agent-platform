@@ -132,3 +132,37 @@ export const UpdateNameSchema = z.object({
 export const updateMyAvatarSchema = z.object({
   avatarItemId: z.string().min(1).nullable(),
 });
+
+const TimeHHmmSchema = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/);
+
+export const ScheduleItemIdParamsSchema = z.object({
+  id: z.string().min(1),
+});
+
+export const CreateScheduleItemSchema = z.object({
+  mode: z.enum(["WEEKDAY", "DATE"]),
+  weekday: z.number().int().min(1).max(7).optional(),
+  date: z.string().date().optional(),
+  time: TimeHHmmSchema,
+  cards: z.array(AacCardSchema).min(1),
+  sortOrder: z.number().int().optional(),
+  isEnabled: z.boolean().optional(),
+}).superRefine((data, ctx) => {
+  if (data.mode === "WEEKDAY" && data.weekday == null) {
+    ctx.addIssue({ code: "custom", path: ["weekday"], message: "weekday is required" });
+  }
+
+  if (data.mode === "DATE" && !data.date) {
+    ctx.addIssue({ code: "custom", path: ["date"], message: "date is required" });
+  }
+});
+
+export const UpdateScheduleItemSchema = z.object({
+  mode: z.enum(["WEEKDAY", "DATE"]).optional(),
+  weekday: z.number().int().min(1).max(7).optional(),
+  date: z.string().date().optional(),
+  time: TimeHHmmSchema.optional(),
+  cards: z.array(AacCardSchema).min(1).optional(),
+  sortOrder: z.number().int().optional(),
+  isEnabled: z.boolean().optional(),
+});

@@ -6,6 +6,10 @@ import { router } from "../router.js";
 import { buildLibraryItemImageUrl } from "../lib/url.helpers.js";
 import { pushSyncCommandsToDevice } from "../lib/firebase.js";
 
+function normalizeReplyCards(reply: unknown): unknown[] {
+  if (!reply) return [];
+  return Array.isArray(reply) ? reply : [reply];
+}
 
 router.get("/v1/commands/pending", async (req, res) => {
   const device = await authDevice(req);
@@ -185,7 +189,7 @@ router.get("/v1/messages/aac/:id", async (req, res) => {
     reply: message.reply
       ? {
           id: message.reply.id,
-          reply: message.reply.reply,
+          reply: normalizeReplyCards(message.reply.reply),
           createdAt: message.reply.createdAt.toISOString(),
         }
       : null,
@@ -426,7 +430,7 @@ router.get("/v1/messages/aac", async (req, res) => {
           id: m.reply.id,
           messageId: m.reply.messageId,
           fromUserId: m.reply.fromUserId,
-          reply: m.reply.reply,
+          reply: normalizeReplyCards(m.reply.reply),
           createdAt: m.reply.createdAt,
         }
         : null,

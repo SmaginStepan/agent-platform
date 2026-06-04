@@ -9,6 +9,7 @@ import "./routes/library-set-items.js";
 import "./routes/messaging.js";
 import "./routes/users.js";
 import "./routes/child-home.js";
+import "./routes/schedule.js";
 import { router } from "./router.js";
 import path from "path";
 
