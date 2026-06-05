@@ -102,8 +102,7 @@ async function runScheduleTick() {
       const childDevices = await prisma.device.findMany({
         where: {
           user: {
-            familyId: family.id,
-            role: "CHILD",
+            familyId: family.id
           },
         },
       });
