@@ -25,6 +25,15 @@ model Family {
   librarySets    FamilyLibrarySet[]
   childHomeNodes ChildHomeNode[]
   scheduleItems  ScheduleItem[]
+  scheduleRuntimeState ScheduleRuntimeState?
+}
+
+model ScheduleRuntimeState {
+  familyId             String   @id
+  activeScheduleItemId String?
+  updatedAt            DateTime @updatedAt
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
 }
 
 model User {

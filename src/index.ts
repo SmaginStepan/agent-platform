@@ -11,6 +11,7 @@ import "./routes/users.js";
 import "./routes/child-home.js";
 import "./routes/schedule.js";
 import { router } from "./router.js";
+import { startScheduleWorker } from "./workers/schedule.worker.js";
 import path from "path";
 
 const app = express();
@@ -36,6 +37,8 @@ app.get("/account-deletion", (_, res) => {
 app.get("/privacy", (_, res) => {
   res.sendFile(path.join(process.cwd(), "src/assets", "privacy.html"))
 });
+
+startScheduleWorker();
 
 const port = Number(process.env.PORT || 8080);
 app.listen(port, "0.0.0.0", () => console.log(`API on :${port}`));
