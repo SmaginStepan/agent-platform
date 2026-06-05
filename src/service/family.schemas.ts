@@ -145,6 +145,8 @@ export const CreateScheduleItemSchema = z.object({
   date: z.string().date().optional(),
   time: TimeHHmmSchema,
   cards: z.array(AacCardSchema).min(1),
+  forceShowChildHomeNodeIds: z.array(z.string()).optional(),
+  forceHideChildHomeNodeIds: z.array(z.string()).optional(),
   sortOrder: z.number().int().optional(),
   isEnabled: z.boolean().optional(),
 }).superRefine((data, ctx) => {
@@ -163,6 +165,8 @@ export const UpdateScheduleItemSchema = z.object({
   date: z.string().date().optional(),
   time: TimeHHmmSchema.optional(),
   cards: z.array(AacCardSchema).min(1).optional(),
+  forceShowChildHomeNodeIds: z.array(z.string()).optional(),
+  forceHideChildHomeNodeIds: z.array(z.string()).optional(),
   sortOrder: z.number().int().optional(),
   isEnabled: z.boolean().optional(),
 });

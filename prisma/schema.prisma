@@ -356,6 +356,9 @@ model ScheduleItem {
   // Список карточек: сон, еда, школа...
   cards Json
 
+  forceShowChildHomeNodeIds Json?
+  forceHideChildHomeNodeIds Json?
+
   sortOrder Int     @default(0)
   isEnabled Boolean @default(true)
 

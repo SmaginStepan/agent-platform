@@ -43,6 +43,10 @@ router.post("/v1/schedule/items", async (req, res) => {
       date: parsed.data.mode === "DATE" ? new Date(parsed.data.date!) : null,
       time: parsed.data.time,
       cards: parsed.data.cards as Prisma.InputJsonValue,
+      forceShowChildHomeNodeIds:
+        parsed.data.forceShowChildHomeNodeIds as Prisma.InputJsonValue | undefined,
+      forceHideChildHomeNodeIds:
+        parsed.data.forceHideChildHomeNodeIds as Prisma.InputJsonValue | undefined,
       sortOrder: parsed.data.sortOrder ?? 0,
       isEnabled: parsed.data.isEnabled ?? true,
     },
@@ -93,6 +97,10 @@ router.patch("/v1/schedule/items/:id", async (req, res) => {
 
       time: bodyParsed.data.time,
       cards: bodyParsed.data.cards as Prisma.InputJsonValue | undefined,
+      forceShowChildHomeNodeIds:
+        bodyParsed.data.forceShowChildHomeNodeIds as Prisma.InputJsonValue | undefined,
+      forceHideChildHomeNodeIds:
+        bodyParsed.data.forceHideChildHomeNodeIds as Prisma.InputJsonValue | undefined,      
       sortOrder: bodyParsed.data.sortOrder,
       isEnabled: bodyParsed.data.isEnabled,
     },
