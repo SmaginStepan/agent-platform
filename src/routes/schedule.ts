@@ -18,7 +18,6 @@ router.get("/v1/schedule/items", async (req, res) => {
     },
     orderBy: [
       { mode: "asc" },
-      { weekday: "asc" },
       { date: "asc" },
       { time: "asc" },
       { sortOrder: "asc" },
@@ -39,7 +38,7 @@ router.post("/v1/schedule/items", async (req, res) => {
     data: {
       familyId: device.user.familyId,
       mode: parsed.data.mode,
-      weekday: parsed.data.mode === "WEEKDAY" ? parsed.data.weekday : null,
+      weekdays: parsed.data.mode === "WEEKDAY" ? (parsed.data.weekdays ?? []) : [],
       date: parsed.data.mode === "DATE" ? new Date(parsed.data.date!) : null,
       time: parsed.data.time,
       cards: parsed.data.cards as Prisma.InputJsonValue,
@@ -83,10 +82,10 @@ router.patch("/v1/schedule/items/:id", async (req, res) => {
     data: {
       mode: bodyParsed.data.mode,
 
-      weekday:
+      weekdays:
         nextMode === "WEEKDAY"
-          ? bodyParsed.data.weekday ?? existing.weekday
-          : null,
+          ? bodyParsed.data.weekdays ?? existing.weekdays
+          : [],
 
       date:
         nextMode === "DATE"

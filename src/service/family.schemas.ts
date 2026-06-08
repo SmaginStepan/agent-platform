@@ -141,7 +141,7 @@ export const ScheduleItemIdParamsSchema = z.object({
 
 export const CreateScheduleItemSchema = z.object({
   mode: z.enum(["WEEKDAY", "DATE"]),
-  weekday: z.number().int().min(1).max(7).optional(),
+  weekdays: z.array(z.number().int().min(1).max(7)).min(1).optional(),
   date: z.string().date().optional(),
   time: TimeHHmmSchema,
   cards: z.array(AacCardSchema).min(1),
@@ -150,8 +150,8 @@ export const CreateScheduleItemSchema = z.object({
   sortOrder: z.number().int().optional(),
   isEnabled: z.boolean().optional(),
 }).superRefine((data, ctx) => {
-  if (data.mode === "WEEKDAY" && data.weekday == null) {
-    ctx.addIssue({ code: "custom", path: ["weekday"], message: "weekday is required" });
+  if (data.mode === "WEEKDAY" && !data.weekdays?.length) {
+    ctx.addIssue({ code: "custom", path: ["weekdays"], message: "weekdays is required" });
   }
 
   if (data.mode === "DATE" && !data.date) {
@@ -161,7 +161,7 @@ export const CreateScheduleItemSchema = z.object({
 
 export const UpdateScheduleItemSchema = z.object({
   mode: z.enum(["WEEKDAY", "DATE"]).optional(),
-  weekday: z.number().int().min(1).max(7).optional(),
+  weekdays: z.array(z.number().int().min(1).max(7)).min(1).optional(),
   date: z.string().date().optional(),
   time: TimeHHmmSchema.optional(),
   cards: z.array(AacCardSchema).min(1).optional(),

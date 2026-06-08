@@ -354,7 +354,7 @@ model ScheduleItem {
   mode ScheduleItemMode
 
   // WEEKDAY: 1..7, например 1 = Monday
-  weekday Int?
+  weekdays Int[]
 
   // DATE: конкретный день YYYY-MM-DD
   date DateTime?
@@ -378,6 +378,5 @@ model ScheduleItem {
 
   @@index([familyId])
   @@index([familyId, mode])
-  @@index([familyId, weekday])
   @@index([familyId, date])
 }

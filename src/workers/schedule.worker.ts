@@ -42,7 +42,7 @@ async function runScheduleTick() {
           time: { lte: time },
           OR: [
             { mode: "DATE", date: today },
-            { mode: "WEEKDAY", weekday },
+            { mode: "WEEKDAY", weekdays: { has: weekday } },
           ],
         },
         orderBy: [
