@@ -37,6 +37,7 @@ router.post("/v1/schedule/items", async (req, res) => {
   const item = await prisma.scheduleItem.create({
     data: {
       familyId: device.user.familyId,
+      name: parsed.data.name,
       mode: parsed.data.mode,
       weekdays: parsed.data.mode === "WEEKDAY" ? (parsed.data.weekdays ?? []) : [],
       date: parsed.data.mode === "DATE" ? new Date(parsed.data.date!) : null,
@@ -80,6 +81,7 @@ router.patch("/v1/schedule/items/:id", async (req, res) => {
       id: existing.id,
     },
     data: {
+      name: bodyParsed.data.name,
       mode: bodyParsed.data.mode,
 
       weekdays:

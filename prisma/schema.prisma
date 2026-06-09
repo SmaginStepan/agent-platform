@@ -351,6 +351,8 @@ model ScheduleItem {
   id       String @id @default(cuid())
   familyId String
 
+  name String?
+
   mode ScheduleItemMode
 
   // WEEKDAY: 1..7, например 1 = Monday

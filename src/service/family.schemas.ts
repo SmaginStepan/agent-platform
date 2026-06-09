@@ -140,6 +140,7 @@ export const ScheduleItemIdParamsSchema = z.object({
 });
 
 export const CreateScheduleItemSchema = z.object({
+  name: z.string().optional(),
   mode: z.enum(["WEEKDAY", "DATE"]),
   weekdays: z.array(z.number().int().min(1).max(7)).min(1).optional(),
   date: z.string().date().optional(),
@@ -160,6 +161,7 @@ export const CreateScheduleItemSchema = z.object({
 });
 
 export const UpdateScheduleItemSchema = z.object({
+  name: z.string().optional(),
   mode: z.enum(["WEEKDAY", "DATE"]).optional(),
   weekdays: z.array(z.number().int().min(1).max(7)).min(1).optional(),
   date: z.string().date().optional(),
