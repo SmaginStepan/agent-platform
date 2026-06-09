@@ -313,32 +313,25 @@ router.post("/v1/child-home/actions/:id/request", async (req, res) => {
 
   if (!node) return res.status(404).json({ error: "Action not found" });
 
-  let recipients: Array<{ id: string; devices: Array<{ deviceId: string }> }> =
-    [];
+  type Recipient = { id: string; deviceIds: string[] };
+  let recipients: Recipient[] = [];
+
+  const toRecipients = (users: Array<{ id: string; deviceUsers: Array<{ device: { deviceId: string } }> }>): Recipient[] =>
+    users.map((u) => ({ id: u.id, deviceIds: u.deviceUsers.map((du) => du.device.deviceId) }));
 
   if (node.targetMode === "ALL_PARENTS") {
-    recipients = await prisma.user.findMany({
-      where: {
-        familyId: device.user.familyId,
-        role: "PARENT",
-      },
-      include: {
-        devices: true,
-      },
+    const users = await prisma.user.findMany({
+      where: { familyId: device.user.familyId, role: "PARENT" },
+      include: { deviceUsers: { include: { device: { select: { deviceId: true } } } } },
     });
+    recipients = toRecipients(users);
   } else if (node.targetMode === "SELECTED_USERS") {
     const userIds = node.targets.map((t: any) => t.userId);
-
-    recipients = await prisma.user.findMany({
-      where: {
-        familyId: device.user.familyId,
-        id: { in: userIds },
-        role: "PARENT",
-      },
-      include: {
-        devices: true,
-      },
+    const users = await prisma.user.findMany({
+      where: { familyId: device.user.familyId, id: { in: userIds }, role: "PARENT" },
+      include: { deviceUsers: { include: { device: { select: { deviceId: true } } } } },
     });
+    recipients = toRecipients(users);
   }
 
   const requestCard = {
@@ -362,20 +355,12 @@ router.post("/v1/child-home/actions/:id/request", async (req, res) => {
       },
     });
 
-    for (const targetDevice of recipient.devices) {
+    for (const deviceId of recipient.deviceIds) {
       await prisma.command.create({
-        data: {
-          deviceId: targetDevice.deviceId,
-          type: cType,
-          payload: {
-            messageId: message.id,
-          },
-          status: "queued",
-        },
+        data: { deviceId, type: cType, payload: { messageId: message.id }, status: "queued" },
       });
-
       try {
-        await pushSyncCommandsToDevice(targetDevice.deviceId, cType);
+        await pushSyncCommandsToDevice(deviceId, cType);
       } catch (e) {
         console.error("Failed to send FCM push for child request", e);
       }

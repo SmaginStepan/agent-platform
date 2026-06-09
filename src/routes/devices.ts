@@ -38,8 +38,14 @@ router.post("/v1/devices/register", async (req, res) => {
 
   const device = await prisma.device.upsert({
     where: { deviceId },
-    update: { name: name ?? null, tokenHash, userId: owner.id },
-    create: { deviceId, name: name ?? null, tokenHash, userId: owner.id },
+    update: { name: name ?? null, tokenHash },
+    create: { deviceId, name: name ?? null, tokenHash },
+  });
+
+  await prisma.deviceUser.upsert({
+    where: { deviceId_userId: { deviceId: device.deviceId, userId: owner.id } },
+    create: { deviceId: device.deviceId, userId: owner.id },
+    update: {},
   });
 
   res.json({ deviceId: device.deviceId, token });
@@ -173,16 +179,14 @@ router.post("/v1/devices/:deviceId/commands", async (req, res) => {
   const parsed = CreateCommandSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
-  const target = await prisma.device.findUnique({
-    where: { deviceId: req.params.deviceId },
-    include: { user: true },
+  const target = await prisma.device.findFirst({
+    where: {
+      deviceId: req.params.deviceId,
+      users: { some: { user: { familyId: device.user.familyId } } },
+    },
   });
 
   if (!target) return res.status(404).json({ error: "Device not found" });
-
-  if (target.user.familyId !== device.user.familyId) {
-    return res.status(403).json({ error: "Forbidden" });
-  }
 
   const cmd = await prisma.command.create({
     data: {
@@ -217,14 +221,9 @@ router.patch("/v1/devices/:deviceId/name", async (req, res) => {
     const target = await prisma.device.findFirst({
       where: {
         deviceId: req.params.deviceId,
-        user: {
-          familyId: device.user.familyId,
-        },
+        users: { some: { user: { familyId: device.user.familyId } } },
       },
-      include: {
-        state: true,
-        user: true,
-      },
+      include: { state: true },
     });
 
     if (!target) {
@@ -234,19 +233,16 @@ router.patch("/v1/devices/:deviceId/name", async (req, res) => {
     const updated = await prisma.device.update({
       where: { deviceId: target.deviceId },
       data: { name: parsed.data.name },
-      include: {
-        state: true,
-        user: true,
-      },
+      include: { state: true },
     });
 
     return res.json({
       ok: true,
       device: {
         deviceId: updated.deviceId,
-        name: updated.name,
-        lastSeenAt: updated.lastSeenAt,
-        state: updated.state,
+      name: updated.name,
+      lastSeenAt: updated.lastSeenAt,
+      state: updated.state,
       },
     });
   } catch (e) {
@@ -267,12 +263,7 @@ router.delete("/v1/devices/:deviceId", async (req, res) => {
     const target = await prisma.device.findFirst({
       where: {
         deviceId: req.params.deviceId,
-        user: {
-          familyId: device.user.familyId,
-        },
-      },
-      include: {
-        user: true,
+        users: { some: { user: { familyId: device.user.familyId } } },
       },
     });
 

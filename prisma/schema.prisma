@@ -47,9 +47,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  family         Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
-  devices        Device[]
-  invitesCreated Invite[] @relation("InvitesCreatedByUser")
+  family         Family      @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  deviceUsers    DeviceUser[]
+  invitesCreated Invite[]    @relation("InvitesCreatedByUser")
 
   sentMessages     AacMessage[] @relation("AacMessageFromUser")
   receivedMessages AacMessage[] @relation("AacMessageToUser")
@@ -71,7 +71,6 @@ model Device {
   /// Used as external identifier in APIs and as the join key for telemetry/commands.
   deviceId String @unique
 
-  userId    String
   name      String?
   tokenHash String
 
@@ -88,16 +87,23 @@ model Device {
   updatedAt  DateTime  @updatedAt
   lastSeenAt DateTime?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  users    DeviceUser[]
   telemetry Telemetry[]
   commands  Command[]
 
   state    DeviceState?
   settings DeviceSetting[]
+}
 
+model DeviceUser {
+  deviceId String
+  userId   String
+
+  device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([deviceId, userId])
   @@index([userId])
-  @@index([userId, createdAt])
 }
 
 model DeviceState {

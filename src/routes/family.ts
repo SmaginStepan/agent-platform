@@ -33,16 +33,14 @@ router.post("/v1/invites", async (req, res) => {
 
   try {
     const result = await familyService.createInvite(
-      device.deviceId,
+      device.user.familyId,
+      device.user.id,
       parsed.data.role,
       parsed.data.expiresInMinutes ?? 60
     );
     res.json(result);
   } catch (e: any) {
     console.error(e);
-    if (e?.message === "DEVICE_NOT_FOUND") {
-      return res.status(404).json({ error: "Device not found" });
-    }
     res.status(500).json({ error: "Failed to create invite" });
   }
 });
@@ -80,19 +78,10 @@ router.get("/v1/families/me", async (req, res) => {
     include: {
       users: {
         include: {
-          avatarItem: {
-            select: {
-              id: true,
-            },
-          },
-          devices: {
-            include: {
-              state: true
-            },
-            orderBy: { createdAt: "asc" }
-          }
+          avatarItem: { select: { id: true } },
+          deviceUsers: { include: { device: { include: { state: true } } } },
         },
-        orderBy: { createdAt: "asc" }
+        orderBy: { createdAt: "asc" },
       }
     }
   });
@@ -118,7 +107,7 @@ router.get("/v1/families/me", async (req, res) => {
         : null,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-      devices: user.devices,
+      devices: user.deviceUsers.map((du) => du.device),
     }))
   });
 });
@@ -212,14 +201,8 @@ router.delete("/v1/users/:userId", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    await prisma.$transaction(async (tx) => {
-      await tx.device.deleteMany({
-        where: { userId: user.id },
-      });
-
-      await tx.user.delete({
-        where: { id: user.id },
-      });
+    await prisma.user.delete({
+      where: { id: user.id },
     });
 
     return res.json({ ok: true });

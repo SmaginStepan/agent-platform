@@ -58,15 +58,13 @@ router.post("/v1/messages/aac", async (req, res) => {
       familyId: device.user.familyId,
     },
     include: {
-      devices: {
-        orderBy: { createdAt: "asc" },
-      },
+      deviceUsers: { include: { device: { select: { deviceId: true } } } },
     },
   });
 
   if (!targetUser) return res.status(404).json({ error: "Target user not found" });
 
-  const targetDevices = targetUser.devices;
+  const targetDevices = targetUser.deviceUsers.map((du) => du.device);
 
   if (targetDevices.length === 0) {
     return res.status(409).json({ error: "Target user has no devices" });
@@ -216,9 +214,7 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
     include: {
       fromUser: {
         include: {
-          devices: {
-            orderBy: { createdAt: "asc" },
-          },
+          deviceUsers: { include: { device: { select: { deviceId: true } } } },
         },
       },
       toUser: true,
@@ -264,7 +260,7 @@ router.post("/v1/messages/aac/:id/reply", async (req, res) => {
   }
 }
 
-  const senderDevices = message.fromUser.devices;
+  const senderDevices = message.fromUser.deviceUsers.map((du) => du.device);
 
   if (senderDevices.length === 0) {
     return res.status(409).json({ error: "Sender has no devices" });

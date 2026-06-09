@@ -35,14 +35,18 @@ export class FamilyService {
       update: {
         name: input.deviceName.trim(),
         tokenHash,
-        userId: user.id,
       },
       create: {
         deviceId: input.deviceId,
         name: input.deviceName.trim(),
         tokenHash,
-        userId: user.id,
       },
+    });
+
+    await this.prisma.deviceUser.upsert({
+      where: { deviceId_userId: { deviceId: device.deviceId, userId: user.id } },
+      create: { deviceId: device.deviceId, userId: user.id },
+      update: {},
     });
 
     return {
@@ -54,16 +58,7 @@ export class FamilyService {
     };
   }
 
-  async createInvite(createdByDeviceId: string, inputRole: UserRole, expiresInMinutes = 60): Promise<CreateInviteResponse> {
-    const device = await this.prisma.device.findUnique({
-      where: { deviceId: createdByDeviceId },
-      include: { user: true },
-    });
-
-    if (!device) {
-      throw new Error("DEVICE_NOT_FOUND");
-    }
-
+  async createInvite(familyId: string, createdByUserId: string, inputRole: UserRole, expiresInMinutes = 60): Promise<CreateInviteResponse> {
     const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000);
 
     let code = "";
@@ -84,8 +79,8 @@ export class FamilyService {
 
     const invite = await this.prisma.invite.create({
       data: {
-        familyId: device.user.familyId,
-        createdByUserId: device.userId,
+        familyId,
+        createdByUserId,
         code,
         expiresAt,
         role: inputRole,
@@ -144,14 +139,18 @@ export class FamilyService {
       update: {
         name: normalizedDeviceName,
         tokenHash,
-        userId: user.id,
       },
       create: {
         deviceId: input.deviceId,
         name: normalizedDeviceName,
         tokenHash,
-        userId: user.id,
       },
+    });
+
+    await this.prisma.deviceUser.upsert({
+      where: { deviceId_userId: { deviceId: device.deviceId, userId: user.id } },
+      create: { deviceId: device.deviceId, userId: user.id },
+      update: {},
     });
 
     await this.prisma.invite.update({
@@ -161,14 +160,13 @@ export class FamilyService {
 
     const parentDevices = await this.prisma.device.findMany({
       where: {
-        user: {
-          familyId: invite.familyId,
-          role: UserRole.PARENT,
+        users: {
+          some: {
+            user: { familyId: invite.familyId, role: UserRole.PARENT },
+          },
         },
       },
-      select: {
-        deviceId: true,
-      },
+      select: { deviceId: true },
     });
 
     await this.prisma.command.createMany({
