@@ -156,6 +156,39 @@ router.get("/v1/library/items/:id/file", async (req, res) => {
   }
 });
 
+router.patch("/v1/library/items/:id", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const label = typeof req.body?.label === "string" ? req.body.label.trim() : null;
+  if (!label) {
+    return res.status(400).json({ error: "label is required" });
+  }
+
+  try {
+    const item = await prisma.familyLibraryItem.findFirst({
+      where: {
+        id: req.params.id,
+        familyId: device.user.familyId,
+      },
+    });
+
+    if (!item) {
+      return res.status(404).json({ error: "Library item not found" });
+    }
+
+    const updated = await prisma.familyLibraryItem.update({
+      where: { id: item.id },
+      data: { label },
+    });
+
+    return res.json({ ok: true, item: toLibraryItemDto(updated) });
+  } catch (e) {
+    console.error("library item rename failed", e);
+    return res.status(500).json({ error: "Failed to rename library item" });
+  }
+});
+
 router.delete("/v1/library/items/:id", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
