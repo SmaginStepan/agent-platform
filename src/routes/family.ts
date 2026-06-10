@@ -69,6 +69,38 @@ router.post("/v1/families/join", async (req, res) => {
   }
 });
 
+router.get("/v1/me/families", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const memberships = await prisma.deviceUser.findMany({
+    where: { deviceId: device.deviceId },
+    include: {
+      user: {
+        select: { id: true, name: true, role: true, familyId: true },
+      },
+    },
+  });
+
+  const families = await prisma.family.findMany({
+    where: { id: { in: memberships.map((m) => m.user.familyId) } },
+    select: { id: true, name: true },
+  });
+
+  const familyMap = new Map(families.map((f) => [f.id, f]));
+
+  return res.json({
+    ok: true,
+    families: memberships.map((m) => ({
+      familyId: m.user.familyId,
+      familyName: familyMap.get(m.user.familyId)?.name ?? null,
+      userId: m.user.id,
+      userName: m.user.name,
+      role: m.user.role,
+    })),
+  });
+});
+
 router.get("/v1/families/me", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });

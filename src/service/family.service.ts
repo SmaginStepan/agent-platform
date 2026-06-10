@@ -103,23 +103,56 @@ export class FamilyService {
       throw new Error("INVITE_NOT_FOUND");
     }
 
-    if (invite.usedAt) {
-      throw new Error("INVITE_ALREADY_USED");
-    }
-
     if (invite.expiresAt.getTime() < Date.now()) {
       throw new Error("INVITE_EXPIRED");
+    }
+
+    // Fix 1: idempotent retry — if invite was already used, check whether THIS device
+    // already joined via it. If so, issue a fresh token and return success instead of error.
+    if (invite.usedAt) {
+      const existingMembership = await this.prisma.deviceUser.findFirst({
+        where: {
+          deviceId: input.deviceId,
+          user: { familyId: invite.familyId },
+        },
+        include: { user: true },
+      });
+
+      if (!existingMembership) {
+        throw new Error("INVITE_ALREADY_USED");
+      }
+
+      const token = newToken();
+      const tokenHash = sha256(token);
+      await this.prisma.device.update({
+        where: { deviceId: input.deviceId },
+        data: { tokenHash },
+      });
+
+      return {
+        familyId: invite.familyId,
+        userId: existingMembership.userId,
+        deviceId: input.deviceId,
+        token,
+        role: existingMembership.user.role,
+        userCreated: false,
+      };
     }
 
     const normalizedUserName = input.userName.trim();
     const normalizedDeviceName = input.deviceName.trim();
 
-    const existingUser = await this.prisma.user.findFirst({
+    // Fix 2: only reuse an existing family member if THIS device was previously attached
+    // to them — prevents name-collision identity theft.
+    const existingMembership = await this.prisma.deviceUser.findFirst({
       where: {
-        familyId: invite.familyId,
-        name: normalizedUserName,
+        deviceId: input.deviceId,
+        user: { familyId: invite.familyId },
       },
+      include: { user: true },
     });
+
+    const existingUser = existingMembership?.user ?? null;
 
     const user =
       existingUser ??
@@ -136,15 +169,8 @@ export class FamilyService {
 
     const device = await this.prisma.device.upsert({
       where: { deviceId: input.deviceId },
-      update: {
-        name: normalizedDeviceName,
-        tokenHash,
-      },
-      create: {
-        deviceId: input.deviceId,
-        name: normalizedDeviceName,
-        tokenHash,
-      },
+      update: { name: normalizedDeviceName, tokenHash },
+      create: { deviceId: input.deviceId, name: normalizedDeviceName, tokenHash },
     });
 
     await this.prisma.deviceUser.upsert({
@@ -160,11 +186,7 @@ export class FamilyService {
 
     const parentDevices = await this.prisma.device.findMany({
       where: {
-        users: {
-          some: {
-            user: { familyId: invite.familyId, role: UserRole.PARENT },
-          },
-        },
+        users: { some: { user: { familyId: invite.familyId, role: UserRole.PARENT } } },
       },
       select: { deviceId: true },
     });
@@ -173,10 +195,7 @@ export class FamilyService {
       data: parentDevices.map((parentDevice) => ({
         deviceId: parentDevice.deviceId,
         type: "invite_used",
-        payload: {
-          inviteId: invite.id,
-          code: invite.code,
-        },
+        payload: { inviteId: invite.id, code: invite.code },
         status: "queued",
       })),
     });
