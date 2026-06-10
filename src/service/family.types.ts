@@ -5,6 +5,7 @@ export interface CreateFamilyRequest {
   deviceName: string;
   deviceId: string;
   familyName?: string;
+  timezone?: string;
 }
 
 export interface CreateFamilyResponse {
@@ -31,6 +32,7 @@ export interface JoinFamilyRequest {
   userName: string;
   deviceName: string;
   deviceId: string;
+  timezone?: string;
 }
 
 export interface JoinFamilyResponse {

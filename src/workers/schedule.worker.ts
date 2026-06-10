@@ -3,17 +3,19 @@ import { pushSyncCommandsToDevice } from "../lib/firebase.js";
 
 let running = false;
 
-function hhmmNow(date = new Date()): string {
-  return date.toTimeString().slice(0, 5);
-}
+function localClock(now: Date, timezone: string): { time: string; weekday: number; dateISO: string } {
+  const fmt = (opts: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat("en-CA", { timeZone: timezone, ...opts }).format(now);
 
-function weekdayNow(date = new Date()): number {
-  const jsDay = date.getDay(); // 0 Sunday
-  return jsDay === 0 ? 7 : jsDay; // 1 Monday ... 7 Sunday
-}
+  const time = fmt({ hour: "2-digit", minute: "2-digit", hour12: false });
+  const dateISO = fmt({ year: "numeric", month: "2-digit", day: "2-digit" }); // "YYYY-MM-DD" via en-CA
 
-function dateOnlyNow(date = new Date()): Date {
-  return new Date(date.toISOString().slice(0, 10));
+  // en-CA weekday: "Monday".."Sunday" → 1..7
+  const dayName = fmt({ weekday: "long" });
+  const dayIndex = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].indexOf(dayName);
+  const weekday = dayIndex === -1 ? 1 : dayIndex + 1;
+
+  return { time, weekday, dateISO };
 }
 
 function asStringArray(value: unknown): string[] {
@@ -26,15 +28,15 @@ async function runScheduleTick() {
 
   try {
     const now = new Date();
-    const time = hhmmNow(now);
-    const weekday = weekdayNow(now);
-    const today = dateOnlyNow(now);
 
     const families = await prisma.family.findMany({
-      select: { id: true },
+      select: { id: true, timezone: true },
     });
 
     for (const family of families) {
+      const { time, weekday, dateISO } = localClock(now, family.timezone ?? "UTC");
+      const today = new Date(dateISO); // midnight UTC, same as how the create handler stores dates
+
       const items = await prisma.scheduleItem.findMany({
         where: {
           familyId: family.id,

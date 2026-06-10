@@ -19,6 +19,7 @@ export class FamilyService {
     const family = await this.prisma.family.create({
       data: {
         name: input.familyName?.trim() || null,
+        timezone: input.timezone ?? "UTC",
       },
     });
 
@@ -183,6 +184,13 @@ export class FamilyService {
       where: { id: invite.id },
       data: { usedAt: new Date() },
     });
+
+    if (input.timezone && input.timezone !== "UTC") {
+      await this.prisma.family.updateMany({
+        where: { id: invite.familyId, timezone: "UTC" },
+        data: { timezone: input.timezone },
+      });
+    }
 
     const parentDevices = await this.prisma.device.findMany({
       where: {

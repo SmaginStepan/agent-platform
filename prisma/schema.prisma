@@ -15,6 +15,7 @@ enum UserRole {
 model Family {
   id        String   @id @default(cuid())
   name      String?
+  timezone  String   @default("UTC")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

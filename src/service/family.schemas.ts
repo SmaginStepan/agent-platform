@@ -1,10 +1,15 @@
 import { z } from "zod";
 
+const TimezoneSchema = z.string().refine((tz) => {
+  try { new Intl.DateTimeFormat("en", { timeZone: tz }); return true; } catch { return false; }
+}, { message: "Invalid IANA timezone" });
+
 export const CreateFamilySchema = z.object({
   userName: z.string().trim().min(1).max(100),
   deviceName: z.string().trim().min(1).max(100),
   deviceId: z.string().trim().min(2).max(64),
   familyName: z.string().trim().min(1).max(100).optional(),
+  timezone: TimezoneSchema.optional(),
 });
 
 export const CreateInviteSchema = z.object({
@@ -17,6 +22,7 @@ export const JoinFamilySchema = z.object({
   userName: z.string().trim().min(1).max(100),
   deviceName: z.string().trim().min(1).max(100),
   deviceId: z.string().trim().min(2).max(64),
+  timezone: TimezoneSchema.optional(),
 });
 
 export const CreateCommandSchema = z.object({
@@ -126,6 +132,13 @@ export const GetAacMessagesQuerySchema = z.object({
 
 export const UpdateNameSchema = z.object({
   name: z.string().trim().min(1).max(100),
+});
+
+export const UpdateFamilySchema = z.object({
+  name: z.string().trim().min(1).max(100).optional(),
+  timezone: TimezoneSchema.optional(),
+}).refine((d) => d.name !== undefined || d.timezone !== undefined, {
+  message: "At least one of name or timezone is required",
 });
 
 

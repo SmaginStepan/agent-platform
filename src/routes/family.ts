@@ -1,7 +1,7 @@
 import { authDevice } from "../lib/auth.utils.js";
 import { prisma } from "../lib/prisma.js";
 import { router } from "../router.js";
-import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema, UpdateNameSchema } from "../service/family.schemas.js";
+import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema, UpdateFamilySchema, UpdateNameSchema } from "../service/family.schemas.js";
 import { FamilyService } from "../service/family.service.js";
 
 export const familyService = new FamilyService(prisma);
@@ -149,14 +149,17 @@ router.patch("/v1/families/me", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
-  const parsed = UpdateNameSchema.safeParse(req.body);
+  const parsed = UpdateFamilySchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
   try {
     const family = await prisma.family.update({
       where: { id: device.user.familyId },
-      data: { name: parsed.data.name },
-      select: { id: true, name: true },
+      data: {
+        ...(parsed.data.name !== undefined && { name: parsed.data.name }),
+        ...(parsed.data.timezone !== undefined && { timezone: parsed.data.timezone }),
+      },
+      select: { id: true, name: true, timezone: true },
     });
 
     return res.json({ ok: true, family });
