@@ -143,17 +143,11 @@ export class FamilyService {
     const normalizedUserName = input.userName.trim();
     const normalizedDeviceName = input.deviceName.trim();
 
-    // Fix 2: only reuse an existing family member if THIS device was previously attached
-    // to them — prevents name-collision identity theft.
-    const existingMembership = await this.prisma.deviceUser.findFirst({
-      where: {
-        deviceId: input.deviceId,
-        user: { familyId: invite.familyId },
-      },
-      include: { user: true },
+    // Merge by name: if a user with this name already exists in the family, attach
+    // the joining device to them (multi-device flow). Otherwise create a new user.
+    const existingUser = await this.prisma.user.findFirst({
+      where: { familyId: invite.familyId, name: normalizedUserName },
     });
-
-    const existingUser = existingMembership?.user ?? null;
 
     const user =
       existingUser ??
