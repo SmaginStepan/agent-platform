@@ -108,9 +108,10 @@ export class FamilyService {
       throw new Error("INVITE_EXPIRED");
     }
 
-    // Fix 1: idempotent retry — if invite was already used, check whether THIS device
+    // Reusable invites skip the single-use check entirely.
+    // Fix 1: idempotent retry — if a normal invite was already used, check whether THIS device
     // already joined via it. If so, issue a fresh token and return success instead of error.
-    if (invite.usedAt) {
+    if (!invite.isReusable && invite.usedAt) {
       const existingMembership = await this.prisma.deviceUser.findFirst({
         where: {
           deviceId: input.deviceId,
@@ -174,10 +175,12 @@ export class FamilyService {
       update: {},
     });
 
-    await this.prisma.invite.update({
-      where: { id: invite.id },
-      data: { usedAt: new Date() },
-    });
+    if (!invite.isReusable) {
+      await this.prisma.invite.update({
+        where: { id: invite.id },
+        data: { usedAt: new Date() },
+      });
+    }
 
     if (input.timezone && input.timezone !== "UTC") {
       await this.prisma.family.updateMany({

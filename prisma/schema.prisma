@@ -142,9 +142,10 @@ model Invite {
   familyId        String
   createdByUserId String
 
-  code      String    @unique
-  expiresAt DateTime
-  usedAt    DateTime?
+  code       String    @unique
+  expiresAt  DateTime
+  usedAt     DateTime?
+  isReusable Boolean   @default(false)
 
   role UserRole
 

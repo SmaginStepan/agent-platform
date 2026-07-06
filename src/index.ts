@@ -38,6 +38,10 @@ app.get("/privacy", (_, res) => {
   res.sendFile(path.join(process.cwd(), "src/assets", "privacy.html"))
 });
 
+app.get("/support", (_, res) => {
+  res.sendFile(path.join(process.cwd(), "src/assets", "support.html"))
+});
+
 startScheduleWorker();
 
 const port = Number(process.env.PORT || 8080);
