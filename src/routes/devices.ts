@@ -255,8 +255,10 @@ router.delete("/v1/devices/:deviceId", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
-  if (device.user.role !== "PARENT") {
-    return res.status(403).json({ error: "Forbidden" });
+  // Destructive: require the REAL parent role, so a temporarily elevated
+  // child (adult mode) cannot delete devices.
+  if (device.realRole !== "PARENT") {
+    return res.status(403).json({ error: "REAL_PARENT_REQUIRED" });
   }
 
   try {
