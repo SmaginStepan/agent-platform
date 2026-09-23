@@ -137,9 +137,12 @@ export const UpdateNameSchema = z.object({
 export const UpdateFamilySchema = z.object({
   name: z.string().trim().min(1).max(100).optional(),
   timezone: TimezoneSchema.optional(),
-}).refine((d) => d.name !== undefined || d.timezone !== undefined, {
-  message: "At least one of name or timezone is required",
-});
+  // "" clears the adult-mode PIN; a 4–8 digit string sets it; anything else -> 400
+  adultPin: z.union([z.literal(""), z.string().regex(/^\d{4,8}$/)]).optional(),
+}).refine(
+  (d) => d.name !== undefined || d.timezone !== undefined || d.adultPin !== undefined,
+  { message: "At least one of name, timezone or adultPin is required" }
+);
 
 
 export const updateMyAvatarSchema = z.object({

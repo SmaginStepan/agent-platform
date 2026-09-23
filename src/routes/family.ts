@@ -1,4 +1,4 @@
-import { authDevice } from "../lib/auth.utils.js";
+import { authDevice, newToken, sha256 } from "../lib/auth.utils.js";
 import { prisma } from "../lib/prisma.js";
 import { router } from "../router.js";
 import { CreateFamilySchema, CreateInviteSchema, JoinFamilySchema, UpdateFamilySchema, UpdateNameSchema } from "../service/family.schemas.js";
@@ -73,6 +73,10 @@ router.get("/v1/me/families", async (req, res) => {
   const device = await authDevice(req);
   if (!device) return res.status(401).json({ error: "Unauthorized" });
 
+  // IMPORTANT: return the REAL roles from the user rows here. This must not
+  // apply the x-elevation PARENT override (the client relies on these roles and
+  // must not persist a temporarily elevated role), so we read roles straight
+  // from the DeviceUser/user rows rather than from authDevice's resolved user.
   const memberships = await prisma.deviceUser.findMany({
     where: { deviceId: device.deviceId },
     include: {
@@ -152,12 +156,22 @@ router.patch("/v1/families/me", async (req, res) => {
   const parsed = UpdateFamilySchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
+  // Setting/clearing the family PIN is a REAL-parent-only action: an elevated
+  // CHILD (see authDevice x-elevation) must not be able to change the gate that
+  // constrains it. Other fields (name/timezone) keep their existing behaviour.
+  if (parsed.data.adultPin !== undefined && device.realRole !== "PARENT") {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
   try {
     const family = await prisma.family.update({
       where: { id: device.user.familyId },
       data: {
         ...(parsed.data.name !== undefined && { name: parsed.data.name }),
         ...(parsed.data.timezone !== undefined && { timezone: parsed.data.timezone }),
+        ...(parsed.data.adultPin !== undefined && {
+          adultPinHash: parsed.data.adultPin === "" ? null : sha256(parsed.data.adultPin),
+        }),
       },
       select: { id: true, name: true, timezone: true },
     });
@@ -167,6 +181,77 @@ router.patch("/v1/families/me", async (req, res) => {
     console.error(e);
     return res.status(500).json({ error: "Failed to update family" });
   }
+});
+
+// --- Temporary "adult mode" elevation for CHILD devices ---
+// A child device that enters the family PIN receives a short-lived elevation
+// token; presenting it via the `x-elevation` header makes authDevice treat the
+// caller as PARENT until it expires (4h).
+const ELEVATION_TTL_MS = 4 * 60 * 60 * 1000;
+const ELEVATION_MAX_FAILED_ATTEMPTS = 5;
+const ELEVATION_ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
+// deviceId -> timestamps (ms) of recent failed PIN attempts (in-memory, best-effort)
+const failedElevationAttempts = new Map<string, number[]>();
+
+router.post("/v1/families/me/elevate", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  const pin = (req.body as { pin?: unknown } | null)?.pin;
+  if (typeof pin !== "string") return res.status(400).json({ error: "pin is required" });
+
+  const family = await prisma.family.findUnique({
+    where: { id: device.user.familyId },
+    select: { adultPinHash: true },
+  });
+
+  if (!family?.adultPinHash) {
+    return res.status(403).json({ error: "ADULT_MODE_NOT_ENABLED" });
+  }
+
+  const now = Date.now();
+  const recent = (failedElevationAttempts.get(device.deviceId) ?? []).filter(
+    (t) => now - t < ELEVATION_ATTEMPT_WINDOW_MS
+  );
+
+  if (recent.length >= ELEVATION_MAX_FAILED_ATTEMPTS) {
+    failedElevationAttempts.set(device.deviceId, recent);
+    return res.status(429).json({ error: "TOO_MANY_ATTEMPTS" });
+  }
+
+  if (sha256(pin) !== family.adultPinHash) {
+    recent.push(now);
+    failedElevationAttempts.set(device.deviceId, recent);
+    return res.status(403).json({ error: "WRONG_PIN" });
+  }
+
+  // success: clear the failure counter and issue a fresh elevation token
+  failedElevationAttempts.delete(device.deviceId);
+
+  const elevationToken = newToken();
+  const expiresAt = new Date(now + ELEVATION_TTL_MS);
+
+  await prisma.deviceUser.update({
+    where: { deviceId_userId: { deviceId: device.deviceId, userId: device.user.id } },
+    data: {
+      elevationTokenHash: sha256(elevationToken),
+      elevationExpiresAt: expiresAt,
+    },
+  });
+
+  return res.json({ ok: true, elevationToken, expiresAt: expiresAt.toISOString() });
+});
+
+router.delete("/v1/families/me/elevate", async (req, res) => {
+  const device = await authDevice(req);
+  if (!device) return res.status(401).json({ error: "Unauthorized" });
+
+  await prisma.deviceUser.update({
+    where: { deviceId_userId: { deviceId: device.deviceId, userId: device.user.id } },
+    data: { elevationTokenHash: null, elevationExpiresAt: null },
+  });
+
+  return res.json({ ok: true });
 });
 
 router.patch("/v1/users/:userId", async (req, res) => {

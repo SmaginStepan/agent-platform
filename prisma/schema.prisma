@@ -16,6 +16,8 @@ model Family {
   id        String   @id @default(cuid())
   name      String?
   timezone  String   @default("UTC")
+  /// sha256 of the family "adult mode" PIN (same sha256 helper as tokens); null = disabled
+  adultPinHash String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -99,6 +101,10 @@ model Device {
 model DeviceUser {
   deviceId String
   userId   String
+
+  /// Temporary "adult mode" elevation for a CHILD device (sha256 of the token)
+  elevationTokenHash String?
+  elevationExpiresAt DateTime?
 
   device Device @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
