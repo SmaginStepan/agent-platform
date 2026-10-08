@@ -327,7 +327,8 @@ model ChildHomeNode {
   familyId  String
   itemId    String
   parentId  String?
-  type      String // MENU | ACTION
+  section   String  @default("HOME") // HOME | CONVERSATION
+  type      String // HOME: MENU | ACTION ; CONVERSATION: MENU | WORD
   sortOrder Int     @default(0)
 
   targetMode    String  @default("ALL_PARENTS") // ALL_PARENTS | SELECTED_USERS | NONE
@@ -345,6 +346,8 @@ model ChildHomeNode {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([familyId, section, parentId])
 }
 
 model ChildHomeNodeTarget {

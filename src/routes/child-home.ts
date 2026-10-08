@@ -10,12 +10,20 @@ import {
   UpdateChildHomeNodeSchema,
 } from "../service/child-home.schemas.js";
 
+// Which node types are valid in each section. HOME is unchanged (MENU/ACTION);
+// the CONVERSATION library uses MENU (folder) and WORD.
+function typeAllowedInSection(section: string, type: string): boolean {
+  if (section === "CONVERSATION") return type === "MENU" || type === "WORD";
+  return type === "MENU" || type === "ACTION";
+}
+
 function mapNode(node: any) {
   return {
     id: node.id,
     familyId: node.familyId,
     itemId: node.itemId,
     parentId: node.parentId,
+    section: node.section,
     type: node.type,
     sortOrder: node.sortOrder,
     labelOverride: node.labelOverride,
@@ -59,14 +67,19 @@ router.get("/v1/child-home/nodes", async (req, res) => {
   const parsed = GetChildHomeQuerySchema.safeParse(req.query);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
+  const section = parsed.data.section ?? "HOME";
+
   const parentId =
     parsed.data.parentId === undefined || parsed.data.parentId === ""
       ? null
       : parsed.data.parentId;
 
+  // Returns every node at this level in sortOrder (no visibility filtering for
+  // either section — HOME visibility is applied client-side as it is today).
   const nodes = await prisma.childHomeNode.findMany({
     where: {
       familyId: device.user.familyId,
+      section,
       parentId,
     },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
@@ -90,6 +103,14 @@ router.post("/v1/child-home/nodes", async (req, res) => {
   const parsed = CreateChildHomeNodeSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json(parsed.error);
 
+  const section = parsed.data.section ?? "HOME";
+
+  if (!typeAllowedInSection(section, parsed.data.type)) {
+    return res
+      .status(400)
+      .json({ error: `type ${parsed.data.type} is not allowed in section ${section}` });
+  }
+
   const item = await prisma.familyLibraryItem.findFirst({
     where: {
       id: parsed.data.itemId,
@@ -100,10 +121,12 @@ router.post("/v1/child-home/nodes", async (req, res) => {
   if (!item) return res.status(404).json({ error: "Library item not found" });
 
   if (parsed.data.parentId) {
+    // Parent must be a MENU in the same family AND the same section.
     const parent = await prisma.childHomeNode.findFirst({
       where: {
         id: parsed.data.parentId,
         familyId: device.user.familyId,
+        section,
         type: "MENU",
       },
     });
@@ -111,6 +134,39 @@ router.post("/v1/child-home/nodes", async (req, res) => {
     if (!parent) return res.status(404).json({ error: "Parent menu not found" });
   }
 
+  const parentId = parsed.data.parentId ?? null;
+
+  if (section === "CONVERSATION") {
+    // CONVERSATION nodes ignore visibility/target/blink: store defaults, never
+    // create targets, never fail when those fields are sent. New nodes append
+    // to the end of their level.
+    const last = await prisma.childHomeNode.findFirst({
+      where: { familyId: device.user.familyId, section, parentId },
+      orderBy: { sortOrder: "desc" },
+      select: { sortOrder: true },
+    });
+
+    const node = await prisma.childHomeNode.create({
+      data: {
+        familyId: device.user.familyId,
+        itemId: parsed.data.itemId,
+        parentId,
+        section,
+        type: parsed.data.type,
+        sortOrder: last ? last.sortOrder + 1 : 0,
+        labelOverride: parsed.data.labelOverride ?? null,
+        // isVisible / targetMode / blink* keep their schema defaults; no targets
+      },
+      include: {
+        item: true,
+        targets: true,
+      },
+    });
+
+    return res.json({ ok: true, item: mapNode(node) });
+  }
+
+  // HOME (unchanged behaviour)
   if (parsed.data.targetMode === "SELECTED_USERS") {
     const ok = await validateTargetUsers(
       device.user.familyId,
@@ -125,7 +181,8 @@ router.post("/v1/child-home/nodes", async (req, res) => {
     data: {
       familyId: device.user.familyId,
       itemId: parsed.data.itemId,
-      parentId: parsed.data.parentId ?? null,
+      parentId,
+      section,
       type: parsed.data.type,
       sortOrder: parsed.data.sortOrder ?? 0,
       isVisible: parsed.data.isVisible ?? true  ,
@@ -172,6 +229,17 @@ router.patch("/v1/child-home/nodes/:id", async (req, res) => {
 
   if (!existing) return res.status(404).json({ error: "Node not found" });
 
+  // Section is immutable; a type change must stay valid for the node's section
+  // (CONVERSATION may switch MENU <-> WORD; HOME stays MENU/ACTION).
+  if (
+    bodyParsed.data.type &&
+    !typeAllowedInSection(existing.section, bodyParsed.data.type)
+  ) {
+    return res.status(400).json({
+      error: `type ${bodyParsed.data.type} is not allowed in section ${existing.section}`,
+    });
+  }
+
   if (bodyParsed.data.itemId) {
     const item = await prisma.familyLibraryItem.findFirst({
       where: {
@@ -184,10 +252,12 @@ router.patch("/v1/child-home/nodes/:id", async (req, res) => {
   }
 
   if (bodyParsed.data.parentId) {
+    // Parent must be a MENU in the same family AND the same (immutable) section.
     const parent = await prisma.childHomeNode.findFirst({
       where: {
         id: bodyParsed.data.parentId,
         familyId: device.user.familyId,
+        section: existing.section,
         type: "MENU",
       },
     });
@@ -195,6 +265,31 @@ router.patch("/v1/child-home/nodes/:id", async (req, res) => {
     if (!parent) return res.status(404).json({ error: "Parent menu not found" });
   }
 
+  if (existing.section === "CONVERSATION") {
+    // CONVERSATION nodes ignore visibility/target/blink: never create targets,
+    // never fail when those fields are sent; leave them at their defaults.
+    const node = await prisma.childHomeNode.update({
+      where: { id: existing.id },
+      data: {
+        itemId: bodyParsed.data.itemId,
+        parentId:
+          bodyParsed.data.parentId === undefined
+            ? undefined
+            : bodyParsed.data.parentId,
+        type: bodyParsed.data.type,
+        labelOverride: bodyParsed.data.labelOverride,
+        sortOrder: bodyParsed.data.sortOrder,
+      },
+      include: {
+        item: true,
+        targets: true,
+      },
+    });
+
+    return res.json({ ok: true, item: mapNode(node) });
+  }
+
+  // HOME (unchanged behaviour)
   if (
     bodyParsed.data.targetUserIds !== undefined ||
     bodyParsed.data.targetMode === "SELECTED_USERS"
@@ -303,7 +398,6 @@ router.post("/v1/child-home/actions/:id/request", async (req, res) => {
     where: {
       id: parsed.data.id,
       familyId: device.user.familyId,
-      type: "ACTION",
     },
     include: {
       item: true,
@@ -312,6 +406,13 @@ router.post("/v1/child-home/actions/:id/request", async (req, res) => {
   });
 
   if (!node) return res.status(404).json({ error: "Action not found" });
+
+  // CONVERSATION nodes are not actionable.
+  if (node.section === "CONVERSATION") {
+    return res.status(400).json({ error: "CONVERSATION nodes cannot be requested" });
+  }
+
+  if (node.type !== "ACTION") return res.status(404).json({ error: "Action not found" });
 
   type Recipient = { id: string; deviceIds: string[] };
   let recipients: Recipient[] = [];

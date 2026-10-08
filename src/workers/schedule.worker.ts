@@ -78,6 +78,7 @@ async function runScheduleTick() {
             await tx.childHomeNode.updateMany({
               where: {
                 familyId: family.id,
+                section: "HOME",
                 id: { in: forceShow },
               },
               data: { isVisible: true },
@@ -88,6 +89,7 @@ async function runScheduleTick() {
             await tx.childHomeNode.updateMany({
               where: {
                 familyId: family.id,
+                section: "HOME",
                 id: { in: forceHide },
               },
               data: { isVisible: false },
