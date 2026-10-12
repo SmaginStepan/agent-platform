@@ -338,6 +338,12 @@ model ChildHomeNode {
   blinkEnabled Boolean @default(true)
   blinkSeconds Int     @default(10)
 
+  // CONVERSATION only (always null for HOME): fixed 0-based cell inside the
+  // parent page (both set or both null, 0..99) and word-class colour.
+  gridRow Int?
+  gridCol Int?
+  color   String? // PRONOUN | VERB | NOUN | DESCRIPTOR | ADVERB | PREPOSITION | QUESTION | NEGATION | SOCIAL | MISC | FOLDER
+
   family   Family                @relation(fields: [familyId], references: [id], onDelete: Cascade)
   item     FamilyLibraryItem     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   parent   ChildHomeNode?        @relation("ChildHomeTree", fields: [parentId], references: [id], onDelete: Cascade)

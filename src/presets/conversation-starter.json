@@ -1,0 +1,7066 @@
+{
+ "id": "starter-core",
+ "version": 1,
+ "name": {
+  "es": "Vocabulario básico",
+  "en": "Starter vocabulary",
+  "ru": "Базовый словарь"
+ },
+ "languages": [
+  "es",
+  "en",
+  "ru"
+ ],
+ "license": "Pictograms: ARASAAC (Gobierno de Aragón), CC BY-NC-SA 4.0, https://arasaac.org. Word lists and layout: original work.",
+ "colors": [
+  "PRONOUN",
+  "VERB",
+  "NOUN",
+  "DESCRIPTOR",
+  "ADVERB",
+  "PREPOSITION",
+  "QUESTION",
+  "NEGATION",
+  "SOCIAL",
+  "MISC",
+  "FOLDER"
+ ],
+ "root": {
+  "cols": 10,
+  "rows": 7,
+  "cells": [
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 0,
+    "color": "PRONOUN",
+    "arasaacId": 2617,
+    "label": {
+     "es": "yo",
+     "en": "I",
+     "ru": "я"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 0,
+    "color": "PRONOUN",
+    "arasaacId": 2608,
+    "label": {
+     "es": "tú",
+     "en": "you",
+     "ru": "ты"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 0,
+    "color": "PRONOUN",
+    "arasaacId": 6480,
+    "label": {
+     "es": "él",
+     "en": "he",
+     "ru": "он"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 0,
+    "color": "PRONOUN",
+    "arasaacId": 7029,
+    "label": {
+     "es": "ella",
+     "en": "she",
+     "ru": "она"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 0,
+    "color": "PRONOUN",
+    "arasaacId": 7185,
+    "label": {
+     "es": "nosotros",
+     "en": "we",
+     "ru": "мы"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 1,
+    "color": "VERB",
+    "arasaacId": 5441,
+    "label": {
+     "es": "querer",
+     "en": "want",
+     "ru": "хотеть"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 2,
+    "color": "VERB",
+    "arasaacId": 2432,
+    "label": {
+     "es": "ir",
+     "en": "go",
+     "ru": "идти"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 3,
+    "color": "VERB",
+    "arasaacId": 11749,
+    "label": {
+     "es": "hacer",
+     "en": "do",
+     "ru": "делать"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 1,
+    "color": "VERB",
+    "arasaacId": 7271,
+    "label": {
+     "es": "tener",
+     "en": "have",
+     "ru": "иметь"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 2,
+    "color": "VERB",
+    "arasaacId": 5466,
+    "label": {
+     "es": "estar",
+     "en": "be (state)",
+     "ru": "находиться"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 3,
+    "color": "VERB",
+    "arasaacId": 5581,
+    "label": {
+     "es": "ser",
+     "en": "be",
+     "ru": "быть"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 1,
+    "color": "VERB",
+    "arasaacId": 11750,
+    "label": {
+     "es": "poder",
+     "en": "can",
+     "ru": "мочь"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 2,
+    "color": "VERB",
+    "arasaacId": 2418,
+    "label": {
+     "es": "gustar",
+     "en": "like",
+     "ru": "нравиться"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 3,
+    "color": "VERB",
+    "arasaacId": 37160,
+    "label": {
+     "es": "necesitar",
+     "en": "need",
+     "ru": "нужно"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 1,
+    "color": "VERB",
+    "arasaacId": 2474,
+    "label": {
+     "es": "ver",
+     "en": "see",
+     "ru": "видеть"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 2,
+    "color": "VERB",
+    "arasaacId": 17038,
+    "label": {
+     "es": "dar",
+     "en": "give",
+     "ru": "дать"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 3,
+    "color": "VERB",
+    "arasaacId": 4570,
+    "label": {
+     "es": "ayudar",
+     "en": "help",
+     "ru": "помогать"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 1,
+    "color": "VERB",
+    "arasaacId": 2349,
+    "label": {
+     "es": "comer",
+     "en": "eat",
+     "ru": "есть"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 2,
+    "color": "VERB",
+    "arasaacId": 2276,
+    "label": {
+     "es": "beber",
+     "en": "drink",
+     "ru": "пить"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 3,
+    "color": "VERB",
+    "arasaacId": 2439,
+    "label": {
+     "es": "jugar",
+     "en": "play",
+     "ru": "играть"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 4,
+    "color": "QUESTION",
+    "arasaacId": 22620,
+    "label": {
+     "es": "qué",
+     "en": "what",
+     "ru": "что"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 5,
+    "color": "QUESTION",
+    "arasaacId": 9853,
+    "label": {
+     "es": "quién",
+     "en": "who",
+     "ru": "кто"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 6,
+    "color": "QUESTION",
+    "arasaacId": 7764,
+    "label": {
+     "es": "dónde",
+     "en": "where",
+     "ru": "где"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 4,
+    "color": "QUESTION",
+    "arasaacId": 22621,
+    "label": {
+     "es": "cuándo",
+     "en": "when",
+     "ru": "когда"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 5,
+    "color": "QUESTION",
+    "arasaacId": 24763,
+    "label": {
+     "es": "por qué",
+     "en": "why",
+     "ru": "почему"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 6,
+    "color": "QUESTION",
+    "arasaacId": 22619,
+    "label": {
+     "es": "cómo",
+     "en": "how",
+     "ru": "как"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 4,
+    "color": "ADVERB",
+    "arasaacId": 5382,
+    "label": {
+     "es": "aquí",
+     "en": "here",
+     "ru": "здесь"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 5,
+    "color": "ADVERB",
+    "arasaacId": 5375,
+    "label": {
+     "es": "allí",
+     "en": "there",
+     "ru": "там"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 6,
+    "color": "ADVERB",
+    "arasaacId": 13026,
+    "label": {
+     "es": "ahora",
+     "en": "now",
+     "ru": "сейчас"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 4,
+    "color": "PREPOSITION",
+    "arasaacId": 7034,
+    "label": {
+     "es": "en",
+     "en": "in",
+     "ru": "в"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 5,
+    "color": "PREPOSITION",
+    "arasaacId": 7064,
+    "label": {
+     "es": "con",
+     "en": "with",
+     "ru": "с"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 6,
+    "color": "PREPOSITION",
+    "arasaacId": 7194,
+    "label": {
+     "es": "para",
+     "en": "for",
+     "ru": "для"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 4,
+    "color": "MISC",
+    "arasaacId": 3047,
+    "label": {
+     "es": "y",
+     "en": "and",
+     "ru": "и"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 5,
+    "color": "PREPOSITION",
+    "arasaacId": 7813,
+    "label": {
+     "es": "sin",
+     "en": "without",
+     "ru": "без"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 6,
+    "color": "ADVERB",
+    "arasaacId": 37162,
+    "label": {
+     "es": "otra vez",
+     "en": "again",
+     "ru": "ещё раз"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 7,
+    "color": "NEGATION",
+    "arasaacId": 5526,
+    "label": {
+     "es": "no",
+     "en": "no",
+     "ru": "нет"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 8,
+    "color": "SOCIAL",
+    "arasaacId": 5584,
+    "label": {
+     "es": "sí",
+     "en": "yes",
+     "ru": "да"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 0,
+    "col": 9,
+    "color": "DESCRIPTOR",
+    "arasaacId": 3220,
+    "label": {
+     "es": "más",
+     "en": "more",
+     "ru": "больше"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 7,
+    "color": "SOCIAL",
+    "arasaacId": 28429,
+    "label": {
+     "es": "ya está",
+     "en": "all done",
+     "ru": "готово"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 8,
+    "color": "NEGATION",
+    "arasaacId": 7195,
+    "label": {
+     "es": "parar",
+     "en": "stop",
+     "ru": "стоп"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 1,
+    "col": 9,
+    "color": "SOCIAL",
+    "arasaacId": 8195,
+    "label": {
+     "es": "por favor",
+     "en": "please",
+     "ru": "пожалуйста"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 7,
+    "color": "DESCRIPTOR",
+    "arasaacId": 5397,
+    "label": {
+     "es": "bien",
+     "en": "good",
+     "ru": "хорошо"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 8,
+    "color": "DESCRIPTOR",
+    "arasaacId": 5504,
+    "label": {
+     "es": "mal",
+     "en": "bad",
+     "ru": "плохо"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 2,
+    "col": 9,
+    "color": "SOCIAL",
+    "arasaacId": 8129,
+    "label": {
+     "es": "gracias",
+     "en": "thank you",
+     "ru": "спасибо"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 7,
+    "color": "DESCRIPTOR",
+    "arasaacId": 4658,
+    "label": {
+     "es": "grande",
+     "en": "big",
+     "ru": "большой"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 8,
+    "color": "DESCRIPTOR",
+    "arasaacId": 4716,
+    "label": {
+     "es": "pequeño",
+     "en": "small",
+     "ru": "маленький"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 3,
+    "col": 9,
+    "color": "SOCIAL",
+    "arasaacId": 6009,
+    "label": {
+     "es": "hola",
+     "en": "hello",
+     "ru": "привет"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 7,
+    "color": "DESCRIPTOR",
+    "arasaacId": 5521,
+    "label": {
+     "es": "mucho",
+     "en": "a lot",
+     "ru": "много"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 8,
+    "color": "DESCRIPTOR",
+    "arasaacId": 5546,
+    "label": {
+     "es": "poco",
+     "en": "a little",
+     "ru": "мало"
+    }
+   },
+   {
+    "type": "WORD",
+    "row": 4,
+    "col": 9,
+    "color": "SOCIAL",
+    "arasaacId": 5896,
+    "label": {
+     "es": "adiós",
+     "en": "goodbye",
+     "ru": "пока"
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 0,
+    "color": "FOLDER",
+    "arasaacId": 7117,
+    "label": {
+     "es": "Gente",
+     "en": "People",
+     "ru": "Люди"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "PRONOUN",
+       "arasaacId": 2458,
+       "label": {
+        "es": "mamá",
+        "en": "mom",
+        "ru": "мама"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "PRONOUN",
+       "arasaacId": 31146,
+       "label": {
+        "es": "papá",
+        "en": "dad",
+        "ru": "папа"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "PRONOUN",
+       "arasaacId": 2243,
+       "label": {
+        "es": "abuela",
+        "en": "grandma",
+        "ru": "бабушка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "PRONOUN",
+       "arasaacId": 2244,
+       "label": {
+        "es": "abuelo",
+        "en": "grandpa",
+        "ru": "дедушка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "PRONOUN",
+       "arasaacId": 2423,
+       "label": {
+        "es": "hermano",
+        "en": "brother",
+        "ru": "брат"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "PRONOUN",
+       "arasaacId": 2422,
+       "label": {
+        "es": "hermana",
+        "en": "sister",
+        "ru": "сестра"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "PRONOUN",
+       "arasaacId": 2275,
+       "label": {
+        "es": "bebé",
+        "en": "baby",
+        "ru": "малыш"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "PRONOUN",
+       "arasaacId": 2485,
+       "label": {
+        "es": "niño",
+        "en": "boy",
+        "ru": "мальчик"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "PRONOUN",
+       "arasaacId": 2484,
+       "label": {
+        "es": "niña",
+        "en": "girl",
+        "ru": "девочка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "PRONOUN",
+       "arasaacId": 4665,
+       "label": {
+        "es": "hombre",
+        "en": "man",
+        "ru": "мужчина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "PRONOUN",
+       "arasaacId": 4703,
+       "label": {
+        "es": "mujer",
+        "en": "woman",
+        "ru": "женщина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "PRONOUN",
+       "arasaacId": 8487,
+       "label": {
+        "es": "amigo",
+        "en": "friend",
+        "ru": "друг"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "PRONOUN",
+       "arasaacId": 2457,
+       "label": {
+        "es": "profesor",
+        "en": "teacher",
+        "ru": "учитель"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "PRONOUN",
+       "arasaacId": 39421,
+       "label": {
+        "es": "compañero",
+        "en": "classmate",
+        "ru": "одноклассник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "PRONOUN",
+       "arasaacId": 2467,
+       "label": {
+        "es": "médico",
+        "en": "doctor",
+        "ru": "врач"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "PRONOUN",
+       "arasaacId": 2824,
+       "label": {
+        "es": "policía",
+        "en": "police officer",
+        "ru": "полицейский"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "PRONOUN",
+       "arasaacId": 2664,
+       "label": {
+        "es": "bombero",
+        "en": "firefighter",
+        "ru": "пожарный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "PRONOUN",
+       "arasaacId": 2392,
+       "label": {
+        "es": "familia",
+        "en": "family",
+        "ru": "семья"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "PRONOUN",
+       "arasaacId": 26529,
+       "label": {
+        "es": "vecino",
+        "en": "neighbor",
+        "ru": "сосед"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "PRONOUN",
+       "arasaacId": 30255,
+       "label": {
+        "es": "tío",
+        "en": "uncle",
+        "ru": "дядя"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "PRONOUN",
+       "arasaacId": 30271,
+       "label": {
+        "es": "tía",
+        "en": "aunt",
+        "ru": "тётя"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "PRONOUN",
+       "arasaacId": 30340,
+       "label": {
+        "es": "primo",
+        "en": "cousin",
+        "ru": "двоюродный брат"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 1,
+    "color": "FOLDER",
+    "arasaacId": 11318,
+    "label": {
+     "es": "Cosas",
+     "en": "Things",
+     "ru": "Вещи"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 3241,
+       "label": {
+        "es": "pelota",
+        "en": "ball",
+        "ru": "мяч"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2450,
+       "label": {
+        "es": "libro",
+        "en": "book",
+        "ru": "книга"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2339,
+       "label": {
+        "es": "coche",
+        "en": "car",
+        "ru": "машина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2586,
+       "label": {
+        "es": "teléfono",
+        "en": "phone",
+        "ru": "телефон"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 9165,
+       "label": {
+        "es": "tableta",
+        "en": "tablet",
+        "ru": "планшет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 25498,
+       "label": {
+        "es": "televisión",
+        "en": "TV",
+        "ru": "телевизор"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2487,
+       "label": {
+        "es": "ordenador",
+        "en": "computer",
+        "ru": "компьютер"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 9813,
+       "label": {
+        "es": "juguete",
+        "en": "toy",
+        "ru": "игрушка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2482,
+       "label": {
+        "es": "muñeca",
+        "en": "doll",
+        "ru": "кукла"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 4945,
+       "label": {
+        "es": "peluche",
+        "en": "stuffed toy",
+        "ru": "мягкая игрушка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2304,
+       "label": {
+        "es": "cama",
+        "en": "bed",
+        "ru": "кровать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 3155,
+       "label": {
+        "es": "silla",
+        "en": "chair",
+        "ru": "стул"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 3129,
+       "label": {
+        "es": "mesa",
+        "en": "table",
+        "ru": "стол"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2475,
+       "label": {
+        "es": "mochila",
+        "en": "backpack",
+        "ru": "рюкзак"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 8153,
+       "label": {
+        "es": "llave",
+        "en": "key",
+        "ru": "ключ"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 4630,
+       "label": {
+        "es": "dinero",
+        "en": "money",
+        "ru": "деньги"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2440,
+       "label": {
+        "es": "lápiz",
+        "en": "pencil",
+        "ru": "карандаш"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 8349,
+       "label": {
+        "es": "papel",
+        "en": "paper",
+        "ru": "бумага"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2364,
+       "label": {
+        "es": "cuento",
+        "en": "story",
+        "ru": "сказка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 7107,
+       "label": {
+        "es": "foto",
+        "en": "photo",
+        "ru": "фото"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 3149,
+       "label": {
+        "es": "regalo",
+        "en": "gift",
+        "ru": "подарок"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2549,
+       "label": {
+        "es": "reloj",
+        "en": "clock",
+        "ru": "часы"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 8619,
+       "label": {
+        "es": "luz",
+        "en": "light",
+        "ru": "свет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 3244,
+       "label": {
+        "es": "puerta",
+        "en": "door",
+        "ru": "дверь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2611,
+       "label": {
+        "es": "ventana",
+        "en": "window",
+        "ru": "окно"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2500,
+       "label": {
+        "es": "paraguas",
+        "en": "umbrella",
+        "ru": "зонт"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2277,
+       "label": {
+        "es": "bicicleta",
+        "en": "bike",
+        "ru": "велосипед"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 2,
+    "color": "FOLDER",
+    "arasaacId": 4611,
+    "label": {
+     "es": "Comida",
+     "en": "Food",
+     "ru": "Еда"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2248,
+       "label": {
+        "es": "agua",
+        "en": "water",
+        "ru": "вода"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2445,
+       "label": {
+        "es": "leche",
+        "en": "milk",
+        "ru": "молоко"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 11463,
+       "label": {
+        "es": "zumo",
+        "en": "juice",
+        "ru": "сок"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2494,
+       "label": {
+        "es": "pan",
+        "en": "bread",
+        "ru": "хлеб"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 8312,
+       "label": {
+        "es": "galleta",
+        "en": "cookie",
+        "ru": "печенье"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 4653,
+       "label": {
+        "es": "fruta",
+        "en": "fruit",
+        "ru": "фрукты"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2462,
+       "label": {
+        "es": "manzana",
+        "en": "apple",
+        "ru": "яблоко"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2530,
+       "label": {
+        "es": "plátano",
+        "en": "banana",
+        "ru": "банан"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2483,
+       "label": {
+        "es": "naranja",
+        "en": "orange",
+        "ru": "апельсин"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 3247,
+       "label": {
+        "es": "uvas",
+        "en": "grapes",
+        "ru": "виноград"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2400,
+       "label": {
+        "es": "fresa",
+        "en": "strawberry",
+        "ru": "клубника"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2541,
+       "label": {
+        "es": "queso",
+        "en": "cheese",
+        "ru": "сыр"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2433,
+       "label": {
+        "es": "jamón",
+        "en": "ham",
+        "ru": "ветчина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2427,
+       "label": {
+        "es": "huevo",
+        "en": "egg",
+        "ru": "яйцо"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 4952,
+       "label": {
+        "es": "pollo",
+        "en": "chicken",
+        "ru": "курица"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2316,
+       "label": {
+        "es": "carne",
+        "en": "meat",
+        "ru": "мясо"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2519,
+       "label": {
+        "es": "pescado",
+        "en": "fish",
+        "ru": "рыба"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 8652,
+       "label": {
+        "es": "pasta",
+        "en": "pasta",
+        "ru": "макароны"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 6911,
+       "label": {
+        "es": "arroz",
+        "en": "rice",
+        "ru": "рис"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2573,
+       "label": {
+        "es": "sopa",
+        "en": "soup",
+        "ru": "суп"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 29131,
+       "label": {
+        "es": "verduras",
+        "en": "vegetables",
+        "ru": "овощи"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2503,
+       "label": {
+        "es": "patata",
+        "en": "potato",
+        "ru": "картошка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2594,
+       "label": {
+        "es": "tomate",
+        "en": "tomato",
+        "ru": "помидор"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2619,
+       "label": {
+        "es": "zanahoria",
+        "en": "carrot",
+        "ru": "морковь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 35209,
+       "label": {
+        "es": "helado",
+        "en": "ice cream",
+        "ru": "мороженое"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2334,
+       "label": {
+        "es": "chocolate",
+        "en": "chocolate",
+        "ru": "шоколад"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2527,
+       "label": {
+        "es": "pizza",
+        "en": "pizza",
+        "ru": "пицца"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2618,
+       "label": {
+        "es": "yogur",
+        "en": "yogurt",
+        "ru": "йогурт"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2328,
+       "label": {
+        "es": "cereales",
+        "en": "cereal",
+        "ru": "хлопья"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 4626,
+       "label": {
+        "es": "desayuno",
+        "en": "breakfast",
+        "ru": "завтрак"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 28207,
+       "label": {
+        "es": "comida",
+        "en": "lunch",
+        "ru": "обед"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 4592,
+       "label": {
+        "es": "cena",
+        "en": "dinner",
+        "ru": "ужин"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 3,
+    "color": "FOLDER",
+    "arasaacId": 32598,
+    "label": {
+     "es": "Sitios",
+     "en": "Places",
+     "ru": "Места"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2317,
+       "label": {
+        "es": "casa",
+        "en": "home",
+        "ru": "дом"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 3082,
+       "label": {
+        "es": "colegio",
+        "en": "school",
+        "ru": "школа"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2859,
+       "label": {
+        "es": "parque",
+        "en": "park",
+        "ru": "парк"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 9117,
+       "label": {
+        "es": "tienda",
+        "en": "shop",
+        "ru": "магазин"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 3389,
+       "label": {
+        "es": "supermercado",
+        "en": "supermarket",
+        "ru": "супермаркет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 3116,
+       "label": {
+        "es": "hospital",
+        "en": "hospital",
+        "ru": "больница"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 6929,
+       "label": {
+        "es": "baño",
+        "en": "bathroom",
+        "ru": "туалет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2341,
+       "label": {
+        "es": "cocina",
+        "en": "kitchen",
+        "ru": "кухня"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 5988,
+       "label": {
+        "es": "habitación",
+        "en": "bedroom",
+        "ru": "спальня"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 6211,
+       "label": {
+        "es": "salón",
+        "en": "living room",
+        "ru": "гостиная"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2299,
+       "label": {
+        "es": "calle",
+        "en": "street",
+        "ru": "улица"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2826,
+       "label": {
+        "es": "playa",
+        "en": "beach",
+        "ru": "пляж"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 3142,
+       "label": {
+        "es": "piscina",
+        "en": "pool",
+        "ru": "бассейн"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2683,
+       "label": {
+        "es": "campo",
+        "en": "countryside",
+        "ru": "деревня"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2434,
+       "label": {
+        "es": "jardín",
+        "en": "garden",
+        "ru": "сад"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 3065,
+       "label": {
+        "es": "biblioteca",
+        "en": "library",
+        "ru": "библиотека"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 10283,
+       "label": {
+        "es": "restaurante",
+        "en": "restaurant",
+        "ru": "ресторан"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 4602,
+       "label": {
+        "es": "cine",
+        "en": "cinema",
+        "ru": "кино"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 4773,
+       "label": {
+        "es": "zoo",
+        "en": "zoo",
+        "ru": "зоопарк"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 3313,
+       "label": {
+        "es": "farmacia",
+        "en": "pharmacy",
+        "ru": "аптека"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 3053,
+       "label": {
+        "es": "aeropuerto",
+        "en": "airport",
+        "ru": "аэропорт"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2262,
+       "label": {
+        "es": "autobús",
+        "en": "bus",
+        "ru": "автобус"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2603,
+       "label": {
+        "es": "tren",
+        "en": "train",
+        "ru": "поезд"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2264,
+       "label": {
+        "es": "avión",
+        "en": "plane",
+        "ru": "самолёт"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2704,
+       "label": {
+        "es": "ciudad",
+        "en": "city",
+        "ru": "город"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 4,
+    "color": "FOLDER",
+    "arasaacId": 7297,
+    "label": {
+     "es": "Acciones",
+     "en": "Actions",
+     "ru": "Действия"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 6,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 24825,
+       "label": {
+        "es": "abrir",
+        "en": "open",
+        "ru": "открыть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 2697,
+       "label": {
+        "es": "cerrar",
+        "en": "close",
+        "ru": "закрыть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "VERB",
+       "arasaacId": 32757,
+       "label": {
+        "es": "poner",
+        "en": "put",
+        "ru": "положить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 11751,
+       "label": {
+        "es": "quitar",
+        "en": "take off",
+        "ru": "снять"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "VERB",
+       "arasaacId": 6452,
+       "label": {
+        "es": "coger",
+        "en": "take",
+        "ru": "взять"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "VERB",
+       "arasaacId": 6215,
+       "label": {
+        "es": "dejar",
+        "en": "leave",
+        "ru": "оставить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "VERB",
+       "arasaacId": 11708,
+       "label": {
+        "es": "venir",
+        "en": "come",
+        "ru": "прийти"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "VERB",
+       "arasaacId": 2806,
+       "label": {
+        "es": "salir",
+        "en": "go out",
+        "ru": "выйти"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 2742,
+       "label": {
+        "es": "entrar",
+        "en": "go in",
+        "ru": "войти"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 6611,
+       "label": {
+        "es": "sentarse",
+        "en": "sit down",
+        "ru": "сесть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "VERB",
+       "arasaacId": 2719,
+       "label": {
+        "es": "correr",
+        "en": "run",
+        "ru": "бежать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 3251,
+       "label": {
+        "es": "andar",
+        "en": "walk",
+        "ru": "ходить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "VERB",
+       "arasaacId": 2804,
+       "label": {
+        "es": "saltar",
+        "en": "jump",
+        "ru": "прыгать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "VERB",
+       "arasaacId": 2369,
+       "label": {
+        "es": "dormir",
+        "en": "sleep",
+        "ru": "спать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "VERB",
+       "arasaacId": 5496,
+       "label": {
+        "es": "lavar",
+        "en": "wash",
+        "ru": "мыть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "VERB",
+       "arasaacId": 3351,
+       "label": {
+        "es": "limpiar",
+        "en": "clean",
+        "ru": "убирать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 2781,
+       "label": {
+        "es": "vestirse",
+        "en": "get dressed",
+        "ru": "одеваться"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 2315,
+       "label": {
+        "es": "cantar",
+        "en": "sing",
+        "ru": "петь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "VERB",
+       "arasaacId": 2652,
+       "label": {
+        "es": "bailar",
+        "en": "dance",
+        "ru": "танцевать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 7141,
+       "label": {
+        "es": "leer",
+        "en": "read",
+        "ru": "читать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "VERB",
+       "arasaacId": 2380,
+       "label": {
+        "es": "escribir",
+        "en": "write",
+        "ru": "писать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "VERB",
+       "arasaacId": 8088,
+       "label": {
+        "es": "dibujar",
+        "en": "draw",
+        "ru": "рисовать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "VERB",
+       "arasaacId": 2348,
+       "label": {
+        "es": "pintar",
+        "en": "paint",
+        "ru": "красить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "VERB",
+       "arasaacId": 2547,
+       "label": {
+        "es": "cortar",
+        "en": "cut",
+        "ru": "резать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 2381,
+       "label": {
+        "es": "escuchar",
+        "en": "listen",
+        "ru": "слушать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 2474,
+       "label": {
+        "es": "mirar",
+        "en": "look",
+        "ru": "смотреть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "VERB",
+       "arasaacId": 8109,
+       "label": {
+        "es": "esperar",
+        "en": "wait",
+        "ru": "ждать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 5431,
+       "label": {
+        "es": "empezar",
+        "en": "start",
+        "ru": "начать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 4,
+       "color": "VERB",
+       "arasaacId": 5358,
+       "label": {
+        "es": "terminar",
+        "en": "finish",
+        "ru": "закончить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 5,
+       "color": "VERB",
+       "arasaacId": 6139,
+       "label": {
+        "es": "llevar",
+        "en": "carry",
+        "ru": "нести"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 6,
+       "color": "VERB",
+       "arasaacId": 6542,
+       "label": {
+        "es": "tirar",
+        "en": "throw",
+        "ru": "бросить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 7,
+       "color": "VERB",
+       "arasaacId": 4638,
+       "label": {
+        "es": "empujar",
+        "en": "push",
+        "ru": "толкать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 6023,
+       "label": {
+        "es": "abrazar",
+        "en": "hug",
+        "ru": "обнимать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 8662,
+       "label": {
+        "es": "pensar",
+        "en": "think",
+        "ru": "думать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 2,
+       "color": "VERB",
+       "arasaacId": 6993,
+       "label": {
+        "es": "saber",
+        "en": "know",
+        "ru": "знать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 11697,
+       "label": {
+        "es": "entender",
+        "en": "understand",
+        "ru": "понимать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 4,
+       "color": "VERB",
+       "arasaacId": 9692,
+       "label": {
+        "es": "decir",
+        "en": "say",
+        "ru": "сказать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 5,
+       "color": "VERB",
+       "arasaacId": 4687,
+       "label": {
+        "es": "llamar",
+        "en": "call",
+        "ru": "звонить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 6,
+       "color": "VERB",
+       "arasaacId": 6457,
+       "label": {
+        "es": "comprar",
+        "en": "buy",
+        "ru": "купить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 7,
+       "color": "VERB",
+       "arasaacId": 2342,
+       "label": {
+        "es": "cocinar",
+        "en": "cook",
+        "ru": "готовить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 5,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 3239,
+       "label": {
+        "es": "llorar",
+        "en": "cry",
+        "ru": "плакать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 5,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 13354,
+       "label": {
+        "es": "reír",
+        "en": "laugh",
+        "ru": "смеяться"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 5,
+    "color": "FOLDER",
+    "arasaacId": 32584,
+    "label": {
+     "es": "Describir",
+     "en": "Describe",
+     "ru": "Описать"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 5,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4583,
+       "label": {
+        "es": "caliente",
+        "en": "hot",
+        "ru": "горячий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4652,
+       "label": {
+        "es": "frío",
+        "en": "cold",
+        "ru": "холодный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5306,
+       "label": {
+        "es": "rápido",
+        "en": "fast",
+        "ru": "быстрый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4676,
+       "label": {
+        "es": "lento",
+        "en": "slow",
+        "ru": "медленный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 11194,
+       "label": {
+        "es": "bonito",
+        "en": "pretty",
+        "ru": "красивый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4648,
+       "label": {
+        "es": "feo",
+        "en": "ugly",
+        "ru": "некрасивый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4680,
+       "label": {
+        "es": "limpio",
+        "en": "clean",
+        "ru": "чистый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4750,
+       "label": {
+        "es": "sucio",
+        "en": "dirty",
+        "ru": "грязный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4705,
+       "label": {
+        "es": "nuevo",
+        "en": "new",
+        "ru": "новый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4770,
+       "label": {
+        "es": "viejo",
+        "en": "old",
+        "ru": "старый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4655,
+       "label": {
+        "es": "fuerte",
+        "en": "strong",
+        "ru": "сильный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4581,
+       "label": {
+        "es": "bueno",
+        "en": "good",
+        "ru": "хороший"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4690,
+       "label": {
+        "es": "malo",
+        "en": "bad",
+        "ru": "плохой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 3423,
+       "label": {
+        "es": "igual",
+        "en": "same",
+        "ru": "такой же"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4628,
+       "label": {
+        "es": "diferente",
+        "en": "different",
+        "ru": "разный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4688,
+       "label": {
+        "es": "lleno",
+        "en": "full",
+        "ru": "полный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4767,
+       "label": {
+        "es": "vacío",
+        "en": "empty",
+        "ru": "пустой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5596,
+       "label": {
+        "es": "todo",
+        "en": "all",
+        "ru": "всё"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 29839,
+       "label": {
+        "es": "nada",
+        "en": "nothing",
+        "ru": "ничего"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 17054,
+       "label": {
+        "es": "otro",
+        "en": "other",
+        "ru": "другой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4557,
+       "label": {
+        "es": "alto",
+        "en": "tall",
+        "ru": "высокий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4571,
+       "label": {
+        "es": "bajo",
+        "en": "short",
+        "ru": "низкий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4637,
+       "label": {
+        "es": "duro",
+        "en": "hard",
+        "ru": "твёрдый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4578,
+       "label": {
+        "es": "blando",
+        "en": "soft",
+        "ru": "мягкий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4697,
+       "label": {
+        "es": "mojado",
+        "en": "wet",
+        "ru": "мокрый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4741,
+       "label": {
+        "es": "seco",
+        "en": "dry",
+        "ru": "сухой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4549,
+       "label": {
+        "es": "abierto",
+        "en": "open",
+        "ru": "открытый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4596,
+       "label": {
+        "es": "cerrado",
+        "en": "closed",
+        "ru": "закрытый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5388,
+       "label": {
+        "es": "arriba",
+        "en": "up",
+        "ru": "вверх"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5355,
+       "label": {
+        "es": "abajo",
+        "en": "down",
+        "ru": "вниз"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5439,
+       "label": {
+        "es": "dentro",
+        "en": "inside",
+        "ru": "внутри"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5475,
+       "label": {
+        "es": "fuera",
+        "en": "outside",
+        "ru": "снаружи"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 30383,
+       "label": {
+        "es": "cerca",
+        "en": "near",
+        "ru": "близко"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 30385,
+       "label": {
+        "es": "lejos",
+        "en": "far",
+        "ru": "далеко"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4645,
+       "label": {
+        "es": "fácil",
+        "en": "easy",
+        "ru": "лёгкий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4629,
+       "label": {
+        "es": "difícil",
+        "en": "difficult",
+        "ru": "трудный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 7157,
+       "label": {
+        "es": "ruidoso",
+        "en": "loud",
+        "ru": "громкий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 5936,
+       "label": {
+        "es": "callado",
+        "en": "quiet",
+        "ru": "тихий"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 6,
+    "color": "FOLDER",
+    "arasaacId": 3345,
+    "label": {
+     "es": "Hablar",
+     "en": "Talk",
+     "ru": "Разговор"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 6009,
+       "label": {
+        "es": "hola",
+        "en": "hello",
+        "ru": "привет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "SOCIAL",
+       "arasaacId": 5896,
+       "label": {
+        "es": "adiós",
+        "en": "goodbye",
+        "ru": "пока"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "SOCIAL",
+       "arasaacId": 6944,
+       "label": {
+        "es": "buenos días",
+        "en": "good morning",
+        "ru": "доброе утро"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "SOCIAL",
+       "arasaacId": 6942,
+       "label": {
+        "es": "buenas noches",
+        "en": "good night",
+        "ru": "спокойной ночи"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "SOCIAL",
+       "arasaacId": 8195,
+       "label": {
+        "es": "por favor",
+        "en": "please",
+        "ru": "пожалуйста"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "SOCIAL",
+       "arasaacId": 8129,
+       "label": {
+        "es": "gracias",
+        "en": "thank you",
+        "ru": "спасибо"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "SOCIAL",
+       "arasaacId": 11625,
+       "label": {
+        "es": "perdón",
+        "en": "sorry",
+        "ru": "извини"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "SOCIAL",
+       "arasaacId": 5584,
+       "label": {
+        "es": "sí",
+        "en": "yes",
+        "ru": "да"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 5526,
+       "label": {
+        "es": "no",
+        "en": "no",
+        "ru": "нет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "SOCIAL",
+       "arasaacId": 7180,
+       "label": {
+        "es": "no sé",
+        "en": "I don't know",
+        "ru": "не знаю"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "SOCIAL",
+       "arasaacId": 2474,
+       "label": {
+        "es": "mira",
+        "en": "look!",
+        "ru": "смотри"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "SOCIAL",
+       "arasaacId": 2381,
+       "label": {
+        "es": "escucha",
+        "en": "listen!",
+        "ru": "слушай"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "SOCIAL",
+       "arasaacId": 16091,
+       "label": {
+        "es": "espera",
+        "en": "wait!",
+        "ru": "подожди"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "SOCIAL",
+       "arasaacId": 11708,
+       "label": {
+        "es": "ven aquí",
+        "en": "come here",
+        "ru": "иди сюда"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "SOCIAL",
+       "arasaacId": 2418,
+       "label": {
+        "es": "me gusta",
+        "en": "I like it",
+        "ru": "мне нравится"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "SOCIAL",
+       "arasaacId": 6155,
+       "label": {
+        "es": "no me gusta",
+        "en": "I don't like it",
+        "ru": "мне не нравится"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 5441,
+       "label": {
+        "es": "quiero",
+        "en": "I want",
+        "ru": "я хочу"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "SOCIAL",
+       "arasaacId": 6156,
+       "label": {
+        "es": "no quiero",
+        "en": "I don't want",
+        "ru": "я не хочу"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "SOCIAL",
+       "arasaacId": 37162,
+       "label": {
+        "es": "otra vez",
+        "en": "again",
+        "ru": "ещё раз"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "SOCIAL",
+       "arasaacId": 4676,
+       "label": {
+        "es": "más despacio",
+        "en": "slower",
+        "ru": "медленнее"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "SOCIAL",
+       "arasaacId": 11752,
+       "label": {
+        "es": "repite",
+        "en": "say it again",
+        "ru": "повтори"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "SOCIAL",
+       "arasaacId": 7158,
+       "label": {
+        "es": "es mi turno",
+        "en": "my turn",
+        "ru": "моя очередь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "SOCIAL",
+       "arasaacId": 13018,
+       "label": {
+        "es": "enhorabuena",
+        "en": "congratulations",
+        "ru": "поздравляю"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "SOCIAL",
+       "arasaacId": 8020,
+       "label": {
+        "es": "te quiero",
+        "en": "I love you",
+        "ru": "я тебя люблю"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 11599,
+       "label": {
+        "es": "qué bien",
+        "en": "great",
+        "ru": "здорово"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 7,
+    "color": "FOLDER",
+    "arasaacId": 12252,
+    "label": {
+     "es": "Ayuda",
+     "en": "Help",
+     "ru": "Помощь"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 12252,
+       "label": {
+        "es": "necesito ayuda",
+        "en": "I need help",
+        "ru": "мне нужна помощь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "SOCIAL",
+       "arasaacId": 2367,
+       "label": {
+        "es": "me duele",
+        "en": "it hurts",
+        "ru": "мне больно"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "SOCIAL",
+       "arasaacId": 28651,
+       "label": {
+        "es": "dolor de cabeza",
+        "en": "headache",
+        "ru": "болит голова"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "SOCIAL",
+       "arasaacId": 28765,
+       "label": {
+        "es": "dolor de barriga",
+        "en": "tummy ache",
+        "ru": "болит живот"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "SOCIAL",
+       "arasaacId": 35559,
+       "label": {
+        "es": "tengo hambre",
+        "en": "I'm hungry",
+        "ru": "я хочу есть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "SOCIAL",
+       "arasaacId": 7273,
+       "label": {
+        "es": "tengo sed",
+        "en": "I'm thirsty",
+        "ru": "я хочу пить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "SOCIAL",
+       "arasaacId": 8513,
+       "label": {
+        "es": "tengo sueño",
+        "en": "I'm sleepy",
+        "ru": "я хочу спать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "SOCIAL",
+       "arasaacId": 4652,
+       "label": {
+        "es": "tengo frío",
+        "en": "I'm cold",
+        "ru": "мне холодно"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 35561,
+       "label": {
+        "es": "tengo calor",
+        "en": "I'm hot",
+        "ru": "мне жарко"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "SOCIAL",
+       "arasaacId": 15810,
+       "label": {
+        "es": "quiero ir al baño",
+        "en": "I need the bathroom",
+        "ru": "мне нужно в туалет"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "SOCIAL",
+       "arasaacId": 8163,
+       "label": {
+        "es": "medicina",
+        "en": "medicine",
+        "ru": "лекарство"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "SOCIAL",
+       "arasaacId": 2467,
+       "label": {
+        "es": "médico",
+        "en": "doctor",
+        "ru": "врач"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "SOCIAL",
+       "arasaacId": 7040,
+       "label": {
+        "es": "enfermo",
+        "en": "sick",
+        "ru": "больной"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "SOCIAL",
+       "arasaacId": 5484,
+       "label": {
+        "es": "me he hecho daño",
+        "en": "I hurt myself",
+        "ru": "я ушибся"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "SOCIAL",
+       "arasaacId": 35573,
+       "label": {
+        "es": "no me encuentro bien",
+        "en": "I feel unwell",
+        "ru": "мне плохо"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "SOCIAL",
+       "arasaacId": 36295,
+       "label": {
+        "es": "estoy perdido",
+        "en": "I'm lost",
+        "ru": "я потерялся"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "SOCIAL",
+       "arasaacId": 27363,
+       "label": {
+        "es": "no entiendo",
+        "en": "I don't understand",
+        "ru": "я не понимаю"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "SOCIAL",
+       "arasaacId": 3299,
+       "label": {
+        "es": "quiero descansar",
+        "en": "I want to rest",
+        "ru": "я хочу отдохнуть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "SOCIAL",
+       "arasaacId": 10261,
+       "label": {
+        "es": "tengo miedo",
+        "en": "I'm scared",
+        "ru": "мне страшно"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 8,
+    "color": "FOLDER",
+    "arasaacId": 3082,
+    "label": {
+     "es": "Colegio",
+     "en": "School",
+     "ru": "Школа"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2457,
+       "label": {
+        "es": "profesor",
+        "en": "teacher",
+        "ru": "учитель"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 39421,
+       "label": {
+        "es": "compañero",
+        "en": "classmate",
+        "ru": "одноклассник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 5913,
+       "label": {
+        "es": "clase",
+        "en": "class",
+        "ru": "класс"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2475,
+       "label": {
+        "es": "mochila",
+        "en": "backpack",
+        "ru": "рюкзак"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2450,
+       "label": {
+        "es": "libro",
+        "en": "book",
+        "ru": "учебник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2359,
+       "label": {
+        "es": "cuaderno",
+        "en": "notebook",
+        "ru": "тетрадь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2440,
+       "label": {
+        "es": "lápiz",
+        "en": "pencil",
+        "ru": "карандаш"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2282,
+       "label": {
+        "es": "bolígrafo",
+        "en": "pen",
+        "ru": "ручка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2409,
+       "label": {
+        "es": "goma",
+        "en": "eraser",
+        "ru": "ластик"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2815,
+       "label": {
+        "es": "regla",
+        "en": "ruler",
+        "ru": "линейка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2591,
+       "label": {
+        "es": "tijeras",
+        "en": "scissors",
+        "ru": "ножницы"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2510,
+       "label": {
+        "es": "pegamento",
+        "en": "glue",
+        "ru": "клей"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 4870,
+       "label": {
+        "es": "pintura",
+        "en": "paint",
+        "ru": "краски"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 17016,
+       "label": {
+        "es": "lápices de colores",
+        "en": "crayons",
+        "ru": "цветные карандаши"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 8349,
+       "label": {
+        "es": "folio",
+        "en": "sheet of paper",
+        "ru": "лист"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2526,
+       "label": {
+        "es": "pizarra",
+        "en": "board",
+        "ru": "доска"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2487,
+       "label": {
+        "es": "ordenador",
+        "en": "computer",
+        "ru": "компьютер"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 6204,
+       "label": {
+        "es": "recreo",
+        "en": "break",
+        "ru": "перемена"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 11228,
+       "label": {
+        "es": "deberes",
+        "en": "homework",
+        "ru": "домашнее задание"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 38462,
+       "label": {
+        "es": "examen",
+        "en": "test",
+        "ru": "контрольная"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2714,
+       "label": {
+        "es": "contar",
+        "en": "count",
+        "ru": "считать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2879,
+       "label": {
+        "es": "número",
+        "en": "number",
+        "ru": "число"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 34361,
+       "label": {
+        "es": "letra",
+        "en": "letter",
+        "ru": "буква"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 6204,
+       "label": {
+        "es": "patio",
+        "en": "playground",
+        "ru": "двор"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 5970,
+       "label": {
+        "es": "comedor",
+        "en": "canteen",
+        "ru": "столовая"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 32370,
+       "label": {
+        "es": "autobús escolar",
+        "en": "school bus",
+        "ru": "школьный автобус"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 5,
+    "col": 9,
+    "color": "FOLDER",
+    "arasaacId": 8008,
+    "label": {
+     "es": "Actividades",
+     "en": "Activities",
+     "ru": "Занятия"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 2439,
+       "label": {
+        "es": "jugar",
+        "en": "play",
+        "ru": "играть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 8088,
+       "label": {
+        "es": "dibujar",
+        "en": "draw",
+        "ru": "рисовать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "VERB",
+       "arasaacId": 2348,
+       "label": {
+        "es": "pintar",
+        "en": "paint",
+        "ru": "красить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 2315,
+       "label": {
+        "es": "cantar",
+        "en": "sing",
+        "ru": "петь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "VERB",
+       "arasaacId": 2652,
+       "label": {
+        "es": "bailar",
+        "en": "dance",
+        "ru": "танцевать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "VERB",
+       "arasaacId": 7141,
+       "label": {
+        "es": "leer",
+        "en": "read",
+        "ru": "читать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "VERB",
+       "arasaacId": 2782,
+       "label": {
+        "es": "ver la tele",
+        "en": "watch TV",
+        "ru": "смотреть телевизор"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 24791,
+       "label": {
+        "es": "música",
+        "en": "music",
+        "ru": "музыка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 7137,
+       "label": {
+        "es": "fútbol",
+        "en": "soccer",
+        "ru": "футбол"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 10166,
+       "label": {
+        "es": "baloncesto",
+        "en": "basketball",
+        "ru": "баскетбол"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2277,
+       "label": {
+        "es": "bicicleta",
+        "en": "bike",
+        "ru": "велосипед"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "VERB",
+       "arasaacId": 6568,
+       "label": {
+        "es": "nadar",
+        "en": "swim",
+        "ru": "плавать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 4608,
+       "label": {
+        "es": "columpio",
+        "en": "swing",
+        "ru": "качели"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 4759,
+       "label": {
+        "es": "tobogán",
+        "en": "slide",
+        "ru": "горка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2540,
+       "label": {
+        "es": "puzzle",
+        "en": "puzzle",
+        "ru": "пазл"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 4935,
+       "label": {
+        "es": "construcciones",
+        "en": "blocks",
+        "ru": "конструктор"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "VERB",
+       "arasaacId": 2342,
+       "label": {
+        "es": "cocinar",
+        "en": "cook",
+        "ru": "готовить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "VERB",
+       "arasaacId": 8649,
+       "label": {
+        "es": "pasear",
+        "en": "go for a walk",
+        "ru": "гулять"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2364,
+       "label": {
+        "es": "cuento",
+        "en": "story",
+        "ru": "сказка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 9183,
+       "label": {
+        "es": "película",
+        "en": "movie",
+        "ru": "фильм"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 9810,
+       "label": {
+        "es": "juego de mesa",
+        "en": "board game",
+        "ru": "настольная игра"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 21945,
+       "label": {
+        "es": "videojuego",
+        "en": "video game",
+        "ru": "видеоигра"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 7794,
+       "label": {
+        "es": "manualidades",
+        "en": "crafts",
+        "ru": "поделки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2529,
+       "label": {
+        "es": "plastilina",
+        "en": "play dough",
+        "ru": "пластилин"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 6945,
+       "label": {
+        "es": "burbujas",
+        "en": "bubbles",
+        "ru": "пузыри"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 0,
+    "color": "FOLDER",
+    "arasaacId": 11476,
+    "label": {
+     "es": "Estados",
+     "en": "Feelings",
+     "ru": "Чувства"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 3245,
+       "label": {
+        "es": "contento",
+        "en": "happy",
+        "ru": "весёлый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2606,
+       "label": {
+        "es": "triste",
+        "en": "sad",
+        "ru": "грустный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2374,
+       "label": {
+        "es": "enfadado",
+        "en": "angry",
+        "ru": "злой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2261,
+       "label": {
+        "es": "asustado",
+        "en": "scared",
+        "ru": "испуганный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2314,
+       "label": {
+        "es": "cansado",
+        "en": "tired",
+        "ru": "уставший"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2245,
+       "label": {
+        "es": "aburrido",
+        "en": "bored",
+        "ru": "скучно"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 11312,
+       "label": {
+        "es": "nervioso",
+        "en": "nervous",
+        "ru": "нервничаю"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2574,
+       "label": {
+        "es": "sorprendido",
+        "en": "surprised",
+        "ru": "удивлён"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 7040,
+       "label": {
+        "es": "enfermo",
+        "en": "sick",
+        "ru": "больной"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 7272,
+       "label": {
+        "es": "hambre",
+        "en": "hungry",
+        "ru": "голодный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 7273,
+       "label": {
+        "es": "sed",
+        "en": "thirsty",
+        "ru": "хочу пить"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 8513,
+       "label": {
+        "es": "sueño",
+        "en": "sleepy",
+        "ru": "сонный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 31310,
+       "label": {
+        "es": "tranquilo",
+        "en": "calm",
+        "ru": "спокойный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 6922,
+       "label": {
+        "es": "avergonzado",
+        "en": "embarrassed",
+        "ru": "стесняюсь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 39247,
+       "label": {
+        "es": "solo",
+        "en": "lonely",
+        "ru": "одинокий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 31408,
+       "label": {
+        "es": "orgulloso",
+        "en": "proud",
+        "ru": "горжусь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 26985,
+       "label": {
+        "es": "preocupado",
+        "en": "worried",
+        "ru": "беспокоюсь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 36911,
+       "label": {
+        "es": "envidia",
+        "en": "envy",
+        "ru": "зависть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 39090,
+       "label": {
+        "es": "emocionado",
+        "en": "excited",
+        "ru": "взволнован"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2367,
+       "label": {
+        "es": "con dolor",
+        "en": "in pain",
+        "ru": "больно"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 1,
+    "color": "FOLDER",
+    "arasaacId": 7099,
+    "label": {
+     "es": "Diversión",
+     "en": "Fun",
+     "ru": "Веселье"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 2,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2408,
+       "label": {
+        "es": "globo",
+        "en": "balloon",
+        "ru": "шарик"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 7099,
+       "label": {
+        "es": "fiesta",
+        "en": "party",
+        "ru": "праздник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 3087,
+       "label": {
+        "es": "cumpleaños",
+        "en": "birthday",
+        "ru": "день рождения"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 3149,
+       "label": {
+        "es": "regalo",
+        "en": "gift",
+        "ru": "подарок"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2579,
+       "label": {
+        "es": "tarta",
+        "en": "cake",
+        "ru": "торт"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 6242,
+       "label": {
+        "es": "vela",
+        "en": "candle",
+        "ru": "свеча"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 24791,
+       "label": {
+        "es": "canción",
+        "en": "song",
+        "ru": "песня"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2652,
+       "label": {
+        "es": "baile",
+        "en": "dance",
+        "ru": "танец"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2854,
+       "label": {
+        "es": "payaso",
+        "en": "clown",
+        "ru": "клоун"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 6450,
+       "label": {
+        "es": "circo",
+        "en": "circus",
+        "ru": "цирк"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 10157,
+       "label": {
+        "es": "magia",
+        "en": "magic",
+        "ru": "фокус"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 4649,
+       "label": {
+        "es": "feria",
+        "en": "fair",
+        "ru": "ярмарка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 4704,
+       "label": {
+        "es": "parque de atracciones",
+        "en": "amusement park",
+        "ru": "парк аттракционов"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 5985,
+       "label": {
+        "es": "disfraz",
+        "en": "costume",
+        "ru": "костюм"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 9810,
+       "label": {
+        "es": "juegos",
+        "en": "games",
+        "ru": "игры"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 4602,
+       "label": {
+        "es": "cine",
+        "en": "cinema",
+        "ru": "кино"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 2,
+    "color": "FOLDER",
+    "arasaacId": 3071,
+    "label": {
+     "es": "Tiempo",
+     "en": "Time",
+     "ru": "Время"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 5,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "ADVERB",
+       "arasaacId": 7131,
+       "label": {
+        "es": "hoy",
+        "en": "today",
+        "ru": "сегодня"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "ADVERB",
+       "arasaacId": 6926,
+       "label": {
+        "es": "ayer",
+        "en": "yesterday",
+        "ru": "вчера"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "ADVERB",
+       "arasaacId": 38278,
+       "label": {
+        "es": "mañana",
+        "en": "tomorrow",
+        "ru": "завтра"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "ADVERB",
+       "arasaacId": 13026,
+       "label": {
+        "es": "ahora",
+        "en": "now",
+        "ru": "сейчас"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "ADVERB",
+       "arasaacId": 13080,
+       "label": {
+        "es": "después",
+        "en": "later",
+        "ru": "потом"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "ADVERB",
+       "arasaacId": 13028,
+       "label": {
+        "es": "antes",
+        "en": "before",
+        "ru": "раньше"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "ADVERB",
+       "arasaacId": 25704,
+       "label": {
+        "es": "por la mañana",
+        "en": "morning",
+        "ru": "утро"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "ADVERB",
+       "arasaacId": 7268,
+       "label": {
+        "es": "tarde",
+        "en": "afternoon",
+        "ru": "день"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "ADVERB",
+       "arasaacId": 7181,
+       "label": {
+        "es": "noche",
+        "en": "night",
+        "ru": "ночь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "ADVERB",
+       "arasaacId": 7022,
+       "label": {
+        "es": "día",
+        "en": "day",
+        "ru": "сутки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "ADVERB",
+       "arasaacId": 7244,
+       "label": {
+        "es": "semana",
+        "en": "week",
+        "ru": "неделя"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "ADVERB",
+       "arasaacId": 7161,
+       "label": {
+        "es": "mes",
+        "en": "month",
+        "ru": "месяц"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "ADVERB",
+       "arasaacId": 6903,
+       "label": {
+        "es": "año",
+        "en": "year",
+        "ru": "год"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "ADVERB",
+       "arasaacId": 6554,
+       "label": {
+        "es": "lunes",
+        "en": "Monday",
+        "ru": "понедельник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "ADVERB",
+       "arasaacId": 6557,
+       "label": {
+        "es": "martes",
+        "en": "Tuesday",
+        "ru": "вторник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "ADVERB",
+       "arasaacId": 6563,
+       "label": {
+        "es": "miércoles",
+        "en": "Wednesday",
+        "ru": "среда"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "ADVERB",
+       "arasaacId": 6536,
+       "label": {
+        "es": "jueves",
+        "en": "Thursday",
+        "ru": "четверг"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "ADVERB",
+       "arasaacId": 6629,
+       "label": {
+        "es": "viernes",
+        "en": "Friday",
+        "ru": "пятница"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "ADVERB",
+       "arasaacId": 6605,
+       "label": {
+        "es": "sábado",
+        "en": "Saturday",
+        "ru": "суббота"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "ADVERB",
+       "arasaacId": 6478,
+       "label": {
+        "es": "domingo",
+        "en": "Sunday",
+        "ru": "воскресенье"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "ADVERB",
+       "arasaacId": 4726,
+       "label": {
+        "es": "primero",
+        "en": "first",
+        "ru": "сначала"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "ADVERB",
+       "arasaacId": 13080,
+       "label": {
+        "es": "luego",
+        "en": "then",
+        "ru": "затем"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "ADVERB",
+       "arasaacId": 17322,
+       "label": {
+        "es": "siempre",
+        "en": "always",
+        "ru": "всегда"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "ADVERB",
+       "arasaacId": 5527,
+       "label": {
+        "es": "nunca",
+        "en": "never",
+        "ru": "никогда"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "ADVERB",
+       "arasaacId": 3071,
+       "label": {
+        "es": "calendario",
+        "en": "calendar",
+        "ru": "календарь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2549,
+       "label": {
+        "es": "reloj",
+        "en": "clock",
+        "ru": "часы"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 7129,
+       "label": {
+        "es": "hora",
+        "en": "time",
+        "ru": "время"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 5553,
+       "label": {
+        "es": "primavera",
+        "en": "spring",
+        "ru": "весна"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 5604,
+       "label": {
+        "es": "verano",
+        "en": "summer",
+        "ru": "лето"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 5531,
+       "label": {
+        "es": "otoño",
+        "en": "autumn",
+        "ru": "осень"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 5493,
+       "label": {
+        "es": "invierno",
+        "en": "winter",
+        "ru": "зима"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2798,
+       "label": {
+        "es": "sol",
+        "en": "sun",
+        "ru": "солнце"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 3123,
+       "label": {
+        "es": "lluvia",
+        "en": "rain",
+        "ru": "дождь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 7259,
+       "label": {
+        "es": "viento",
+        "en": "wind",
+        "ru": "ветер"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 3135,
+       "label": {
+        "es": "nieve",
+        "en": "snow",
+        "ru": "снег"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 4,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2883,
+       "label": {
+        "es": "nube",
+        "en": "cloud",
+        "ru": "облако"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 3,
+    "color": "FOLDER",
+    "arasaacId": 9837,
+    "label": {
+     "es": "Palabritas",
+     "en": "Little words",
+     "ru": "Слова-связки"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "MISC",
+       "arasaacId": 3047,
+       "label": {
+        "es": "y",
+        "en": "and",
+        "ru": "и"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "MISC",
+       "arasaacId": 3037,
+       "label": {
+        "es": "o",
+        "en": "or",
+        "ru": "или"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "MISC",
+       "arasaacId": 11377,
+       "label": {
+        "es": "pero",
+        "en": "but",
+        "ru": "но"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "MISC",
+       "arasaacId": 11348,
+       "label": {
+        "es": "porque",
+        "en": "because",
+        "ru": "потому что"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "PREPOSITION",
+       "arasaacId": 7074,
+       "label": {
+        "es": "de",
+        "en": "of",
+        "ru": "из"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "PREPOSITION",
+       "arasaacId": 7034,
+       "label": {
+        "es": "en",
+        "en": "in",
+        "ru": "в"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "PREPOSITION",
+       "arasaacId": 7064,
+       "label": {
+        "es": "con",
+        "en": "with",
+        "ru": "с"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "PREPOSITION",
+       "arasaacId": 7813,
+       "label": {
+        "es": "sin",
+        "en": "without",
+        "ru": "без"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "PREPOSITION",
+       "arasaacId": 7194,
+       "label": {
+        "es": "para",
+        "en": "for",
+        "ru": "для"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "PREPOSITION",
+       "arasaacId": 7212,
+       "label": {
+        "es": "por",
+        "en": "by",
+        "ru": "по"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "MISC",
+       "arasaacId": 7095,
+       "label": {
+        "es": "este",
+        "en": "this",
+        "ru": "этот"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "MISC",
+       "arasaacId": 7091,
+       "label": {
+        "es": "ese",
+        "en": "that",
+        "ru": "тот"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "MISC",
+       "arasaacId": 12264,
+       "label": {
+        "es": "mío",
+        "en": "mine",
+        "ru": "мой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "MISC",
+       "arasaacId": 12281,
+       "label": {
+        "es": "tuyo",
+        "en": "yours",
+        "ru": "твой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "ADVERB",
+       "arasaacId": 25708,
+       "label": {
+        "es": "muy",
+        "en": "very",
+        "ru": "очень"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "ADVERB",
+       "arasaacId": 11591,
+       "label": {
+        "es": "también",
+        "en": "also",
+        "ru": "тоже"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "ADVERB",
+       "arasaacId": 25736,
+       "label": {
+        "es": "ya",
+        "en": "already",
+        "ru": "уже"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "PREPOSITION",
+       "arasaacId": 7765,
+       "label": {
+        "es": "entre",
+        "en": "between",
+        "ru": "между"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "PREPOSITION",
+       "arasaacId": 7814,
+       "label": {
+        "es": "sobre",
+        "en": "on",
+        "ru": "на"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "PREPOSITION",
+       "arasaacId": 5437,
+       "label": {
+        "es": "debajo",
+        "en": "under",
+        "ru": "под"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "PREPOSITION",
+       "arasaacId": 5443,
+       "label": {
+        "es": "detrás",
+        "en": "behind",
+        "ru": "за"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "PREPOSITION",
+       "arasaacId": 5438,
+       "label": {
+        "es": "delante",
+        "en": "in front",
+        "ru": "перед"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 4,
+    "color": "FOLDER",
+    "arasaacId": 7217,
+    "label": {
+     "es": "Preguntas",
+     "en": "Questions",
+     "ru": "Вопросы"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 2,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "QUESTION",
+       "arasaacId": 22620,
+       "label": {
+        "es": "qué",
+        "en": "what",
+        "ru": "что"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "QUESTION",
+       "arasaacId": 9853,
+       "label": {
+        "es": "quién",
+        "en": "who",
+        "ru": "кто"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "QUESTION",
+       "arasaacId": 7764,
+       "label": {
+        "es": "dónde",
+        "en": "where",
+        "ru": "где"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "QUESTION",
+       "arasaacId": 22621,
+       "label": {
+        "es": "cuándo",
+        "en": "when",
+        "ru": "когда"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "QUESTION",
+       "arasaacId": 24763,
+       "label": {
+        "es": "por qué",
+        "en": "why",
+        "ru": "почему"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "QUESTION",
+       "arasaacId": 22619,
+       "label": {
+        "es": "cómo",
+        "en": "how",
+        "ru": "как"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "QUESTION",
+       "arasaacId": 26022,
+       "label": {
+        "es": "cuál",
+        "en": "which",
+        "ru": "какой"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "QUESTION",
+       "arasaacId": 24731,
+       "label": {
+        "es": "cuánto",
+        "en": "how much",
+        "ru": "сколько"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "QUESTION",
+       "arasaacId": 22620,
+       "label": {
+        "es": "qué es esto",
+        "en": "what is this",
+        "ru": "что это"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "QUESTION",
+       "arasaacId": 11750,
+       "label": {
+        "es": "puedo",
+        "en": "can I",
+        "ru": "можно"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "QUESTION",
+       "arasaacId": 4570,
+       "label": {
+        "es": "me ayudas",
+        "en": "will you help me",
+        "ru": "поможешь"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 5,
+    "color": "FOLDER",
+    "arasaacId": 2728,
+    "label": {
+     "es": "Cuerpo",
+     "en": "Body",
+     "ru": "Тело"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2673,
+       "label": {
+        "es": "cabeza",
+        "en": "head",
+        "ru": "голова"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2876,
+       "label": {
+        "es": "ojos",
+        "en": "eyes",
+        "ru": "глаза"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2887,
+       "label": {
+        "es": "nariz",
+        "en": "nose",
+        "ru": "нос"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2663,
+       "label": {
+        "es": "boca",
+        "en": "mouth",
+        "ru": "рот"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2871,
+       "label": {
+        "es": "orejas",
+        "en": "ears",
+        "ru": "уши"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2851,
+       "label": {
+        "es": "pelo",
+        "en": "hair",
+        "ru": "волосы"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2684,
+       "label": {
+        "es": "cara",
+        "en": "face",
+        "ru": "лицо"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2727,
+       "label": {
+        "es": "cuello",
+        "en": "neck",
+        "ru": "шея"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2977,
+       "label": {
+        "es": "hombro",
+        "en": "shoulder",
+        "ru": "плечо"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2669,
+       "label": {
+        "es": "brazo",
+        "en": "arm",
+        "ru": "рука"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2928,
+       "label": {
+        "es": "mano",
+        "en": "hand",
+        "ru": "ладонь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 3298,
+       "label": {
+        "es": "dedo",
+        "en": "finger",
+        "ru": "палец"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2786,
+       "label": {
+        "es": "barriga",
+        "en": "tummy",
+        "ru": "живот"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2748,
+       "label": {
+        "es": "espalda",
+        "en": "back",
+        "ru": "спина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 8666,
+       "label": {
+        "es": "pierna",
+        "en": "leg",
+        "ru": "нога"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2810,
+       "label": {
+        "es": "rodilla",
+        "en": "knee",
+        "ru": "колено"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2841,
+       "label": {
+        "es": "pie",
+        "en": "foot",
+        "ru": "стопа"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2737,
+       "label": {
+        "es": "dientes",
+        "en": "teeth",
+        "ru": "зубы"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2944,
+       "label": {
+        "es": "lengua",
+        "en": "tongue",
+        "ru": "язык"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2715,
+       "label": {
+        "es": "corazón",
+        "en": "heart",
+        "ru": "сердце"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2840,
+       "label": {
+        "es": "piel",
+        "en": "skin",
+        "ru": "кожа"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 3332,
+       "label": {
+        "es": "garganta",
+        "en": "throat",
+        "ru": "горло"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 6,
+    "color": "FOLDER",
+    "arasaacId": 7233,
+    "label": {
+     "es": "Ropa",
+     "en": "Clothes",
+     "ru": "Одежда"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2309,
+       "label": {
+        "es": "camiseta",
+        "en": "T-shirt",
+        "ru": "футболка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2565,
+       "label": {
+        "es": "pantalón",
+        "en": "trousers",
+        "ru": "штаны"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2613,
+       "label": {
+        "es": "vestido",
+        "en": "dress",
+        "ru": "платье"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2391,
+       "label": {
+        "es": "falda",
+        "en": "skirt",
+        "ru": "юбка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2436,
+       "label": {
+        "es": "jersey",
+        "en": "sweater",
+        "ru": "свитер"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 4872,
+       "label": {
+        "es": "chaqueta",
+        "en": "jacket",
+        "ru": "куртка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2242,
+       "label": {
+        "es": "abrigo",
+        "en": "coat",
+        "ru": "пальто"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2622,
+       "label": {
+        "es": "zapatos",
+        "en": "shoes",
+        "ru": "обувь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2621,
+       "label": {
+        "es": "zapatillas",
+        "en": "sneakers",
+        "ru": "кроссовки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2298,
+       "label": {
+        "es": "calcetines",
+        "en": "socks",
+        "ru": "носки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 25680,
+       "label": {
+        "es": "ropa interior",
+        "en": "underwear",
+        "ru": "бельё"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2522,
+       "label": {
+        "es": "pijama",
+        "en": "pajamas",
+        "ru": "пижама"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2412,
+       "label": {
+        "es": "gorro",
+        "en": "hat",
+        "ru": "шапка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 3329,
+       "label": {
+        "es": "gafas",
+        "en": "glasses",
+        "ru": "очки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2415,
+       "label": {
+        "es": "guantes",
+        "en": "gloves",
+        "ru": "перчатки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2290,
+       "label": {
+        "es": "bufanda",
+        "en": "scarf",
+        "ru": "шарф"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2270,
+       "label": {
+        "es": "bañador",
+        "en": "swimsuit",
+        "ru": "плавки"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2287,
+       "label": {
+        "es": "botas",
+        "en": "boots",
+        "ru": "сапоги"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2336,
+       "label": {
+        "es": "cinturón",
+        "en": "belt",
+        "ru": "ремень"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2863,
+       "label": {
+        "es": "pañal",
+        "en": "diaper",
+        "ru": "подгузник"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 7,
+    "color": "FOLDER",
+    "arasaacId": 6901,
+    "label": {
+     "es": "Animales",
+     "en": "Animals",
+     "ru": "Животные"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 3,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2517,
+       "label": {
+        "es": "perro",
+        "en": "dog",
+        "ru": "собака"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2406,
+       "label": {
+        "es": "gato",
+        "en": "cat",
+        "ru": "кошка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2490,
+       "label": {
+        "es": "pájaro",
+        "en": "bird",
+        "ru": "птица"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2520,
+       "label": {
+        "es": "pez",
+        "en": "fish",
+        "ru": "рыба"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2294,
+       "label": {
+        "es": "caballo",
+        "en": "horse",
+        "ru": "лошадь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2609,
+       "label": {
+        "es": "vaca",
+        "en": "cow",
+        "ru": "корова"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2327,
+       "label": {
+        "es": "cerdo",
+        "en": "pig",
+        "ru": "свинья"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2489,
+       "label": {
+        "es": "oveja",
+        "en": "sheep",
+        "ru": "овца"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2403,
+       "label": {
+        "es": "gallina",
+        "en": "hen",
+        "ru": "курица"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2351,
+       "label": {
+        "es": "conejo",
+        "en": "rabbit",
+        "ru": "кролик"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2596,
+       "label": {
+        "es": "tortuga",
+        "en": "turtle",
+        "ru": "черепаха"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2449,
+       "label": {
+        "es": "león",
+        "en": "lion",
+        "ru": "лев"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2372,
+       "label": {
+        "es": "elefante",
+        "en": "elephant",
+        "ru": "слон"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2477,
+       "label": {
+        "es": "mono",
+        "en": "monkey",
+        "ru": "обезьяна"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2488,
+       "label": {
+        "es": "oso",
+        "en": "bear",
+        "ru": "медведь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2568,
+       "label": {
+        "es": "serpiente",
+        "en": "snake",
+        "ru": "змея"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2465,
+       "label": {
+        "es": "mariposa",
+        "en": "butterfly",
+        "ru": "бабочка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2239,
+       "label": {
+        "es": "abeja",
+        "en": "bee",
+        "ru": "пчела"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2254,
+       "label": {
+        "es": "araña",
+        "en": "spider",
+        "ru": "паук"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2563,
+       "label": {
+        "es": "pato",
+        "en": "duck",
+        "ru": "утка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2546,
+       "label": {
+        "es": "ratón",
+        "en": "mouse",
+        "ru": "мышь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2437,
+       "label": {
+        "es": "jirafa",
+        "en": "giraffe",
+        "ru": "жираф"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2732,
+       "label": {
+        "es": "delfín",
+        "en": "dolphin",
+        "ru": "дельфин"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 8,
+    "color": "FOLDER",
+    "arasaacId": 2317,
+    "label": {
+     "es": "Casa",
+     "en": "Home",
+     "ru": "Дом"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2571,
+       "label": {
+        "es": "sofá",
+        "en": "sofa",
+        "ru": "диван"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2304,
+       "label": {
+        "es": "cama",
+        "en": "bed",
+        "ru": "кровать"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 3129,
+       "label": {
+        "es": "mesa",
+        "en": "table",
+        "ru": "стол"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 3155,
+       "label": {
+        "es": "silla",
+        "en": "chair",
+        "ru": "стул"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 3272,
+       "label": {
+        "es": "nevera",
+        "en": "fridge",
+        "ru": "холодильник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2442,
+       "label": {
+        "es": "lavadora",
+        "en": "washing machine",
+        "ru": "стиральная машина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2370,
+       "label": {
+        "es": "ducha",
+        "en": "shower",
+        "ru": "душ"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2272,
+       "label": {
+        "es": "bañera",
+        "en": "bath",
+        "ru": "ванна"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2430,
+       "label": {
+        "es": "inodoro",
+        "en": "toilet",
+        "ru": "унитаз"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2441,
+       "label": {
+        "es": "lavabo",
+        "en": "sink",
+        "ru": "раковина"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2694,
+       "label": {
+        "es": "cepillo de dientes",
+        "en": "toothbrush",
+        "ru": "зубная щётка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2858,
+       "label": {
+        "es": "pasta de dientes",
+        "en": "toothpaste",
+        "ru": "зубная паста"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2593,
+       "label": {
+        "es": "toalla",
+        "en": "towel",
+        "ru": "полотенце"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2964,
+       "label": {
+        "es": "jabón",
+        "en": "soap",
+        "ru": "мыло"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2852,
+       "label": {
+        "es": "peine",
+        "en": "comb",
+        "ru": "расчёска"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2385,
+       "label": {
+        "es": "espejo",
+        "en": "mirror",
+        "ru": "зеркало"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 4936,
+       "label": {
+        "es": "lámpara",
+        "en": "lamp",
+        "ru": "лампа"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2249,
+       "label": {
+        "es": "alfombra",
+        "en": "rug",
+        "ru": "ковёр"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2379,
+       "label": {
+        "es": "escalera",
+        "en": "stairs",
+        "ru": "лестница"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2426,
+       "label": {
+        "es": "horno",
+        "en": "oven",
+        "ru": "духовка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2532,
+       "label": {
+        "es": "plato",
+        "en": "plate",
+        "ru": "тарелка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2610,
+       "label": {
+        "es": "vaso",
+        "en": "glass",
+        "ru": "стакан"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2362,
+       "label": {
+        "es": "cuchara",
+        "en": "spoon",
+        "ru": "ложка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2588,
+       "label": {
+        "es": "tenedor",
+        "en": "fork",
+        "ru": "вилка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 3237,
+       "label": {
+        "es": "cuchillo",
+        "en": "knife",
+        "ru": "нож"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2582,
+       "label": {
+        "es": "taza",
+        "en": "cup",
+        "ru": "чашка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2288,
+       "label": {
+        "es": "botella",
+        "en": "bottle",
+        "ru": "бутылка"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 8499,
+       "label": {
+        "es": "basura",
+        "en": "trash",
+        "ru": "мусор"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "type": "MENU",
+    "row": 6,
+    "col": 9,
+    "color": "FOLDER",
+    "arasaacId": 5968,
+    "label": {
+     "es": "Colores y números",
+     "en": "Colors & numbers",
+     "ru": "Цвета и числа"
+    },
+    "page": {
+     "cols": 8,
+     "rows": 4,
+     "cells": [
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2808,
+       "label": {
+        "es": "rojo",
+        "en": "red",
+        "ru": "красный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 3355,
+       "label": {
+        "es": "azul",
+        "en": "blue",
+        "ru": "синий"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2648,
+       "label": {
+        "es": "amarillo",
+        "en": "yellow",
+        "ru": "жёлтый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 3,
+       "color": "DESCRIPTOR",
+       "arasaacId": 4886,
+       "label": {
+        "es": "verde",
+        "en": "green",
+        "ru": "зелёный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 4,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2888,
+       "label": {
+        "es": "naranja",
+        "en": "orange",
+        "ru": "оранжевый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 5,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2807,
+       "label": {
+        "es": "rosa",
+        "en": "pink",
+        "ru": "розовый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 6,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2907,
+       "label": {
+        "es": "morado",
+        "en": "purple",
+        "ru": "фиолетовый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 0,
+       "col": 7,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2923,
+       "label": {
+        "es": "marrón",
+        "en": "brown",
+        "ru": "коричневый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 0,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2886,
+       "label": {
+        "es": "negro",
+        "en": "black",
+        "ru": "чёрный"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 1,
+       "color": "DESCRIPTOR",
+       "arasaacId": 2662,
+       "label": {
+        "es": "blanco",
+        "en": "white",
+        "ru": "белый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 2,
+       "color": "DESCRIPTOR",
+       "arasaacId": 3340,
+       "label": {
+        "es": "gris",
+        "en": "grey",
+        "ru": "серый"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 4603,
+       "label": {
+        "es": "círculo",
+        "en": "circle",
+        "ru": "круг"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 4616,
+       "label": {
+        "es": "cuadrado",
+        "en": "square",
+        "ru": "квадрат"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 4763,
+       "label": {
+        "es": "triángulo",
+        "en": "triangle",
+        "ru": "треугольник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 4731,
+       "label": {
+        "es": "rectángulo",
+        "en": "rectangle",
+        "ru": "прямоугольник"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 1,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2752,
+       "label": {
+        "es": "estrella",
+        "en": "star",
+        "ru": "звезда"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2715,
+       "label": {
+        "es": "corazón",
+        "en": "heart",
+        "ru": "сердце"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2627,
+       "label": {
+        "es": "uno",
+        "en": "one",
+        "ru": "один"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 2628,
+       "label": {
+        "es": "dos",
+        "en": "two",
+        "ru": "два"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 3,
+       "color": "NOUN",
+       "arasaacId": 2629,
+       "label": {
+        "es": "tres",
+        "en": "three",
+        "ru": "три"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 4,
+       "color": "NOUN",
+       "arasaacId": 2630,
+       "label": {
+        "es": "cuatro",
+        "en": "four",
+        "ru": "четыре"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 5,
+       "color": "NOUN",
+       "arasaacId": 2631,
+       "label": {
+        "es": "cinco",
+        "en": "five",
+        "ru": "пять"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 6,
+       "color": "NOUN",
+       "arasaacId": 2632,
+       "label": {
+        "es": "seis",
+        "en": "six",
+        "ru": "шесть"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 2,
+       "col": 7,
+       "color": "NOUN",
+       "arasaacId": 2633,
+       "label": {
+        "es": "siete",
+        "en": "seven",
+        "ru": "семь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 0,
+       "color": "NOUN",
+       "arasaacId": 2634,
+       "label": {
+        "es": "ocho",
+        "en": "eight",
+        "ru": "восемь"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 1,
+       "color": "NOUN",
+       "arasaacId": 2635,
+       "label": {
+        "es": "nueve",
+        "en": "nine",
+        "ru": "девять"
+       }
+      },
+      {
+       "type": "WORD",
+       "row": 3,
+       "col": 2,
+       "color": "NOUN",
+       "arasaacId": 7025,
+       "label": {
+        "es": "diez",
+        "en": "ten",
+        "ru": "десять"
+       }
+      }
+     ]
+    }
+   }
+  ]
+ }
+}
